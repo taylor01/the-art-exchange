@@ -27,6 +27,30 @@
 9. Merge on GitHub
 10. Deploy (if major feature)
 
+## GitHub Issue Label Structure
+
+### Feature Labels
+- `feature` - New functionality
+- `enhancement` - Improvements to existing features
+- `bug` - Bug fixes
+- `security` - Security-related work
+
+### Phase Labels
+- `phase-1` - Foundation (auth, core models, collections)
+- `phase-2` - Social features (showcases, discovery)
+- `phase-3` - Marketplace (sales, transactions)
+
+### Type Labels
+- `backend` - Server-side work
+- `frontend` - UI/UX work
+- `database` - Schema/migration work
+
+### Label Usage Guidelines
+- Every issue should have at least one feature label (feature/enhancement/bug/security)
+- Phase labels help organize work by development timeline
+- Type labels help identify scope of work
+- Use multiple labels when appropriate (e.g., `feature`, `phase-1`, `backend`)
+
 ## Important Reminders
 
 - Do what has been asked; nothing more, nothing less

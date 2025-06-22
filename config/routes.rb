@@ -9,6 +9,37 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  # Authentication routes
+  get "sign_in", to: "sessions#new", as: :new_session
+  post "sign_in", to: "sessions#create", as: :sessions
+  delete "sign_out", to: "sessions#destroy", as: :destroy_session
+
+  get "sign_up", to: "registrations#new", as: :new_registration
+  post "sign_up", to: "registrations#create", as: :registrations
+
+  get "verify", to: "otp#show", as: :otp_verification
+  post "verify", to: "otp#create", as: :verify_otp
+  post "verify/resend", to: "otp#resend", as: :resend_otp
+
+  get "confirm/:token", to: "confirmations#show", as: :confirmation
+  get "resend_confirmation", to: "confirmations#new", as: :resend_confirmation
+  post "resend_confirmation", to: "confirmations#create", as: :confirmations
+  get "confirmation_sent", to: "confirmations#sent", as: :confirmation_sent
+
+  get "forgot_password", to: "password_resets#new", as: :new_password_reset
+  post "forgot_password", to: "password_resets#create", as: :password_resets
+  get "reset_password/:id", to: "password_resets#show", as: :password_reset
+  patch "reset_password/:id", to: "password_resets#update", as: :update_password_reset
+
+  # Omniauth callbacks
+  get "/auth/:provider/callback", to: "omniauth_callbacks#:provider"
+  get "/auth/failure", to: "omniauth_callbacks#failure"
+
+  # User profile management
+  get "profile", to: "profiles#show", as: :profile
+  get "profile/edit", to: "profiles#edit", as: :edit_profile
+  patch "profile", to: "profiles#update", as: :update_profile
+
   # Root route
   root "home#index"
 end

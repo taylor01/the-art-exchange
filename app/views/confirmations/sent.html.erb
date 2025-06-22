@@ -1,0 +1,28 @@
+<%= render 'shared/auth_layout' do %>
+  <div class="text-center">
+    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+      <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 7.89a1 1 0 001.41 0L21 7" />
+      </svg>
+    </div>
+    
+    <h2 class="mt-6 text-2xl font-bold text-gray-900">Check your email</h2>
+    
+    <p class="mt-4 text-sm text-gray-600">
+      We've sent you a confirmation link. Please check your email and click the link to activate your account.
+    </p>
+    
+    <div class="mt-6">
+      <%= link_to "Back to sign in", new_session_path, 
+          class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+    </div>
+
+    <div class="mt-4">
+      <p class="text-sm text-gray-600">
+        Didn't receive the email?
+      </p>
+      <%= link_to "Resend confirmation email", resend_confirmation_path, 
+          class: "text-sm font-medium text-indigo-600 hover:text-indigo-500" %>
+    </div>
+  </div>
+<% end %>
