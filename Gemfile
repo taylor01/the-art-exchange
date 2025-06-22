@@ -45,7 +45,7 @@ gem "image_processing", "~> 1.2"
 # Core application gems
 gem "geocoder"
 gem "pg_search"
-gem "mailgun-ruby", "~> 1.2.0"
+gem "mailgun-ruby", "~> 1.3.6"
 
 # Authentication and security
 gem "omniauth"
