@@ -108,6 +108,36 @@ The application will import existing data:
 - Venue and artist information
 - Existing user accounts (with re-verification required)
 
+## Development Commands
+
+### Pre-Commit Checks
+```bash
+# Run all development checks (recommended before commits)
+./bin/checks
+
+# Run security checks only
+./bin/checks security
+
+# Run quick checks (linting + tests)
+./bin/checks quick
+```
+
+### Individual Commands
+```bash
+# Start development server
+./bin/dev
+
+# Run tests
+bundle exec rspec
+
+# Security scans
+bundle exec brakeman
+bundle exec bundler-audit check --update
+
+# Code linting
+bundle exec rubocop
+```
+
 ## Development Status
 
-🚧 **Phase 1 Development** - Ready to begin Rails application setup.
+🚧 **Phase 1 Development** - Rails 8 application setup complete with security tooling.
