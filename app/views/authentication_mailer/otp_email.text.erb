@@ -1,0 +1,12 @@
+Hello <%= @user.first_name %>,
+
+Here's your verification code to sign in to The Art Exchange:
+
+<%= @otp_token %>
+
+This code will expire in <%= @expires_in_minutes %> minutes.
+
+If you didn't request this code, please ignore this email.
+
+Best regards,
+The Art Exchange Team

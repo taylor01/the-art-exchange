@@ -1,0 +1,50 @@
+<%= render 'shared/auth_layout' do %>
+  <div>
+    <h2 class="text-2xl font-bold text-gray-900 mb-6">Check your email</h2>
+    
+    <div class="text-center mb-6">
+      <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+        <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 7.89a1 1 0 001.41 0L21 7" />
+        </svg>
+      </div>
+      <p class="mt-4 text-sm text-gray-600">
+        We've sent a verification code to your email address.
+      </p>
+    </div>
+
+    <%= form_with url: verify_otp_path, local: true, class: "space-y-6" do |form| %>
+      <div>
+        <%= form.label :otp_token, "Verification Code", class: "block text-sm font-medium text-gray-700" %>
+        <div class="mt-1">
+          <%= form.text_field :otp_token,
+              required: true,
+              maxlength: 32,
+              class: "appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm text-center tracking-widest",
+              placeholder: "Enter the code from your email",
+              autocomplete: "one-time-code" %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.submit "Verify Code", 
+            class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      </div>
+    <% end %>
+
+    <div class="mt-6 text-center">
+      <p class="text-sm text-gray-600">
+        Didn't receive the code?
+      </p>
+      <%= form_with url: resend_otp_path, local: true, class: "mt-2" do |form| %>
+        <%= form.submit "Resend verification code", 
+            class: "text-sm font-medium text-indigo-600 hover:text-indigo-500 bg-transparent border-none underline cursor-pointer" %>
+      <% end %>
+    </div>
+
+    <div class="mt-6 text-center">
+      <%= link_to "Back to sign in", new_session_path, 
+          class: "text-sm font-medium text-gray-600 hover:text-gray-500" %>
+    </div>
+  </div>
+<% end %>

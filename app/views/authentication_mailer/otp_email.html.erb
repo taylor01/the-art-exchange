@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your verification code</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .code-box { background: #f8f9fa; border: 2px solid #e9ecef; border-radius: 8px; padding: 20px; text-align: center; margin: 20px 0; }
+        .code { font-size: 24px; font-weight: bold; letter-spacing: 4px; color: #495057; }
+        .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #e9ecef; color: #6c757d; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>The Art Exchange</h1>
+        </div>
+        
+        <h2>Hello <%= @user.first_name %>,</h2>
+        
+        <p>Here's your verification code to sign in to The Art Exchange:</p>
+        
+        <div class="code-box">
+            <div class="code"><%= @otp_token %></div>
+        </div>
+        
+        <p>This code will expire in <strong><%= @expires_in_minutes %> minutes</strong>.</p>
+        
+        <p>If you didn't request this code, please ignore this email.</p>
+        
+        <div class="footer">
+            <p>Best regards,<br>The Art Exchange Team</p>
+        </div>
+    </div>
+</body>
+</html>
