@@ -67,7 +67,7 @@ The Art Exchange is a community-driven marketplace and collection management pla
 ### Phase 1: Foundation (Current)
 - [x] Project planning and architecture
 - [x] Rails 8 application setup
-- [x] OTP + Omniauth authentication system (User model complete, UI pending)
+- [x] OTP + Omniauth authentication system
 - [ ] Core models: Users, Venues, Artists, Posters, Series
 - [ ] Basic admin interface for poster management
 - [ ] User collections and image uploads

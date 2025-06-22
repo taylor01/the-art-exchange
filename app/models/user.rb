@@ -90,6 +90,14 @@ class User < ApplicationRecord
     !otp_locked? && !otp_expired? && !otp_used? && otp_secret_key.present?
   end
 
+  def update_login_tracking!
+    update!(
+      last_login_at: Time.current,
+      failed_login_attempts: 0,
+      locked_until: nil
+    )
+  end
+
   # Account security
   def locked?
     locked_until.present? && locked_until > Time.current
@@ -168,14 +176,6 @@ class User < ApplicationRecord
       self.otp_locked_until = Time.current + auth_config[:otp_lockout_duration]
     end
     save!
-  end
-
-  def update_login_tracking!
-    update!(
-      last_login_at: Time.current,
-      failed_login_attempts: 0,
-      locked_until: nil
-    )
   end
 
   def secure_compare(a, b)

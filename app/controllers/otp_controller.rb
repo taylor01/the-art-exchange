@@ -32,11 +32,13 @@ class OtpController < ApplicationController
     end
 
     if @user.otp_locked?
-      render :show, alert: "Too many attempts. Please wait before requesting a new code."
+      flash.now[:alert] = "Too many attempts. Please wait before requesting a new code."
+      render :show
     else
       token = @user.generate_otp!
       AuthenticationMailer.otp_email(@user, token).deliver_now
-      render :show, notice: "A new verification code has been sent to your email."
+      flash.now[:notice] = "A new verification code has been sent to your email."
+      render :show
     end
   end
 

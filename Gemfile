@@ -69,6 +69,7 @@ group :development, :test do
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "faker"
+  gem "rails-controller-testing"
 
   # Security scanning
   gem "bundler-audit", require: false

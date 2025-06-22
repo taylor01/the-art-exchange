@@ -33,7 +33,8 @@ class SessionsController < ApplicationController
   def handle_password_login
     if @user.authenticate(params[:password])
       if @user.locked?
-        render :new, alert: "Account is temporarily locked. Please try again later."
+        flash.now[:alert] = "Account is temporarily locked. Please try again later."
+        render :new
       else
         @user.update_login_tracking!
         sign_in(@user)
@@ -48,7 +49,8 @@ class SessionsController < ApplicationController
 
   def handle_otp_login
     if @user.locked?
-      render :new, alert: "Account is temporarily locked. Please try again later."
+      flash.now[:alert] = "Account is temporarily locked. Please try again later."
+      render :new
     else
       token = @user.generate_otp!
       AuthenticationMailer.otp_email(@user, token).deliver_now
@@ -59,6 +61,7 @@ class SessionsController < ApplicationController
 
   def handle_invalid_login
     @user = User.new(email: params[:email])
-    render :new, alert: "Invalid email or password."
+    flash.now[:alert] = "Invalid email or password."
+    render :new
   end
 end

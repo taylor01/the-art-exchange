@@ -35,6 +35,11 @@ Rails.application.routes.draw do
   get "/auth/:provider/callback", to: "omniauth_callbacks#:provider"
   get "/auth/failure", to: "omniauth_callbacks#failure"
 
+  # User profile management
+  get "profile", to: "profiles#show", as: :profile
+  get "profile/edit", to: "profiles#edit", as: :edit_profile
+  patch "profile", to: "profiles#update", as: :update_profile
+
   # Root route
   root "home#index"
 end
