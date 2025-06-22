@@ -1,0 +1,99 @@
+#!/usr/bin/env ruby
+# Comprehensive development checks script
+# Run this before committing code
+
+require "pathname"
+require "fileutils"
+
+# Change to project root
+Dir.chdir(Pathname.new(__FILE__).parent.parent)
+
+def run_command(description, command)
+  puts "\n🔍 #{description}"
+  puts "   Running: #{command}"
+  
+  result = system(command)
+  
+  if result
+    puts "   ✅ #{description} - PASSED"
+    true
+  else
+    puts "   ❌ #{description} - FAILED"
+    false
+  end
+end
+
+def run_all_checks
+  puts "=" * 60
+  puts "🛡️  THE ART EXCHANGE - DEVELOPMENT CHECKS"
+  puts "=" * 60
+  
+  checks = [
+    ["Bundle Install Check", "bundle check || bundle install"],
+    ["Database Setup Check", "rails db:test:prepare"],
+    ["Code Linting (RuboCop)", "bundle exec rubocop"],
+    ["Security Scan (Brakeman)", "bundle exec brakeman -q --no-pager"],
+    ["Dependency Audit", "bundle exec bundler-audit check --update"],
+    ["Test Suite (RSpec)", "bundle exec rspec"],
+    ["Assets Precompile Check", "rails assets:precompile RAILS_ENV=test > /dev/null 2>&1"]
+  ]
+  
+  failed_checks = []
+  
+  checks.each do |description, command|
+    unless run_command(description, command)
+      failed_checks << description
+    end
+  end
+  
+  puts "\n" + "=" * 60
+  
+  if failed_checks.empty?
+    puts "🎉 ALL CHECKS PASSED! Ready to commit."
+    puts "=" * 60
+    exit 0
+  else
+    puts "❌ #{failed_checks.size} CHECK(S) FAILED:"
+    failed_checks.each { |check| puts "   • #{check}" }
+    puts "\n💡 Fix the failing checks before committing."
+    puts "=" * 60
+    exit 1
+  end
+end
+
+# Handle command line arguments
+case ARGV[0]
+when "security"
+  puts "🛡️  Running security checks only..."
+  security_passed = true
+  security_passed &= run_command("Security Scan (Brakeman)", "bundle exec brakeman -q --no-pager")
+  security_passed &= run_command("Dependency Audit", "bundle exec bundler-audit check --update")
+  exit(security_passed ? 0 : 1)
+when "quick"
+  puts "⚡ Running quick checks only..."
+  quick_passed = true
+  quick_passed &= run_command("Code Linting (RuboCop)", "bundle exec rubocop")
+  quick_passed &= run_command("Test Suite (RSpec)", "bundle exec rspec")
+  exit(quick_passed ? 0 : 1)
+when "help", "-h", "--help"
+  puts <<~HELP
+    Usage: bin/checks [OPTION]
+    
+    Run development checks before committing code.
+    
+    Options:
+      (none)    Run all checks (recommended before commits)
+      security  Run security checks only
+      quick     Run linting and tests only
+      help      Show this help message
+    
+    Examples:
+      bin/checks          # Run all checks
+      bin/checks security # Run security scans only
+      bin/checks quick    # Run linting and tests only
+  HELP
+  exit 0
+else
+  # Run all checks by default
+  run_all_checks
+end
