@@ -32,5 +32,37 @@ FactoryBot.define do
       uid { Faker::Number.number(digits: 10).to_s }
       provider_data { { "info" => { "email" => email, "name" => "#{first_name} #{last_name}" } } }
     end
+
+    # Profile traits
+    trait :with_complete_profile do
+      bio { Faker::Lorem.paragraph(sentence_count: 3) }
+      location { "#{Faker::Address.city}, #{Faker::Address.state_abbr}" }
+      website { Faker::Internet.url }
+      phone { "#{Faker::PhoneNumber.area_code}-555-#{Faker::Number.number(digits: 4)}" }
+      collector_since { Faker::Date.between(from: 10.years.ago, to: 1.year.ago) }
+      preferred_contact_method { [ 'email', 'phone', 'both' ].sample }
+      instagram_handle { Faker::Internet.username(specifier: 3..15).gsub(/[^a-zA-Z0-9._]/, '') }
+      twitter_handle { Faker::Internet.username(specifier: 3..12).gsub(/[^a-zA-Z0-9_]/, '') }
+    end
+
+    trait :new_collector do
+      collector_since { 6.months.ago }
+      bio { "New to poster collecting but passionate about art!" }
+      location { "#{Faker::Address.city}, #{Faker::Address.state_abbr}" }
+    end
+
+    trait :experienced_collector do
+      collector_since { 8.years.ago }
+      bio { "Long-time collector with a focus on vintage concert posters and modern art prints." }
+      location { "#{Faker::Address.city}, #{Faker::Address.state_abbr}" }
+      website { Faker::Internet.url }
+      instagram_handle { Faker::Internet.username(specifier: 5..15).gsub(/[^a-zA-Z0-9._]/, '') }
+    end
+
+    trait :social_collector do
+      instagram_handle { Faker::Internet.username(specifier: 3..15).gsub(/[^a-zA-Z0-9._]/, '') }
+      twitter_handle { Faker::Internet.username(specifier: 3..12).gsub(/[^a-zA-Z0-9_]/, '') }
+      website { Faker::Internet.url }
+    end
   end
 end
