@@ -215,4 +215,172 @@ RSpec.describe User, type: :model do
       expect(User.admin).not_to include(regular)
     end
   end
+
+  describe 'profile field validations' do
+    let(:user) { build(:user) }
+
+    it 'validates website format' do
+      user.website = 'invalid-url'
+      expect(user).not_to be_valid
+      expect(user.errors[:website]).to include('is invalid')
+    end
+
+    it 'allows valid website URLs' do
+      user.website = 'https://example.com'
+      expect(user).to be_valid
+    end
+
+    it 'validates phone format' do
+      user.phone = 'invalid-phone'
+      expect(user).not_to be_valid
+      expect(user.errors[:phone]).to include('is invalid')
+    end
+
+    it 'allows valid phone numbers' do
+      user.phone = '+1-555-123-4567'
+      expect(user).to be_valid
+    end
+
+    it 'validates bio length' do
+      user.bio = 'a' * 1001
+      expect(user).not_to be_valid
+      expect(user.errors[:bio]).to include('is too long (maximum is 1000 characters)')
+    end
+
+    it 'validates Instagram handle format' do
+      user.instagram_handle = 'invalid@handle'
+      expect(user).not_to be_valid
+      expect(user.errors[:instagram_handle]).to include('is invalid')
+    end
+
+    it 'allows valid Instagram handles' do
+      user.instagram_handle = 'valid_handle123'
+      expect(user).to be_valid
+    end
+
+    it 'validates Twitter handle format' do
+      user.twitter_handle = 'too_long_handle_name'
+      expect(user).not_to be_valid
+      expect(user.errors[:twitter_handle]).to include('is invalid')
+    end
+
+    it 'allows valid Twitter handles' do
+      user.twitter_handle = 'valid_handle'
+      expect(user).to be_valid
+    end
+  end
+
+  describe 'preferred_contact_method enum' do
+    let(:user) { create(:user) }
+
+    it 'has email as default' do
+      expect(user.preferred_contact_method).to eq('email')
+    end
+
+    it 'allows valid contact methods' do
+      user.preferred_contact_method = 'phone'
+      expect(user).to be_valid
+      expect(user.preferred_contact_method).to eq('phone')
+    end
+
+    it 'allows both contact methods' do
+      user.preferred_contact_method = 'both'
+      expect(user).to be_valid
+      expect(user.preferred_contact_method).to eq('both')
+    end
+  end
+
+  describe 'profile helper methods' do
+    describe '#profile_complete?' do
+      it 'returns false for incomplete profile' do
+        user = create(:user)
+        expect(user.profile_complete?).to be false
+      end
+
+      it 'returns true for complete profile' do
+        user = create(:user, :with_complete_profile)
+        expect(user.profile_complete?).to be true
+      end
+    end
+
+    describe '#collecting_experience_years' do
+      it 'returns 0 for no collector_since date' do
+        user = create(:user)
+        expect(user.collecting_experience_years).to eq(0)
+      end
+
+      it 'calculates years correctly' do
+        user = create(:user, collector_since: 3.years.ago)
+        expect(user.collecting_experience_years).to eq(3)
+      end
+    end
+
+    describe '#new_collector?' do
+      it 'returns true for collectors with less than 2 years experience' do
+        user = create(:user, :new_collector)
+        expect(user.new_collector?).to be true
+      end
+
+      it 'returns false for experienced collectors' do
+        user = create(:user, :experienced_collector)
+        expect(user.new_collector?).to be false
+      end
+    end
+
+    describe '#experienced_collector?' do
+      it 'returns true for collectors with 5+ years experience' do
+        user = create(:user, :experienced_collector)
+        expect(user.experienced_collector?).to be true
+      end
+
+      it 'returns false for new collectors' do
+        user = create(:user, :new_collector)
+        expect(user.experienced_collector?).to be false
+      end
+    end
+
+    describe 'social media URLs' do
+      let(:user) { create(:user, :social_collector) }
+
+      it 'generates Instagram URL' do
+        user.instagram_handle = 'test_user'
+        expect(user.instagram_url).to eq('https://instagram.com/test_user')
+      end
+
+      it 'returns nil for empty Instagram handle' do
+        user.instagram_handle = nil
+        expect(user.instagram_url).to be_nil
+      end
+
+      it 'generates Twitter URL' do
+        user.twitter_handle = 'test_user'
+        expect(user.twitter_url).to eq('https://twitter.com/test_user')
+      end
+
+      it 'returns nil for empty Twitter handle' do
+        user.twitter_handle = nil
+        expect(user.twitter_url).to be_nil
+      end
+    end
+
+    describe 'contact preference helpers' do
+      it 'detects phone contact preference' do
+        user = create(:user, preferred_contact_method: 'phone')
+        expect(user.prefers_phone_contact?).to be true
+        expect(user.prefers_email_contact?).to be false
+      end
+
+      it 'detects email contact preference' do
+        user = create(:user, preferred_contact_method: 'email')
+        expect(user.prefers_email_contact?).to be true
+        expect(user.prefers_phone_contact?).to be false
+      end
+
+      it 'detects both contact preferences' do
+        user = create(:user, preferred_contact_method: 'both')
+        expect(user.prefers_phone_contact?).to be true
+        expect(user.prefers_email_contact?).to be true
+      end
+    end
+  end
 end

@@ -1,11 +1,23 @@
 class User < ApplicationRecord
   has_secure_password validations: false
 
+  # Enums
+  enum :preferred_contact_method, {
+    email: 'email',
+    phone: 'phone',
+    both: 'both'
+  }
+
   # Validations
   validates :email, presence: true, uniqueness: { case_sensitive: false }
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :website, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }, allow_blank: true
+  validates :phone, format: { with: /\A[\+]?[1-9][\d\s\-\(\)]{7,15}\z/ }, allow_blank: true
+  validates :bio, length: { maximum: 1000 }, allow_blank: true
+  validates :instagram_handle, format: { with: /\A[a-zA-Z0-9._]{1,30}\z/ }, allow_blank: true
+  validates :twitter_handle, format: { with: /\A[a-zA-Z0-9_]{1,15}\z/ }, allow_blank: true
 
   # Optional password validation
   validates :password, length: {
@@ -149,6 +161,44 @@ class User < ApplicationRecord
 
   def display_name
     full_name.present? ? full_name : email
+  end
+
+  # Profile helpers
+  def profile_complete?
+    first_name.present? && last_name.present? && bio.present? && location.present?
+  end
+
+  def collecting_experience_years
+    return 0 unless collector_since
+    ((Date.current - collector_since) / 365.25).floor
+  end
+
+  def new_collector?
+    collecting_experience_years < 2
+  end
+
+  def experienced_collector?
+    collecting_experience_years >= 5
+  end
+
+  # Social media URLs
+  def instagram_url
+    return nil unless instagram_handle.present?
+    "https://instagram.com/#{instagram_handle}"
+  end
+
+  def twitter_url
+    return nil unless twitter_handle.present?
+    "https://twitter.com/#{twitter_handle}"
+  end
+
+  # Contact helpers
+  def prefers_phone_contact?
+    preferred_contact_method.in?(['phone', 'both'])
+  end
+
+  def prefers_email_contact?
+    preferred_contact_method.in?(['email', 'both'])
   end
 
   private

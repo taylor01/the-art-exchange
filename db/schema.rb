@@ -10,9 +10,71 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_22_221150) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_23_015027) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "artists", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "website"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_artists_on_name", unique: true
+  end
+
+  create_table "artists_posters", force: :cascade do |t|
+    t.bigint "artist_id", null: false
+    t.bigint "poster_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["artist_id", "poster_id"], name: "index_artists_posters_on_artist_id_and_poster_id", unique: true
+    t.index ["artist_id"], name: "index_artists_posters_on_artist_id"
+    t.index ["poster_id", "artist_id"], name: "index_artists_posters_on_poster_id_and_artist_id"
+    t.index ["poster_id"], name: "index_artists_posters_on_poster_id"
+  end
+
+  create_table "bands", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "website"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_bands_on_name", unique: true
+  end
+
+  create_table "posters", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.date "release_date"
+    t.decimal "original_price", precision: 8, scale: 2
+    t.bigint "band_id", null: false
+    t.bigint "venue_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["band_id", "venue_id"], name: "index_posters_on_band_id_and_venue_id"
+    t.index ["band_id"], name: "index_posters_on_band_id"
+    t.index ["name"], name: "index_posters_on_name"
+    t.index ["release_date", "band_id"], name: "index_posters_on_release_date_and_band_id"
+    t.index ["release_date"], name: "index_posters_on_release_date"
+    t.index ["venue_id"], name: "index_posters_on_venue_id"
+  end
+
+  create_table "posters_series", id: false, force: :cascade do |t|
+    t.bigint "poster_id", null: false
+    t.bigint "series_id", null: false
+    t.index ["poster_id", "series_id"], name: "index_posters_series_on_poster_id_and_series_id", unique: true
+    t.index ["series_id", "poster_id"], name: "index_posters_series_on_series_id_and_poster_id"
+  end
+
+  create_table "series", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.integer "year"
+    t.integer "total_count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_series_on_name"
+    t.index ["year"], name: "index_series_on_year"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
@@ -39,10 +101,54 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_22_221150) do
     t.json "showcase_settings", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "bio"
+    t.string "location"
+    t.string "website"
+    t.string "phone"
+    t.date "collector_since"
+    t.string "preferred_contact_method", default: "email"
+    t.string "instagram_handle"
+    t.string "twitter_handle"
+    t.index ["collector_since"], name: "index_users_on_collector_since"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["location"], name: "index_users_on_location"
     t.index ["otp_secret_key"], name: "index_users_on_otp_secret_key", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  create_table "venues", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "address"
+    t.string "city"
+    t.string "administrative_area"
+    t.string "postal_code"
+    t.string "country", default: "US"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.string "website"
+    t.string "email"
+    t.string "telephone_number"
+    t.integer "capacity"
+    t.string "venue_type", default: "other"
+    t.string "status", default: "active"
+    t.text "description"
+    t.json "previous_names", default: []
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["city", "administrative_area"], name: "index_venues_on_city_and_administrative_area"
+    t.index ["country"], name: "index_venues_on_country"
+    t.index ["latitude", "longitude"], name: "index_venues_on_latitude_and_longitude"
+    t.index ["name"], name: "index_venues_on_name"
+    t.index ["status"], name: "index_venues_on_status"
+    t.index ["venue_type"], name: "index_venues_on_venue_type"
+  end
+
+  add_foreign_key "artists_posters", "artists"
+  add_foreign_key "artists_posters", "posters"
+  add_foreign_key "posters", "bands"
+  add_foreign_key "posters", "venues"
+  add_foreign_key "posters_series", "posters"
+  add_foreign_key "posters_series", "series"
 end
