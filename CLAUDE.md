@@ -21,7 +21,10 @@
 3. Pull from origin
 4. Create feature branch
 5. Implement with tests
-6. Run full test suite (functional, security, linting)
+6. **MANDATORY: Run ALL development checks before PR**
+   - `bundle exec rspec` (full test suite)
+   - `bundle exec rubocop` (linting)
+   - `bundle exec brakeman` (security scan)
 7. Create pull request
 8. User review and testing
 9. Merge on GitHub
@@ -51,9 +54,73 @@
 - Type labels help identify scope of work
 - Use multiple labels when appropriate (e.g., `feature`, `phase-1`, `backend`)
 
+## Development Quality Requirements
+
+### Pre-PR Checklist (MANDATORY)
+ALL of these must pass before creating any pull request:
+
+1. **Full Test Suite**: `bundle exec rspec` 
+   - All tests must pass (0 failures)
+   - No skipped tests without justification
+   - Verify test coverage for new code
+
+2. **Code Linting**: `bundle exec rubocop`
+   - 0 offenses detected
+   - Auto-fix with `bundle exec rubocop -a` when possible
+   - Manual fixes for complex offenses
+
+3. **Security Scan**: `bundle exec brakeman`
+   - No security vulnerabilities detected
+   - Review any warnings carefully
+
+### Failure to Run Checks
+- **Never create PR without running all checks**
+- If checks fail, fix issues before PR creation
+- Document any intentional test skips or security exceptions
+
 ## Important Reminders
 
 - Do what has been asked; nothing more, nothing less
 - NEVER create files unless absolutely necessary for achieving goal
 - ALWAYS prefer editing existing files to creating new ones
 - NEVER proactively create documentation files unless explicitly requested
+
+## Session Continuation Notes
+
+### Completed Work (Issue #5: Core Models)
+✅ **Complete database foundation** - All models implemented and tested
+- Enhanced User model with collector profiles
+- Venue model with international geocoding
+- Artist, Band, Series models with search
+- Poster model with complex relationships
+- 224 passing tests, 0 security issues, 0 linting offenses
+
+### Next Session Priorities (Issue #6: User Collections & Image Management)
+
+#### High Priority UI Tasks
+1. **Poster Management Interface**
+   - Create poster form (new/edit)
+   - Poster detail/show pages
+   - Basic poster listing/index
+
+2. **Image Upload System**
+   - Active Storage integration
+   - Image upload forms
+   - Image display and management
+
+3. **Collection Management**
+   - User collection interface
+   - Add posters to collections
+   - Collection browsing
+
+#### Technical Considerations
+- Use existing Tailwind CSS styling patterns
+- Follow Stimulus controller patterns for JavaScript
+- Maintain test coverage for new features
+- Consider mobile-first responsive design
+
+#### Questions to Address Tomorrow
+- Image storage strategy (local vs S3 for development)
+- Collection ownership model (individual vs shared)
+- Admin vs user poster creation workflow
+- Search/filter UI implementation priority

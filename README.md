@@ -68,9 +68,9 @@ The Art Exchange is a community-driven marketplace and collection management pla
 - [x] Project planning and architecture
 - [x] Rails 8 application setup
 - [x] OTP + Omniauth authentication system
-- [ ] Core models: Users, Venues, Artists, Posters, Series
+- [x] Core models: Users, Venues, Artists, Posters, Series ✅ **Issue #5 Complete**
+- [ ] User collections and image management ⚡ **Issue #6 Next**
 - [ ] Basic admin interface for poster management
-- [ ] User collections and image uploads
 - [ ] Responsive mobile-first design
 
 ### Phase 2: Social Features
@@ -140,4 +140,25 @@ bundle exec rubocop
 
 ## Development Status
 
-🚧 **Phase 1 Development** - Rails 8 application setup complete with security tooling.
+🎯 **Phase 1 Development** - Core models and authentication complete. Ready for UI development.
+
+### Current Status
+- ✅ **Issue #5: Core Models** - Complete database foundation with 224 passing tests
+- ⚡ **Issue #6: User Collections & Image Management** - Next priority
+- 🔍 **Full-text search** implemented across all models via pg_search
+- 🔐 **Authentication** working (login, logout, profile management)
+- 🧪 **Test coverage** 100% for all models with comprehensive factories
+
+### Database Models Implemented
+- **User**: Enhanced with collector profiles, contact preferences, social media
+- **Venue**: International addressing, geocoding, duplicate detection  
+- **Artist**: Poster creators with search functionality
+- **Band**: Musical performers with unique names
+- **Series**: Related poster collections (e.g., "Playing Card Series")
+- **Poster**: Complete model with artist collaboration and series support
+
+### Next Steps (Issue #6)
+- Build poster management UI (add/edit/view posters)
+- Implement image upload system for poster photos
+- Create collection management interface
+- Add poster browsing and discovery pages
