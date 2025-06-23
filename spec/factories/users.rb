@@ -40,7 +40,7 @@ FactoryBot.define do
       website { Faker::Internet.url }
       phone { "#{Faker::PhoneNumber.area_code}-555-#{Faker::Number.number(digits: 4)}" }
       collector_since { Faker::Date.between(from: 10.years.ago, to: 1.year.ago) }
-      preferred_contact_method { ['email', 'phone', 'both'].sample }
+      preferred_contact_method { [ 'email', 'phone', 'both' ].sample }
       instagram_handle { Faker::Internet.username(specifier: 3..15).gsub(/[^a-zA-Z0-9._]/, '') }
       twitter_handle { Faker::Internet.username(specifier: 3..12).gsub(/[^a-zA-Z0-9_]/, '') }
     end

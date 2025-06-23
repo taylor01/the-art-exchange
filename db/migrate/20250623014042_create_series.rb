@@ -8,7 +8,7 @@ class CreateSeries < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
+
     add_index :series, :name
     add_index :series, :year
   end

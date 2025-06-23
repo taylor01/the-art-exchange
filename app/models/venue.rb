@@ -2,34 +2,34 @@ class Venue < ApplicationRecord
   # Include geocoding functionality
   geocoded_by :full_address
   after_validation :geocode, if: :location_fields_changed?
-  
+
   # Include search functionality
   include PgSearch::Model
   pg_search_scope :search_by_name_and_location,
-    against: [:name, :city, :administrative_area, :country],
+    against: [ :name, :city, :administrative_area, :country ],
     using: {
       tsearch: { prefix: true }
     }
 
   # Enums
   enum :venue_type, {
-    theater: 'theater',
-    concert_hall: 'concert_hall', 
-    club: 'club',
-    arena: 'arena',
-    stadium: 'stadium',
-    outdoor: 'outdoor',
-    gallery: 'gallery',
-    museum: 'museum',
-    festival_grounds: 'festival_grounds',
-    other: 'other'
+    theater: "theater",
+    concert_hall: "concert_hall",
+    club: "club",
+    arena: "arena",
+    stadium: "stadium",
+    outdoor: "outdoor",
+    gallery: "gallery",
+    museum: "museum",
+    festival_grounds: "festival_grounds",
+    other: "other"
   }
 
   enum :status, {
-    active: 'active',
-    closed: 'closed',
-    relocated: 'relocated',
-    temporarily_closed: 'temporarily_closed'
+    active: "active",
+    closed: "closed",
+    relocated: "relocated",
+    temporarily_closed: "temporarily_closed"
   }
 
   # Validations
@@ -44,7 +44,7 @@ class Venue < ApplicationRecord
   before_save :ensure_previous_names_array
 
   # Scopes
-  scope :active, -> { where(status: 'active') }
+  scope :active, -> { where(status: "active") }
   scope :in_country, ->(country) { where(country: country) }
   scope :by_venue_type, ->(type) { where(venue_type: type) }
   scope :with_coordinates, -> { where.not(latitude: nil, longitude: nil) }
@@ -52,7 +52,7 @@ class Venue < ApplicationRecord
   # Name history management
   def add_previous_name(old_name)
     return if old_name.blank? || old_name == name
-    
+
     self.previous_names ||= []
     unless previous_names.include?(old_name)
       self.previous_names << old_name
@@ -61,7 +61,7 @@ class Venue < ApplicationRecord
   end
 
   def all_names
-    ([name] + (previous_names || [])).uniq
+    ([ name ] + (previous_names || [])).uniq
   end
 
   def has_been_known_as?(search_name)
@@ -72,7 +72,7 @@ class Venue < ApplicationRecord
   def self.find_nearby_venues(address_string, radius_in_meters = 100)
     coordinates = Geocoder.coordinates(address_string)
     return none unless coordinates
-    
+
     latitude, longitude = coordinates
     within_radius_of(latitude, longitude, radius_in_meters)
   end
@@ -80,7 +80,7 @@ class Venue < ApplicationRecord
   def self.within_radius_of(lat, lng, radius_in_meters)
     # Convert meters to approximate degrees (rough approximation)
     radius_in_degrees = radius_in_meters / 111_000.0
-    
+
     where(
       "latitude BETWEEN ? AND ? AND longitude BETWEEN ? AND ?",
       lat - radius_in_degrees, lat + radius_in_degrees,
@@ -90,7 +90,7 @@ class Venue < ApplicationRecord
 
   def nearby_venues(radius_in_meters = 100)
     return self.class.none unless geocoded?
-    
+
     self.class.within_radius_of(latitude, longitude, radius_in_meters)
            .where.not(id: id)
   end
@@ -101,14 +101,14 @@ class Venue < ApplicationRecord
 
   # Address and location helpers
   def full_address
-    [address, city, administrative_area, postal_code, country]
+    [ address, city, administrative_area, postal_code, country ]
       .compact
       .reject(&:blank?)
-      .join(', ')
+      .join(", ")
   end
 
   def location_summary
-    [city, administrative_area, country].compact.reject(&:blank?).join(', ')
+    [ city, administrative_area, country ].compact.reject(&:blank?).join(", ")
   end
 
   def geocoded?
@@ -116,7 +116,7 @@ class Venue < ApplicationRecord
   end
 
   def location_fields_changed?
-    address_changed? || city_changed? || administrative_area_changed? || 
+    address_changed? || city_changed? || administrative_area_changed? ||
     postal_code_changed? || country_changed?
   end
 
@@ -126,17 +126,17 @@ class Venue < ApplicationRecord
   end
 
   def capacity_range
-    return 'Unknown capacity' unless capacity
-    
+    return "Unknown capacity" unless capacity
+
     case capacity
     when 0..500
-      'Intimate (Under 500)'
+      "Intimate (Under 500)"
     when 501..2000
-      'Mid-size (500-2,000)'
+      "Mid-size (500-2,000)"
     when 2001..10000
-      'Large (2,000-10,000)'
+      "Large (2,000-10,000)"
     else
-      'Arena/Stadium (10,000+)'
+      "Arena/Stadium (10,000+)"
     end
   end
 

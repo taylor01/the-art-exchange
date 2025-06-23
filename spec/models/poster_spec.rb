@@ -5,7 +5,7 @@ RSpec.describe Poster, type: :model do
   let(:venue) { create(:venue) }
   let(:artist) { create(:artist) }
   let(:series) { create(:series) }
-  
+
   describe 'associations' do
     it 'belongs to band' do
       poster = build(:poster, band: band, venue: venue)
@@ -101,7 +101,7 @@ RSpec.describe Poster, type: :model do
   describe 'artist helpers' do
     it 'handles collaborative posters' do
       poster = create(:poster, band: band, venue: venue)
-      poster.artists << [artist, create(:artist)]
+      poster.artists << [ artist, create(:artist) ]
       expect(poster.collaborative?).to be true
       expect(poster.solo_artist?).to be false
     end

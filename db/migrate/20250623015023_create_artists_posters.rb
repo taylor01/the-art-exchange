@@ -6,9 +6,9 @@ class CreateArtistsPosters < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
+
     # Add indexes for performance and uniqueness
-    add_index :artists_posters, [:artist_id, :poster_id], unique: true
-    add_index :artists_posters, [:poster_id, :artist_id]
+    add_index :artists_posters, [ :artist_id, :poster_id ], unique: true
+    add_index :artists_posters, [ :poster_id, :artist_id ]
   end
 end

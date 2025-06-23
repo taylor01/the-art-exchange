@@ -3,9 +3,9 @@ class User < ApplicationRecord
 
   # Enums
   enum :preferred_contact_method, {
-    email: 'email',
-    phone: 'phone',
-    both: 'both'
+    email: "email",
+    phone: "phone",
+    both: "both"
   }
 
   # Validations
@@ -194,11 +194,11 @@ class User < ApplicationRecord
 
   # Contact helpers
   def prefers_phone_contact?
-    preferred_contact_method.in?(['phone', 'both'])
+    preferred_contact_method.in?([ "phone", "both" ])
   end
 
   def prefers_email_contact?
-    preferred_contact_method.in?(['email', 'both'])
+    preferred_contact_method.in?([ "email", "both" ])
   end
 
   private

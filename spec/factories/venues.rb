@@ -45,7 +45,7 @@ FactoryBot.define do
     end
 
     trait :with_previous_names do
-      previous_names { ["Old Theater Name", "Historic Venue"] }
+      previous_names { [ "Old Theater Name", "Historic Venue" ] }
     end
 
     trait :international do

@@ -8,12 +8,12 @@ class Poster < ApplicationRecord
   # Include search functionality
   include PgSearch::Model
   pg_search_scope :search_by_name_and_description,
-    against: [:name, :description],
+    against: [ :name, :description ],
     associated_against: {
-      band: [:name],
-      venue: [:name, :city],
-      artists: [:name],
-      series: [:name]
+      band: [ :name ],
+      venue: [ :name, :city ],
+      artists: [ :name ],
+      series: [ :name ]
     },
     using: {
       tsearch: { prefix: true }
@@ -28,11 +28,11 @@ class Poster < ApplicationRecord
   before_validation :normalize_name
 
   # Scopes
-  scope :by_year, ->(year) { where('EXTRACT(year FROM release_date) = ?', year) }
-  scope :by_decade, ->(decade) { where('EXTRACT(year FROM release_date) BETWEEN ? AND ?', decade, decade + 9) }
-  scope :recent, -> { where('release_date >= ?', 5.years.ago) }
-  scope :vintage, -> { where('release_date < ?', 30.years.ago) }
-  scope :golden_age, -> { where('release_date BETWEEN ? AND ?', Date.new(1965), Date.new(1975)) }
+  scope :by_year, ->(year) { where("EXTRACT(year FROM release_date) = ?", year) }
+  scope :by_decade, ->(decade) { where("EXTRACT(year FROM release_date) BETWEEN ? AND ?", decade, decade + 9) }
+  scope :recent, -> { where("release_date >= ?", 5.years.ago) }
+  scope :vintage, -> { where("release_date < ?", 30.years.ago) }
+  scope :golden_age, -> { where("release_date BETWEEN ? AND ?", Date.new(1965), Date.new(1975)) }
   scope :with_price, -> { where.not(original_price: nil) }
   scope :chronological, -> { order(:release_date, :name) }
   scope :alphabetical, -> { order(:name) }
@@ -47,9 +47,9 @@ class Poster < ApplicationRecord
   end
 
   def full_title
-    parts = [name, band.name, venue.name]
-    parts << release_date.strftime('%Y') if release_date
-    parts.compact.join(' • ')
+    parts = [ name, band.name, venue.name ]
+    parts << release_date.strftime("%Y") if release_date
+    parts.compact.join(" • ")
   end
 
   def event_summary
@@ -58,9 +58,9 @@ class Poster < ApplicationRecord
   end
 
   def short_title
-    parts = [name]
+    parts = [ name ]
     parts << release_date.year.to_s if release_date
-    parts.join(' ')
+    parts.join(" ")
   end
 
   # Date helpers
@@ -74,8 +74,8 @@ class Poster < ApplicationRecord
   end
 
   def formatted_date
-    return 'Date Unknown' unless release_date
-    release_date.strftime('%B %d, %Y')
+    return "Date Unknown" unless release_date
+    release_date.strftime("%B %d, %Y")
   end
 
   # Era helpers
@@ -97,13 +97,13 @@ class Poster < ApplicationRecord
   end
 
   def formatted_price
-    return 'Price Unknown' unless original_price
+    return "Price Unknown" unless original_price
     "$#{original_price}"
   end
 
   # Artist helpers
   def artist_names
-    artists.pluck(:name).join(', ')
+    artists.pluck(:name).join(", ")
   end
 
   def primary_artist
@@ -120,7 +120,7 @@ class Poster < ApplicationRecord
 
   # Series helpers
   def series_names
-    series.pluck(:name).join(', ')
+    series.pluck(:name).join(", ")
   end
 
   def in_series?
@@ -147,7 +147,7 @@ class Poster < ApplicationRecord
 
   def self.find_by_event(band_name, venue_name, date = nil)
     scope = joins(:band, :venue)
-            .where('bands.name ILIKE ? AND venues.name ILIKE ?', "%#{band_name}%", "%#{venue_name}%")
+            .where("bands.name ILIKE ? AND venues.name ILIKE ?", "%#{band_name}%", "%#{venue_name}%")
     scope = scope.where(release_date: date) if date
     scope
   end

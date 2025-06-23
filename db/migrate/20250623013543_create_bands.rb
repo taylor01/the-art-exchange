@@ -6,7 +6,7 @@ class CreateBands < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
+
     add_index :bands, :name, unique: true
   end
 end

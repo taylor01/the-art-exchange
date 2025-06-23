@@ -58,7 +58,7 @@ RSpec.describe Venue, type: :model do
     before do
       allow_any_instance_of(Venue).to receive(:geocode)
     end
-    
+
     let(:venue) { create(:venue) }
 
     it 'has display_name method' do

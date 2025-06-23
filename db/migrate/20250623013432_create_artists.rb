@@ -6,7 +6,7 @@ class CreateArtists < ActiveRecord::Migration[8.0]
 
       t.timestamps
     end
-    
+
     add_index :artists, :name, unique: true
   end
 end

@@ -5,16 +5,16 @@ class Series < ApplicationRecord
   # Include search functionality
   include PgSearch::Model
   pg_search_scope :search_by_name_and_description,
-    against: [:name, :description],
+    against: [ :name, :description ],
     using: {
       tsearch: { prefix: true }
     }
 
   # Validations
   validates :name, presence: true
-  validates :year, presence: true, 
-            numericality: { 
-              greater_than: 1950, 
+  validates :year, presence: true,
+            numericality: {
+              greater_than: 1950,
               less_than_or_equal_to: -> { Date.current.year + 1 }
             }
   validates :total_count, numericality: { greater_than: 0 }, allow_blank: true
@@ -24,8 +24,8 @@ class Series < ApplicationRecord
 
   # Scopes
   scope :by_year, ->(year) { where(year: year) }
-  scope :recent, -> { where('year >= ?', 10.years.ago.year) }
-  scope :classic, -> { where('year < ?', 20.years.ago.year) }
+  scope :recent, -> { where("year >= ?", 10.years.ago.year) }
+  scope :classic, -> { where("year < ?", 20.years.ago.year) }
   scope :with_total_count, -> { where.not(total_count: nil) }
   scope :alphabetical, -> { order(:name) }
   scope :chronological, -> { order(:year, :name) }
@@ -36,9 +36,9 @@ class Series < ApplicationRecord
   end
 
   def full_title
-    parts = [name]
+    parts = [ name ]
     parts << year.to_s if year.present?
-    parts.join(' - ')
+    parts.join(" - ")
   end
 
   def has_total_count?

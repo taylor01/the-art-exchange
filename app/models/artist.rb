@@ -5,7 +5,7 @@ class Artist < ApplicationRecord
   # Include search functionality
   include PgSearch::Model
   pg_search_scope :search_by_name,
-    against: [:name],
+    against: [ :name ],
     using: {
       tsearch: { prefix: true }
     }
@@ -18,7 +18,7 @@ class Artist < ApplicationRecord
   before_validation :normalize_name
 
   # Scopes
-  scope :with_website, -> { where.not(website: [nil, '']) }
+  scope :with_website, -> { where.not(website: [ nil, "" ]) }
   scope :alphabetical, -> { order(:name) }
 
   # Display helpers
@@ -32,7 +32,7 @@ class Artist < ApplicationRecord
 
   # Search helpers
   def self.find_by_name_case_insensitive(search_name)
-    where('LOWER(name) = ?', search_name.downcase).first
+    where("LOWER(name) = ?", search_name.downcase).first
   end
 
   def self.find_or_create_by_name(artist_name)
