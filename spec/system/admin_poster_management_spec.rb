@@ -38,7 +38,7 @@ RSpec.describe "Admin Poster Management", type: :system do
         band_name = band.name
         venue_name = venue.name
         artist_name = artist.name
-        
+
         visit admin_posters_path
 
         click_link "New Poster"
@@ -72,7 +72,7 @@ RSpec.describe "Admin Poster Management", type: :system do
         # Create records before visiting the page
         band_name = band.name
         venue_name = venue.name
-        
+
         visit new_admin_poster_path
 
         fill_in "Name", with: "Test Poster with Image"

@@ -46,6 +46,7 @@
             <% if user_signed_in? %>
               <!-- Authenticated User Menu -->
               <div class="flex items-center space-x-6">
+                <%= link_to "Artwork", posters_path, class: "text-stone-600 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" %>
                 <% if current_user.admin? %>
                   <%= link_to "Admin", admin_dashboard_path, class: "text-stone-600 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" %>
                 <% end %>
@@ -59,6 +60,7 @@
                     Hello, <%= current_user.first_name %>
                   </span>
                 </div>
+                <%= link_to "Collection", user_posters_path, class: "text-stone-600 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" %>
                 <%= link_to "Profile", profile_path, class: "text-stone-600 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" %>
                 <%= link_to "Sign Out", destroy_session_path, 
                     data: { 
