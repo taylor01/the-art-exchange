@@ -128,18 +128,23 @@
         <% end %>
       </div>
 
-      <!-- User Collection Status -->
+      <!-- User Collection & Lists -->
       <% if user_signed_in? %>
-        <div class="bg-stone-50 rounded-lg p-4">
-          <h3 class="text-lg font-medium text-stone-900 mb-3">Your Collection</h3>
-          <% if @user_posters.any? %>
+        <% owned_posters = @user_posters.select { |up| up.status == 'owned' } %>
+        <% wanted_posters = @user_posters.select { |up| up.status == 'wanted' } %>
+        <% watching_posters = @user_posters.select { |up| up.status == 'watching' } %>
+        
+        <!-- Your Collection (Owned) -->
+        <% if owned_posters.any? %>
+          <div class="bg-stone-50 rounded-lg p-4 mb-4" data-testid="collection-section">
+            <h3 class="text-lg font-medium text-stone-900 mb-3">Your Collection</h3>
             <div class="space-y-3">
-              <% @user_posters.each do |user_poster| %>
+              <% owned_posters.each do |user_poster| %>
                 <div class="bg-white rounded-lg p-3 border border-stone-200">
                   <div class="flex items-center justify-between">
                     <div>
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-<%= user_poster.status == 'owned' ? 'green' : user_poster.status == 'wanted' ? 'blue' : 'yellow' %>-100 text-<%= user_poster.status == 'owned' ? 'green' : user_poster.status == 'wanted' ? 'blue' : 'yellow' %>-800">
-                        <%= user_poster.status.humanize %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        Owned
                       </span>
                       <% if user_poster.edition_number.present? %>
                         <span class="ml-2 text-sm text-stone-600">#<%= user_poster.edition_number %></span>
@@ -165,29 +170,82 @@
                 </div>
               <% end %>
             </div>
+            <p class="text-sm text-stone-600 mt-3">You own <%= owned_posters.count %> <%= 'copy'.pluralize(owned_posters.count) %> of this poster</p>
+          </div>
+        <% end %>
+
+        <!-- Your Lists (Want/Watch) -->
+        <% if wanted_posters.any? || watching_posters.any? %>
+          <div class="bg-stone-50 rounded-lg p-4 mb-4" data-testid="lists-section">
+            <h3 class="text-lg font-medium text-stone-900 mb-3">Your Lists</h3>
+            <div class="space-y-3">
+              <% wanted_posters.each do |user_poster| %>
+                <div class="bg-white rounded-lg p-3 border border-stone-200">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        Want
+                      </span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <%= link_to "Edit", edit_user_poster_path(user_poster), class: "text-blue-600 hover:text-blue-800 text-xs" %>
+                      <%= link_to "Remove", remove_from_collection_poster_path(@poster, user_poster_id: user_poster.id), 
+                          method: :delete,
+                          data: { confirm: "Are you sure you want to remove this from your list?" },
+                          class: "text-red-600 hover:text-red-800 text-xs" %>
+                    </div>
+                  </div>
+                  <% if user_poster.notes.present? %>
+                    <p class="text-sm text-stone-600 mt-2"><%= user_poster.notes %></p>
+                  <% end %>
+                </div>
+              <% end %>
+              <% watching_posters.each do |user_poster| %>
+                <div class="bg-white rounded-lg p-3 border border-stone-200">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                        Watching
+                      </span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <%= link_to "Edit", edit_user_poster_path(user_poster), class: "text-blue-600 hover:text-blue-800 text-xs" %>
+                      <%= link_to "Remove", remove_from_collection_poster_path(@poster, user_poster_id: user_poster.id), 
+                          method: :delete,
+                          data: { confirm: "Are you sure you want to remove this from your list?" },
+                          class: "text-red-600 hover:text-red-800 text-xs" %>
+                    </div>
+                  </div>
+                  <% if user_poster.notes.present? %>
+                    <p class="text-sm text-stone-600 mt-2"><%= user_poster.notes %></p>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Add to Collection/Lists -->
+        <div class="bg-stone-50 rounded-lg p-4">
+          <% if !@user_posters.any? %>
+            <h3 class="text-lg font-medium text-stone-900 mb-3">Add to Collection or Lists</h3>
           <% else %>
-            <p class="text-stone-600 text-sm">You don't have this poster in your collection yet.</p>
+            <h3 class="text-lg font-medium text-stone-900 mb-3">Add Another</h3>
           <% end %>
           
-          <div class="mt-4">
-            <% if @user_posters.any? %>
-              <p class="text-sm text-stone-600 mb-3">You have <%= @user_posters.count %> <%= 'copy'.pluralize(@user_posters.count) %> in your collection</p>
-            <% end %>
-            
-            <%= form_with url: add_to_collection_poster_path(@poster), method: :post, local: true, class: "space-y-3" do |form| %>
-              <div class="flex items-center space-x-2">
-                <%= form.select :status, 
-                    options_for_select([
-                      ['Want this poster', 'wanted'],
-                      ['Watching this poster', 'watching'],
-                      ['I own this poster', 'owned']
-                    ], 'watching'),
-                    {},
-                    { class: "flex-1 px-3 py-2 border border-stone-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-sm" } %>
-                <%= form.submit "Add to Collection", class: "bg-orange-500 text-white hover:bg-orange-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200" %>
-              </div>
-            <% end %>
-          </div>
+          <%= form_with url: add_to_collection_poster_path(@poster), method: :post, local: true, class: "space-y-3" do |form| %>
+            <div class="flex items-center space-x-2">
+              <%= form.select :status, 
+                  options_for_select([
+                    ['Add to want list', 'wanted'],
+                    ['Add to watch list', 'watching'],
+                    ['Add to collection (I own this)', 'owned']
+                  ], 'wanted'),
+                  {},
+                  { class: "flex-1 px-3 py-2 border border-stone-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-sm" } %>
+              <%= form.submit "Add", class: "bg-orange-500 text-white hover:bg-orange-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200" %>
+            </div>
+          <% end %>
         </div>
       <% end %>
 

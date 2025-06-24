@@ -49,7 +49,7 @@ Rails.application.routes.draw do
   end
 
   # User collection management
-  resources :user_posters, only: [ :index, :show, :edit, :update, :destroy ]
+  resources :user_posters, only: [ :index, :edit, :update, :destroy ]
 
   # Admin routes
   get "admin", to: "admin#index", as: :admin_dashboard

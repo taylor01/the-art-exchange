@@ -1,7 +1,7 @@
 class UserPostersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user_poster, only: [ :show, :edit, :update, :destroy ]
-  before_action :ensure_owner, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_user_poster, only: [ :edit, :update, :destroy ]
+  before_action :ensure_owner, only: [ :edit, :update, :destroy ]
 
   def index
     @owned_posters = current_user.user_posters.owned.includes(:poster)
@@ -9,15 +9,12 @@ class UserPostersController < ApplicationController
     @watching_posters = current_user.user_posters.watching.includes(:poster)
   end
 
-  def show
-  end
-
   def edit
   end
 
   def update
     if @user_poster.update(user_poster_params)
-      redirect_to @user_poster, notice: "Collection item updated successfully."
+      redirect_to poster_path(@user_poster.poster), notice: "Collection item updated successfully."
     else
       render :edit, status: :unprocessable_entity
     end

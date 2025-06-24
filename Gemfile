@@ -72,6 +72,8 @@ group :development, :test do
   gem "faker"
   gem "rails-controller-testing"
   gem "shoulda-matchers"
+  gem "capybara"
+  gem "selenium-webdriver"
 
   # Security scanning
   gem "bundler-audit", require: false
