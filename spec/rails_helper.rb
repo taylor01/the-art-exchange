@@ -10,6 +10,9 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'factory_bot_rails'
+require 'shoulda/matchers'
+require 'capybara/rails'
+require 'capybara/rspec'
 
 # Configure Geocoder for testing
 require "config/geocoder"
@@ -52,6 +55,11 @@ RSpec.configure do |config|
   # Configure FactoryBot
   config.include FactoryBot::Syntax::Methods
 
+  # Configure Capybara for system tests
+  config.before(:each, type: :system) do
+    driven_by :selenium, using: :headless_chrome, screen_size: [ 1400, 1400 ]
+  end
+
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 
@@ -76,4 +84,12 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+end
+
+# Shoulda Matchers configuration
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
 end

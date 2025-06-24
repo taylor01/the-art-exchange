@@ -26,5 +26,40 @@ FactoryBot.define do
       name { "Jimi Hendrix Experience" }
       website { nil }
     end
+
+    trait :pearl_jam do
+      name { "Pearl Jam" }
+      website { "https://pearljam.com" }
+    end
+
+    trait :radiohead do
+      name { "Radiohead" }
+      website { "https://radiohead.com" }
+    end
+
+    trait :the_black_keys do
+      name { "The Black Keys" }
+      website { "https://theblackkeys.com" }
+    end
+
+    trait :arctic_monkeys do
+      name { "Arctic Monkeys" }
+      website { "https://arcticmonkeys.com" }
+    end
+
+    trait :tame_impala do
+      name { "Tame Impala" }
+      website { "https://tameimpala.com" }
+    end
+
+    trait :foo_fighters do
+      name { "Foo Fighters" }
+      website { "https://foofighters.com" }
+    end
+
+    trait :kings_of_leon do
+      name { "Kings of Leon" }
+      website { "https://kingsofleon.com" }
+    end
   end
 end

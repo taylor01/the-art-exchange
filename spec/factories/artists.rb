@@ -21,5 +21,25 @@ FactoryBot.define do
       name { "Alton Kelley" }
       website { nil }
     end
+
+    trait :shepard_fairey do
+      name { "Shepard Fairey" }
+      website { "https://obeygiant.com" }
+    end
+
+    trait :david_juniper do
+      name { "David Juniper" }
+      website { "https://davidjuniper.com" }
+    end
+
+    trait :emek do
+      name { "Emek" }
+      website { "https://emekstudio.com" }
+    end
+
+    trait :ames_bros do
+      name { "Ames Bros" }
+      website { "https://amesbros.com" }
+    end
   end
 end

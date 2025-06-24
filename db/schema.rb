@@ -10,9 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_23_015027) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_24_023225) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
 
   create_table "artists", force: :cascade do |t|
     t.string "name", null: false
@@ -74,6 +102,26 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_23_015027) do
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_series_on_name"
     t.index ["year"], name: "index_series_on_year"
+  end
+
+  create_table "user_posters", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "poster_id", null: false
+    t.string "status", default: "watching", null: false
+    t.string "edition_number"
+    t.text "notes"
+    t.decimal "purchase_price", precision: 8, scale: 2
+    t.date "purchase_date"
+    t.string "condition"
+    t.boolean "for_sale", default: false
+    t.decimal "asking_price", precision: 8, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["for_sale"], name: "index_user_posters_on_for_sale"
+    t.index ["poster_id"], name: "index_user_posters_on_poster_id"
+    t.index ["status"], name: "index_user_posters_on_status"
+    t.index ["user_id", "poster_id"], name: "index_user_posters_on_user_id_and_poster_id"
+    t.index ["user_id"], name: "index_user_posters_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -145,10 +193,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_23_015027) do
     t.index ["venue_type"], name: "index_venues_on_venue_type"
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "artists_posters", "artists"
   add_foreign_key "artists_posters", "posters"
   add_foreign_key "posters", "bands"
   add_foreign_key "posters", "venues"
   add_foreign_key "posters_series", "posters"
   add_foreign_key "posters_series", "series"
+  add_foreign_key "user_posters", "posters"
+  add_foreign_key "user_posters", "users"
 end

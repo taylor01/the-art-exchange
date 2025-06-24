@@ -4,6 +4,11 @@ class Poster < ApplicationRecord
   belongs_to :venue
   has_and_belongs_to_many :artists
   has_and_belongs_to_many :series
+  has_many :user_posters, dependent: :destroy
+  has_many :users, through: :user_posters
+
+  # Image attachment - one official image per poster/variant
+  has_one_attached :image
 
   # Include search functionality
   include PgSearch::Model
