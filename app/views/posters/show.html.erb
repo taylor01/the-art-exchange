@@ -1,0 +1,230 @@
+<% content_for :title, @poster.full_title %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Breadcrumb -->
+  <nav class="flex mb-6" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+      <li class="inline-flex items-center">
+        <%= link_to root_path, class: "text-stone-500 hover:text-stone-900 transition-colors duration-200" do %>
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-3a1 1 0 011-1h2a1 1 0 011 1v3a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+          </svg>
+          Home
+        <% end %>
+      </li>
+      <li>
+        <div class="flex items-center">
+          <svg class="w-4 h-4 text-stone-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+          </svg>
+          <%= link_to posters_path, class: "ml-1 text-stone-500 hover:text-stone-900 transition-colors duration-200" do %>
+            Artwork
+          <% end %>
+        </div>
+      </li>
+      <li>
+        <div class="flex items-center">
+          <svg class="w-4 h-4 text-stone-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="ml-1 text-stone-900 font-medium"><%= @poster.name %></span>
+        </div>
+      </li>
+    </ol>
+  </nav>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Poster Image -->
+    <div class="bg-stone-100 rounded-lg overflow-hidden shadow-lg">
+      <% if @poster.image.attached? %>
+        <div class="aspect-[3/4]">
+          <%= image_tag @poster.image, class: "w-full h-full object-cover" %>
+        </div>
+      <% else %>
+        <div class="aspect-[3/4] bg-gradient-to-br from-stone-200 to-stone-300 flex items-center justify-center">
+          <div class="text-center text-stone-500">
+            <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+            <p class="text-sm">Image coming soon</p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Poster Details -->
+    <div class="space-y-6">
+      <!-- Tabs -->
+      <div class="border-b border-stone-200">
+        <nav class="-mb-px flex space-x-8">
+          <button class="border-orange-500 text-orange-600 border-b-2 py-2 px-1 text-sm font-medium">
+            Artwork
+          </button>
+          <% if user_signed_in? %>
+            <button class="border-transparent text-stone-500 hover:text-stone-700 hover:border-stone-300 border-b-2 py-2 px-1 text-sm font-medium">
+              Your Portfolio
+            </button>
+          <% end %>
+        </nav>
+      </div>
+
+      <!-- Main Info -->
+      <div class="space-y-4">
+        <div>
+          <h1 class="text-2xl font-bold text-stone-900 mb-2"><%= @poster.name %></h1>
+          <p class="text-stone-600"><%= @poster.event_summary %></p>
+        </div>
+
+        <!-- Details Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <dt class="text-sm font-medium text-stone-500">Release date:</dt>
+            <dd class="text-sm text-stone-900"><%= @poster.formatted_date %></dd>
+          </div>
+          
+          <div>
+            <dt class="text-sm font-medium text-stone-500">Original price:</dt>
+            <dd class="text-sm text-stone-900"><%= @poster.formatted_price %></dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-medium text-stone-500">Artists:</dt>
+            <dd class="text-sm text-stone-900">
+              <% @poster.artists.each_with_index do |artist, index| %>
+                <%= link_to artist.name, "#", class: "text-blue-600 hover:text-blue-800" %><%= ", " unless index == @poster.artists.length - 1 %>
+              <% end %>
+            </dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-medium text-stone-500">Band Name:</dt>
+            <dd class="text-sm text-stone-900"><%= @poster.band.name %></dd>
+          </div>
+
+          <div>
+            <dt class="text-sm font-medium text-stone-500">Venue Name:</dt>
+            <dd class="text-sm text-stone-900">
+              <%= link_to @poster.venue.name, "#", class: "text-blue-600 hover:text-blue-800" %>
+            </dd>
+          </div>
+
+          <% if @poster.series.any? %>
+            <div>
+              <dt class="text-sm font-medium text-stone-500">Series:</dt>
+              <dd class="text-sm text-stone-900">
+                <% @poster.series.each_with_index do |series, index| %>
+                  <%= link_to series.name, "#", class: "text-blue-600 hover:text-blue-800" %><%= ", " unless index == @poster.series.length - 1 %>
+                <% end %>
+              </dd>
+            </div>
+          <% end %>
+        </div>
+
+        <% if @poster.description.present? %>
+          <div>
+            <dt class="text-sm font-medium text-stone-500 mb-2">Description:</dt>
+            <dd class="text-sm text-stone-900"><%= simple_format(@poster.description) %></dd>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- User Collection Status -->
+      <% if user_signed_in? %>
+        <div class="bg-stone-50 rounded-lg p-4">
+          <h3 class="text-lg font-medium text-stone-900 mb-3">Your Collection</h3>
+          <% if @user_posters.any? %>
+            <div class="space-y-3">
+              <% @user_posters.each do |user_poster| %>
+                <div class="bg-white rounded-lg p-3 border border-stone-200">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-<%= user_poster.status == 'owned' ? 'green' : user_poster.status == 'wanted' ? 'blue' : 'yellow' %>-100 text-<%= user_poster.status == 'owned' ? 'green' : user_poster.status == 'wanted' ? 'blue' : 'yellow' %>-800">
+                        <%= user_poster.status.humanize %>
+                      </span>
+                      <% if user_poster.edition_number.present? %>
+                        <span class="ml-2 text-sm text-stone-600">#<%= user_poster.edition_number %></span>
+                      <% end %>
+                      <% if user_poster.condition.present? %>
+                        <span class="ml-2 text-sm text-stone-600">(<%= user_poster.condition.humanize %>)</span>
+                      <% end %>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <% if user_poster.for_sale? %>
+                        <span class="text-sm font-medium text-green-600"><%= user_poster.formatted_asking_price %></span>
+                      <% end %>
+                      <%= link_to "Edit", edit_user_poster_path(user_poster), class: "text-blue-600 hover:text-blue-800 text-xs" %>
+                      <%= link_to "Remove", remove_from_collection_poster_path(@poster, user_poster_id: user_poster.id), 
+                          method: :delete,
+                          data: { confirm: "Are you sure you want to remove this from your collection?" },
+                          class: "text-red-600 hover:text-red-800 text-xs" %>
+                    </div>
+                  </div>
+                  <% if user_poster.notes.present? %>
+                    <p class="text-sm text-stone-600 mt-2"><%= user_poster.notes %></p>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-stone-600 text-sm">You don't have this poster in your collection yet.</p>
+          <% end %>
+          
+          <div class="mt-4">
+            <% if @user_posters.any? %>
+              <p class="text-sm text-stone-600 mb-3">You have <%= @user_posters.count %> <%= 'copy'.pluralize(@user_posters.count) %> in your collection</p>
+            <% end %>
+            
+            <%= form_with url: add_to_collection_poster_path(@poster), method: :post, local: true, class: "space-y-3" do |form| %>
+              <div class="flex items-center space-x-2">
+                <%= form.select :status, 
+                    options_for_select([
+                      ['Want this poster', 'wanted'],
+                      ['Watching this poster', 'watching'],
+                      ['I own this poster', 'owned']
+                    ], 'watching'),
+                    {},
+                    { class: "flex-1 px-3 py-2 border border-stone-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 text-sm" } %>
+                <%= form.submit "Add to Collection", class: "bg-orange-500 text-white hover:bg-orange-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Copies For Sale -->
+      <% if @for_sale_copies.any? %>
+        <div class="bg-stone-50 rounded-lg p-4">
+          <h3 class="text-lg font-medium text-stone-900 mb-3">Available Copies</h3>
+          <div class="space-y-3">
+            <% @for_sale_copies.each do |user_poster| %>
+              <div class="bg-white rounded-lg p-3 border border-stone-200">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <span class="text-sm font-medium text-stone-900">
+                      <%= user_poster.user.display_name %>
+                    </span>
+                    <% if user_poster.edition_number.present? %>
+                      <span class="ml-2 text-sm text-stone-600">#<%= user_poster.edition_number %></span>
+                    <% end %>
+                    <% if user_poster.condition.present? %>
+                      <span class="ml-2 text-sm text-stone-600">(<%= user_poster.condition.humanize %>)</span>
+                    <% end %>
+                  </div>
+                  <span class="text-lg font-semibold text-green-600"><%= user_poster.formatted_asking_price %></span>
+                </div>
+                <% if user_poster.notes.present? %>
+                  <p class="text-sm text-stone-600 mt-2"><%= user_poster.notes %></p>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Transaction History -->
+      <div class="text-center text-stone-500 py-8">
+        <p class="text-sm italic">No Recorded Transactions</p>
+      </div>
+    </div>
+  </div>
+</div>

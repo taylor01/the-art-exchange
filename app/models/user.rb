@@ -1,6 +1,10 @@
 class User < ApplicationRecord
   has_secure_password validations: false
 
+  # Associations
+  has_many :user_posters, dependent: :destroy
+  has_many :posters, through: :user_posters
+
   # Enums
   enum :preferred_contact_method, {
     email: "email",

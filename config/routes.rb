@@ -40,6 +40,23 @@ Rails.application.routes.draw do
   get "profile/edit", to: "profiles#edit", as: :edit_profile
   patch "profile", to: "profiles#update", as: :update_profile
 
+  # Poster routes
+  resources :posters, only: [ :index, :show ] do
+    member do
+      post :add_to_collection
+      delete :remove_from_collection
+    end
+  end
+
+  # User collection management
+  resources :user_posters, only: [ :index, :show, :edit, :update, :destroy ]
+
+  # Admin routes
+  get "admin", to: "admin#index", as: :admin_dashboard
+  namespace :admin do
+    resources :posters
+  end
+
   # Root route
   root "home#index"
 end

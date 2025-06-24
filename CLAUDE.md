@@ -124,3 +124,15 @@ ALL of these must pass before creating any pull request:
 - Collection ownership model (individual vs shared)
 - Admin vs user poster creation workflow
 - Search/filter UI implementation priority
+
+### Future Phase 3: Marketplace Features
+#### Sale Tracking & Verification System
+- Allow users to mark posters as "sold" with sale price (outside platform sales)
+- Track unverified vs verified sales for valuation accuracy
+- Verification workflow: seller enters buyer contact, system sends confirmation request
+- Verified sales get higher weight in poster valuation algorithms
+- Sold items remain in collection but marked as sold (not counted in collection value)
+
+## Documentation References
+
+- Always refer to https://api.rubyonrails.org/ for Rails 8 documentation

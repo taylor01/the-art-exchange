@@ -1,0 +1,169 @@
+<% content_for :title, "Admin - #{@poster.full_title}" %>
+
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Header -->
+  <div class="mb-8">
+    <nav class="flex mb-4" aria-label="Breadcrumb">
+      <ol class="inline-flex items-center space-x-1 md:space-x-3">
+        <li class="inline-flex items-center">
+          <%= link_to admin_posters_path, class: "text-stone-500 hover:text-stone-900 transition-colors duration-200" do %>
+            Admin - Posters
+          <% end %>
+        </li>
+        <li>
+          <div class="flex items-center">
+            <svg class="w-4 h-4 text-stone-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="ml-1 text-stone-900 font-medium"><%= @poster.name %></span>
+          </div>
+        </li>
+      </ol>
+    </nav>
+    
+    <div class="flex justify-between items-start">
+      <div>
+        <h1 class="text-3xl font-bold text-stone-900"><%= @poster.name %></h1>
+        <p class="text-stone-600 mt-2"><%= @poster.event_summary %></p>
+      </div>
+      <div class="flex space-x-2">
+        <%= link_to edit_admin_poster_path(@poster), class: "bg-orange-500 text-white hover:bg-orange-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 inline-flex items-center" do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+          </svg>
+          Edit
+        <% end %>
+        <%= link_to poster_path(@poster), class: "bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 inline-flex items-center" do %>
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+          </svg>
+          View Public
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Poster Image -->
+    <div class="lg:col-span-1">
+      <div class="bg-stone-100 rounded-lg overflow-hidden shadow-lg">
+        <% if @poster.image.attached? %>
+          <div class="aspect-[3/4]">
+            <%= image_tag @poster.image, class: "w-full h-full object-cover" %>
+          </div>
+        <% else %>
+          <div class="aspect-[3/4] bg-gradient-to-br from-stone-200 to-stone-300 flex items-center justify-center">
+            <div class="text-center text-stone-500">
+              <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <p class="text-sm">No image uploaded</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Poster Details -->
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Basic Information -->
+      <div class="bg-white shadow-md rounded-lg p-6">
+        <h3 class="text-lg font-medium text-stone-900 mb-4">Basic Information</h3>
+        <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <dt class="text-sm font-medium text-stone-500">Release Date</dt>
+            <dd class="text-sm text-stone-900"><%= @poster.formatted_date %></dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-stone-500">Original Price</dt>
+            <dd class="text-sm text-stone-900"><%= @poster.formatted_price %></dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-stone-500">Band</dt>
+            <dd class="text-sm text-stone-900"><%= @poster.band.name %></dd>
+          </div>
+          <div>
+            <dt class="text-sm font-medium text-stone-500">Venue</dt>
+            <dd class="text-sm text-stone-900"><%= @poster.venue.name %></dd>
+          </div>
+        </dl>
+        
+        <% if @poster.description.present? %>
+          <div class="mt-4">
+            <dt class="text-sm font-medium text-stone-500 mb-2">Description</dt>
+            <dd class="text-sm text-stone-900"><%= simple_format(@poster.description) %></dd>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Artists -->
+      <% if @poster.artists.any? %>
+        <div class="bg-white shadow-md rounded-lg p-6">
+          <h3 class="text-lg font-medium text-stone-900 mb-4">Artists</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <% @poster.artists.each do |artist| %>
+              <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center">
+                  <span class="text-sm font-semibold text-white">
+                    <%= artist.name.first %>
+                  </span>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-stone-900"><%= artist.name %></p>
+                  <% if artist.website.present? %>
+                    <p class="text-xs text-stone-500"><%= artist.website %></p>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Series -->
+      <% if @poster.series.any? %>
+        <div class="bg-white shadow-md rounded-lg p-6">
+          <h3 class="text-lg font-medium text-stone-900 mb-4">Series</h3>
+          <div class="space-y-3">
+            <% @poster.series.each do |series| %>
+              <div class="border border-stone-200 rounded-lg p-3">
+                <h4 class="text-sm font-medium text-stone-900"><%= series.name %></h4>
+                <% if series.description.present? %>
+                  <p class="text-xs text-stone-600 mt-1"><%= series.description %></p>
+                <% end %>
+                <div class="flex items-center space-x-4 mt-2 text-xs text-stone-500">
+                  <% if series.year.present? %>
+                    <span>Year: <%= series.year %></span>
+                  <% end %>
+                  <% if series.total_count.present? %>
+                    <span>Total: <%= series.total_count %></span>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- User Collections Summary -->
+      <div class="bg-white shadow-md rounded-lg p-6">
+        <h3 class="text-lg font-medium text-stone-900 mb-4">Collection Status</h3>
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div>
+            <div class="text-2xl font-bold text-green-600"><%= @poster.user_posters.owned.count %></div>
+            <div class="text-sm text-stone-500">Owned</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-blue-600"><%= @poster.user_posters.wanted.count %></div>
+            <div class="text-sm text-stone-500">Wanted</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-yellow-600"><%= @poster.user_posters.watching.count %></div>
+            <div class="text-sm text-stone-500">Watching</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

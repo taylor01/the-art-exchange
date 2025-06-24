@@ -46,6 +46,7 @@ gem "image_processing", "~> 1.2"
 gem "geocoder"
 gem "pg_search"
 gem "mailgun-ruby", "~> 1.3.6"
+gem "kaminari"
 
 # Authentication and security
 gem "omniauth"
@@ -70,6 +71,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "faker"
   gem "rails-controller-testing"
+  gem "shoulda-matchers"
 
   # Security scanning
   gem "bundler-audit", require: false
