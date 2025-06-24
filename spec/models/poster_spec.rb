@@ -58,6 +58,28 @@ RSpec.describe Poster, type: :model do
       poster = build(:poster, original_price: '', band: band, venue: venue)
       expect(poster).to be_valid
     end
+
+    it 'validates edition_size is positive integer when present' do
+      poster = build(:poster, edition_size: -50, band: band, venue: venue)
+      expect(poster).not_to be_valid
+      expect(poster.errors[:edition_size]).to include("must be greater than 0")
+    end
+
+    it 'validates edition_size is an integer when present' do
+      poster = build(:poster, edition_size: 50.5, band: band, venue: venue)
+      expect(poster).not_to be_valid
+      expect(poster.errors[:edition_size]).to include("must be an integer")
+    end
+
+    it 'allows blank edition_size' do
+      poster = build(:poster, edition_size: nil, band: band, venue: venue)
+      expect(poster).to be_valid
+    end
+
+    it 'allows valid edition_size' do
+      poster = build(:poster, edition_size: 500, band: band, venue: venue)
+      expect(poster).to be_valid
+    end
   end
 
   describe 'callbacks' do

@@ -87,6 +87,13 @@
             <dd class="text-sm text-stone-900"><%= @poster.formatted_price %></dd>
           </div>
 
+          <% if @poster.edition_size.present? %>
+          <div>
+            <dt class="text-sm font-medium text-stone-500">Edition size:</dt>
+            <dd class="text-sm text-stone-900"><%= number_with_delimiter(@poster.edition_size) %> copies</dd>
+          </div>
+          <% end %>
+
           <div>
             <dt class="text-sm font-medium text-stone-500">Artists:</dt>
             <dd class="text-sm text-stone-900">

@@ -50,6 +50,14 @@ FactoryBot.define do
       original_price { nil }
     end
 
+    trait :with_edition_size do
+      edition_size { [ 50, 100, 250, 500, 1000 ].sample }
+    end
+
+    trait :limited_edition do
+      edition_size { [ 25, 50, 100 ].sample }
+    end
+
     # Specific realistic poster combinations
     trait :pearl_jam_red_rocks do
       name { "Pearl Jam - Red Rocks Amphitheatre" }
