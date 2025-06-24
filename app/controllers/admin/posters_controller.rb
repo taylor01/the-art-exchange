@@ -53,7 +53,7 @@ class Admin::PostersController < ApplicationController
   end
 
   def poster_params
-    params.require(:poster).permit(:name, :description, :release_date, :original_price,
+    params.require(:poster).permit(:name, :description, :release_date, :original_price, :edition_size,
                                    :band_id, :venue_id, :image, artist_ids: [], series_ids: [])
   end
 

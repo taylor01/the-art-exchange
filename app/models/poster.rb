@@ -28,6 +28,7 @@ class Poster < ApplicationRecord
   validates :name, presence: true
   validates :release_date, presence: true
   validates :original_price, numericality: { greater_than: 0 }, allow_blank: true
+  validates :edition_size, numericality: { greater_than: 0, only_integer: true }, allow_blank: true
 
   # Callbacks
   before_validation :normalize_name
