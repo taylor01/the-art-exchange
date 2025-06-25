@@ -139,6 +139,7 @@
         <% end %>
       </div>
 
+
       <!-- User Collection & Lists -->
       <% if user_signed_in? %>
         <% owned_posters = @user_posters.select { |up| up.status == 'owned' } %>
