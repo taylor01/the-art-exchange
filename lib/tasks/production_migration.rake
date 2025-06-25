@@ -805,12 +805,9 @@ namespace :migrate do
       # Handle dollar amounts like "$25.00" or "25.00"
       cleaned = price_value.gsub(/[$,]/, "")
       (cleaned.to_f * 100).to_i
-    when Integer
-      # Production data stores prices as dollars (not cents), so convert to cents
-      price_value * 100
-    when Float
-      # Convert dollars to cents
-      (price_value * 100).to_i
+    when Integer, Float
+      # Production data stores prices as dollars, convert to cents
+      (price_value.to_f * 100).to_i
     else
       nil
     end
