@@ -103,17 +103,21 @@
             </dd>
           </div>
 
-          <div>
-            <dt class="text-sm font-medium text-stone-500">Band Name:</dt>
-            <dd class="text-sm text-stone-900"><%= @poster.band.name %></dd>
-          </div>
+          <% if @poster.band %>
+            <div>
+              <dt class="text-sm font-medium text-stone-500">Band Name:</dt>
+              <dd class="text-sm text-stone-900"><%= @poster.band.name %></dd>
+            </div>
+          <% end %>
 
-          <div>
-            <dt class="text-sm font-medium text-stone-500">Venue Name:</dt>
-            <dd class="text-sm text-stone-900">
-              <%= link_to @poster.venue.name, "#", class: "text-blue-600 hover:text-blue-800" %>
-            </dd>
-          </div>
+          <% if @poster.venue %>
+            <div>
+              <dt class="text-sm font-medium text-stone-500">Venue Name:</dt>
+              <dd class="text-sm text-stone-900">
+                <%= link_to @poster.venue.name, "#", class: "text-blue-600 hover:text-blue-800" %>
+              </dd>
+            </div>
+          <% end %>
 
           <% if @poster.series.any? %>
             <div>

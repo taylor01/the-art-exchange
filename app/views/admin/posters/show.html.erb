@@ -85,14 +85,18 @@
             <dd class="text-sm text-stone-900"><%= number_with_delimiter(@poster.edition_size) %> copies</dd>
           </div>
           <% end %>
-          <div>
-            <dt class="text-sm font-medium text-stone-500">Band</dt>
-            <dd class="text-sm text-stone-900"><%= @poster.band.name %></dd>
-          </div>
-          <div>
-            <dt class="text-sm font-medium text-stone-500">Venue</dt>
-            <dd class="text-sm text-stone-900"><%= @poster.venue.name %></dd>
-          </div>
+          <% if @poster.band %>
+            <div>
+              <dt class="text-sm font-medium text-stone-500">Band</dt>
+              <dd class="text-sm text-stone-900"><%= @poster.band.name %></dd>
+            </div>
+          <% end %>
+          <% if @poster.venue %>
+            <div>
+              <dt class="text-sm font-medium text-stone-500">Venue</dt>
+              <dd class="text-sm text-stone-900"><%= @poster.venue.name %></dd>
+            </div>
+          <% end %>
         </dl>
         
         <% if @poster.description.present? %>

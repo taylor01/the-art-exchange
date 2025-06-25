@@ -1,7 +1,7 @@
 class Poster < ApplicationRecord
   # Associations
-  belongs_to :band
-  belongs_to :venue
+  belongs_to :band, optional: true
+  belongs_to :venue, optional: true
   has_and_belongs_to_many :artists
   has_and_belongs_to_many :series
   has_many :user_posters, dependent: :destroy
@@ -49,18 +49,27 @@ class Poster < ApplicationRecord
 
   # Display helpers
   def display_name
-    "#{name} - #{band.name} at #{venue.name}"
+    parts = [ name ]
+    parts << "#{band.name} at #{venue.name}" if band && venue
+    parts.join(" - ")
   end
 
   def full_title
-    parts = [ name, band.name, venue.name ]
+    parts = [ name ]
+    parts << band.name if band
+    parts << venue.name if venue
     parts << release_date.strftime("%Y") if release_date
     parts.compact.join(" • ")
   end
 
   def event_summary
-    return "#{band.name} at #{venue.name}" unless release_date
-    "#{band.name} at #{venue.name} (#{release_date.strftime('%B %d, %Y')})"
+    if band && venue
+      return "#{band.name} at #{venue.name}" unless release_date
+      "#{band.name} at #{venue.name} (#{release_date.strftime('%B %d, %Y')})"
+    else
+      return name unless release_date
+      "#{name} (#{release_date.strftime('%B %d, %Y')})"
+    end
   end
 
   def short_title
