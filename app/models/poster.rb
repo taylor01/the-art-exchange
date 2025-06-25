@@ -34,6 +34,22 @@ class Poster < ApplicationRecord
     visual_metadata.present?
   end
 
+  def metadata_version_current?
+    metadata_version == PosterMetadataService::CURRENT_METADATA_VERSION
+  end
+
+  def metadata_version_outdated?
+    has_metadata? && !metadata_version_current?
+  end
+
+  def metadata_version_missing?
+    has_metadata? && metadata_version.blank?
+  end
+
+  def needs_reanalysis?
+    !has_metadata? || metadata_version_outdated? || metadata_version_missing?
+  end
+
   # Associations
   belongs_to :band, optional: true
   belongs_to :venue, optional: true

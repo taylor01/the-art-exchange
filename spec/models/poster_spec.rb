@@ -195,6 +195,81 @@ RSpec.describe Poster, type: :model do
       end
     end
 
+    describe 'metadata version methods' do
+      describe '#metadata_version_current?' do
+        it 'returns true when version matches current' do
+          poster = create(:poster, metadata_version: PosterMetadataService::CURRENT_METADATA_VERSION)
+          expect(poster.metadata_version_current?).to be true
+        end
+
+        it 'returns false when version is outdated' do
+          poster = create(:poster, metadata_version: '0.9')
+          expect(poster.metadata_version_current?).to be false
+        end
+
+        it 'returns false when version is nil' do
+          poster = create(:poster, metadata_version: nil)
+          expect(poster.metadata_version_current?).to be false
+        end
+      end
+
+      describe '#metadata_version_outdated?' do
+        it 'returns true when has metadata but version is outdated' do
+          poster = create(:poster, visual_metadata: { 'test' => 'data' }, metadata_version: '0.9')
+          expect(poster.metadata_version_outdated?).to be true
+        end
+
+        it 'returns false when version is current' do
+          poster = create(:poster, visual_metadata: { 'test' => 'data' }, metadata_version: PosterMetadataService::CURRENT_METADATA_VERSION)
+          expect(poster.metadata_version_outdated?).to be false
+        end
+
+        it 'returns false when no metadata' do
+          poster = create(:poster, visual_metadata: nil, metadata_version: '0.9')
+          expect(poster.metadata_version_outdated?).to be false
+        end
+      end
+
+      describe '#metadata_version_missing?' do
+        it 'returns true when has metadata but no version' do
+          poster = create(:poster, visual_metadata: { 'test' => 'data' }, metadata_version: nil)
+          expect(poster.metadata_version_missing?).to be true
+        end
+
+        it 'returns false when has version' do
+          poster = create(:poster, visual_metadata: { 'test' => 'data' }, metadata_version: '1.0')
+          expect(poster.metadata_version_missing?).to be false
+        end
+
+        it 'returns false when no metadata' do
+          poster = create(:poster, visual_metadata: nil, metadata_version: nil)
+          expect(poster.metadata_version_missing?).to be false
+        end
+      end
+
+      describe '#needs_reanalysis?' do
+        it 'returns true when no metadata' do
+          poster = create(:poster, visual_metadata: nil)
+          expect(poster.needs_reanalysis?).to be true
+        end
+
+        it 'returns true when metadata but outdated version' do
+          poster = create(:poster, visual_metadata: { 'test' => 'data' }, metadata_version: '0.9')
+          expect(poster.needs_reanalysis?).to be true
+        end
+
+        it 'returns true when metadata but missing version' do
+          poster = create(:poster, visual_metadata: { 'test' => 'data' }, metadata_version: nil)
+          expect(poster.needs_reanalysis?).to be true
+        end
+
+        it 'returns false when current version' do
+          poster = create(:poster, visual_metadata: { 'test' => 'data' }, metadata_version: PosterMetadataService::CURRENT_METADATA_VERSION)
+          expect(poster.needs_reanalysis?).to be false
+        end
+      end
+    end
+
     describe '#metadata_art_style' do
       it 'returns the art style from metadata' do
         expect(poster_with_metadata.metadata_art_style).to eq('minimalist')

@@ -68,29 +68,55 @@ namespace :posters do
     end
   end
 
-  desc "Show analysis statistics"
+  desc "Show analysis statistics including version information"
   task stats: :environment do
-    total_posters = Poster.count
-    posters_with_images = Poster.joins(:image_attachment).count
-    posters_with_metadata = Poster.where.not(visual_metadata: nil).count
+    PosterMetadataService.metadata_stats
+  end
 
-    puts "📊 Poster Analysis Statistics:"
-    puts "   Total posters: #{total_posters}"
-    puts "   Posters with images: #{posters_with_images}"
-    puts "   Posters with metadata: #{posters_with_metadata}"
-    puts "   Analysis coverage: #{posters_with_images > 0 ? (posters_with_metadata * 100.0 / posters_with_images).round(1) : 0}%"
+  desc "Analyze posters with outdated metadata versions"
+  task analyze_outdated: :environment do
+    puts "🔄 Starting analysis of posters with outdated metadata versions..."
+    PosterMetadataService.analyze_outdated_posters
+    puts "🎯 Outdated poster analysis complete!"
+  end
 
-    if posters_with_metadata > 0
-      puts "\n🎨 Most common art styles:"
-      style_counts = Poster.where.not(visual_metadata: nil)
-                          .group("visual_metadata->'visual'->>'art_style'")
-                          .count
-                          .sort_by { |k, v| -v }
-                          .first(5)
+  desc "Re-analyze specific poster to update to current metadata version"
+  task :reanalyze, [ :poster_id ] => :environment do |task, args|
+    poster_id = args[:poster_id]
 
-      style_counts.each do |style, count|
-        puts "   #{style}: #{count}"
-      end
+    unless poster_id
+      puts "❌ Please provide a poster ID: rake posters:reanalyze[123]"
+      exit 1
+    end
+
+    poster = Poster.find_by(id: poster_id)
+    unless poster
+      puts "❌ Poster with ID #{poster_id} not found"
+      exit 1
+    end
+
+    unless poster.image.attached?
+      puts "❌ Poster #{poster_id} (#{poster.name}) has no image attached"
+      exit 1
+    end
+
+    current_version = poster.metadata_version
+    puts "🔄 Re-analyzing poster #{poster_id}: #{poster.name}"
+    puts "   Current version: #{current_version || 'none'}"
+    puts "   Target version: #{PosterMetadataService::CURRENT_METADATA_VERSION}"
+
+    metadata = PosterMetadataService.analyze_poster(poster)
+    if metadata
+      puts "✅ Re-analysis complete!"
+      puts "   Updated to version: #{poster.reload.metadata_version}"
+      puts "📊 Metadata preview:"
+      puts "   Art style: #{metadata.dig('visual', 'art_style')}"
+      puts "   Themes: #{metadata.dig('thematic', 'primary_themes')&.join(', ')}"
+      puts "   Mood: #{metadata.dig('thematic', 'mood')&.join(', ')}"
+      puts "   Color palette: #{metadata.dig('visual', 'color_palette')&.join(', ')}"
+    else
+      puts "❌ Re-analysis failed"
+      exit 1
     end
   end
 end

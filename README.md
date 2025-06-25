@@ -138,6 +138,153 @@ bundle exec bundler-audit check --update
 bundle exec rubocop
 ```
 
+## Poster Visual Metadata System
+
+The application includes an AI-powered visual metadata analysis system using Claude Vision API to automatically extract structured data from poster images.
+
+### Metadata Schema Version 1.0
+
+The system generates structured JSON metadata with the following categories:
+
+```json
+{
+  "visual": {
+    "color_palette": ["yellow", "red", "black"],
+    "dominant_colors": ["#ffff00", "#ff0000", "#000000"],
+    "art_style": "graphic_design",
+    "composition": "centered_text",
+    "complexity": "moderate",
+    "text_density": "heavy"
+  },
+  "thematic": {
+    "primary_themes": ["entertainment", "music"],
+    "mood": ["energetic", "vibrant"],
+    "elements": ["signage", "typography"],
+    "genre": "music_poster"
+  },
+  "technical": {
+    "layout": "landscape",
+    "typography_style": "bold_vintage",
+    "design_era": "contemporary",
+    "print_quality_indicators": ["high_resolution", "clear_text"]
+  },
+  "collectibility": {
+    "visual_rarity": "uncommon_style",
+    "artistic_significance": "medium",
+    "design_complexity": "medium",
+    "iconic_elements": ["musician_image", "venue_name"]
+  },
+  "market_appeal": {
+    "demographic_appeal": ["music_fans", "event_attendees"],
+    "display_context": ["concert_venue", "promotional"],
+    "frame_compatibility": "medium",
+    "wall_color_match": ["yellow", "red"]
+  }
+}
+```
+
+### Metadata Analysis Commands
+
+```bash
+# Analyze a specific poster by ID
+rake "posters:analyze[1380]"
+
+# Show metadata for a poster
+rake "posters:show_metadata[1380]"
+
+# Analyze all posters with images (background jobs)
+rake posters:analyze_all
+
+# Re-analyze posters with outdated metadata versions
+rake posters:analyze_outdated
+
+# Force re-analyze a specific poster to current version
+rake "posters:reanalyze[1380]"
+
+# Show statistics including version information
+rake posters:stats
+```
+
+### Metadata Versioning System
+
+The system tracks metadata schema versions to enable future format updates without losing existing data.
+
+#### Version Management
+
+Each poster's metadata includes a `metadata_version` field that tracks which schema version was used for analysis. The current version is defined as:
+
+```ruby
+# In app/services/poster_metadata_service.rb
+CURRENT_METADATA_VERSION = "1.0"
+```
+
+#### Poster Model Methods
+
+```ruby
+poster.metadata_version_current?    # true if version matches current
+poster.metadata_version_outdated?   # true if has metadata but old version
+poster.metadata_version_missing?    # true if has metadata but no version
+poster.needs_reanalysis?           # true if poster needs re-analysis
+```
+
+#### Updating Metadata Schema (Future)
+
+When you need to change the metadata format:
+
+1. **Update the analysis prompt** in `PosterMetadataService#claude_analysis_prompt`
+2. **Increment the version number**:
+   ```ruby
+   CURRENT_METADATA_VERSION = "1.1"  # Increment version
+   ```
+3. **Add new fields to the prompt**:
+   ```ruby
+   "market_appeal": {
+     "demographic_appeal": ["demographic1", "demographic2"],
+     "display_context": ["context1", "context2"], 
+     "frame_compatibility": "low|medium|high",
+     "wall_color_match": ["color1", "color2"],
+     "wall_color_complementary": ["color1", "color2", "color3"]  # New field
+   }
+   ```
+4. **Re-analyze outdated posters**:
+   ```bash
+   rake posters:analyze_outdated
+   ```
+5. **Monitor progress**:
+   ```bash
+   rake posters:stats
+   ```
+
+#### Version Statistics
+
+```bash
+$ rake posters:stats
+📊 Metadata Statistics:
+   Total posters with images: 772
+   Analyzed posters: 150
+   Current version (1.0): 145
+   Outdated/missing version: 5
+```
+
+#### Benefits of Versioned Metadata
+
+- **Selective re-analysis**: Only update posters that need it
+- **Cost control**: Avoid unnecessary API calls to current posters  
+- **Historical tracking**: Know which version was used for each poster
+- **Quality assurance**: Ensure consistent metadata across collection
+- **Future-proofing**: Easy schema evolution as requirements change
+
+### Environment Setup
+
+The metadata system requires the Anthropic API key to be set:
+
+```bash
+# In your .env file
+ANTHROPIC_API_KEY=your_api_key_here
+```
+
+The system uses Claude Haiku model for cost-effective analysis while maintaining good quality results. Images are automatically resized to 1500px maximum for optimal API performance.
+
 ## Development Status
 
 🎯 **Phase 1 Development** - Core models and authentication complete. Ready for UI development.
