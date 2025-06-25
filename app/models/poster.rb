@@ -1,6 +1,39 @@
 class Poster < ApplicationRecord
   include PriceConversion
 
+  # Visual metadata accessors
+  def metadata_art_style
+    visual_metadata&.dig("visual", "art_style")
+  end
+
+  def metadata_color_palette
+    visual_metadata&.dig("visual", "color_palette")
+  end
+
+  def metadata_mood
+    visual_metadata&.dig("thematic", "mood")
+  end
+
+  def metadata_themes
+    visual_metadata&.dig("thematic", "primary_themes")
+  end
+
+  def metadata_elements
+    visual_metadata&.dig("thematic", "elements")
+  end
+
+  def metadata_display_context
+    visual_metadata&.dig("market_appeal", "display_context")
+  end
+
+  def metadata_wall_colors
+    visual_metadata&.dig("market_appeal", "wall_color_match")
+  end
+
+  def has_metadata?
+    visual_metadata.present?
+  end
+
   # Associations
   belongs_to :band, optional: true
   belongs_to :venue, optional: true

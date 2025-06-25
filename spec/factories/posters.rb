@@ -58,6 +58,23 @@ FactoryBot.define do
       edition_size { [ 25, 50, 100 ].sample }
     end
 
+    trait :with_image do
+      after(:create) do |poster|
+        image_path = Rails.root.join('spec', 'fixtures', 'test_poster.jpg')
+        # Create a simple test image if it doesn't exist
+        unless File.exist?(image_path)
+          FileUtils.mkdir_p(File.dirname(image_path))
+          File.write(image_path, "fake image data")
+        end
+
+        poster.image.attach(
+          io: File.open(image_path),
+          filename: 'test_poster.jpg',
+          content_type: 'image/jpeg'
+        )
+      end
+    end
+
     # Specific realistic poster combinations
     trait :pearl_jam_red_rocks do
       name { "Pearl Jam - Red Rocks Amphitheatre" }
