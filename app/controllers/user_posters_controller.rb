@@ -37,8 +37,8 @@ class UserPostersController < ApplicationController
   end
 
   def user_poster_params
-    params.require(:user_poster).permit(:status, :edition_number, :notes, :purchase_price,
-                                        :purchase_date, :condition, :for_sale, :asking_price,
+    params.require(:user_poster).permit(:status, :edition_number, :notes, :purchase_price_in_dollars,
+                                        :purchase_date, :condition, :for_sale, :asking_price_in_dollars,
                                         images: [])
   end
 
