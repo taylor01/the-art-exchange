@@ -1,4 +1,7 @@
 class Band < ApplicationRecord
+  # Associations
+  has_many :posters, dependent: :nullify
+
   # Include search functionality
   include PgSearch::Model
   pg_search_scope :search_by_name,

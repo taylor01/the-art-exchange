@@ -46,7 +46,13 @@ Rails.application.routes.draw do
       post :add_to_collection
       delete :remove_from_collection
     end
+    collection do
+      post :create_search_share
+    end
   end
+
+  # Search short URLs
+  get "s/:token", to: "search#show", as: :search_share
 
   # User collection management
   resources :user_posters, only: [ :index, :edit, :update, :destroy ]
