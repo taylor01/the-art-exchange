@@ -160,4 +160,86 @@ RSpec.describe Poster, type: :model do
       expect(Poster).to respond_to(:search_by_name_and_description)
     end
   end
+
+  describe 'visual metadata' do
+    let(:sample_metadata) do
+      {
+        'visual' => {
+          'art_style' => 'minimalist',
+          'color_palette' => [ 'black', 'white', 'blue' ]
+        },
+        'thematic' => {
+          'primary_themes' => [ 'celestial', 'night_sky' ],
+          'mood' => [ 'peaceful', 'dreamy' ],
+          'elements' => [ 'moon', 'stars' ]
+        },
+        'market_appeal' => {
+          'display_context' => [ 'bedroom', 'office' ],
+          'wall_color_match' => [ 'white', 'gray' ]
+        }
+      }
+    end
+
+    let(:poster_with_metadata) do
+      create(:poster, band: band, venue: venue, visual_metadata: sample_metadata)
+    end
+
+    describe '#has_metadata?' do
+      it 'returns true when metadata is present' do
+        expect(poster_with_metadata.has_metadata?).to be true
+      end
+
+      it 'returns false when metadata is nil' do
+        poster = create(:poster, band: band, venue: venue, visual_metadata: nil)
+        expect(poster.has_metadata?).to be false
+      end
+    end
+
+    describe '#metadata_art_style' do
+      it 'returns the art style from metadata' do
+        expect(poster_with_metadata.metadata_art_style).to eq('minimalist')
+      end
+
+      it 'returns nil when metadata is missing' do
+        poster = create(:poster, band: band, venue: venue)
+        expect(poster.metadata_art_style).to be_nil
+      end
+    end
+
+    describe '#metadata_color_palette' do
+      it 'returns the color palette array' do
+        expect(poster_with_metadata.metadata_color_palette).to eq([ 'black', 'white', 'blue' ])
+      end
+    end
+
+    describe '#metadata_mood' do
+      it 'returns the mood array' do
+        expect(poster_with_metadata.metadata_mood).to eq([ 'peaceful', 'dreamy' ])
+      end
+    end
+
+    describe '#metadata_themes' do
+      it 'returns the themes array' do
+        expect(poster_with_metadata.metadata_themes).to eq([ 'celestial', 'night_sky' ])
+      end
+    end
+
+    describe '#metadata_elements' do
+      it 'returns the elements array' do
+        expect(poster_with_metadata.metadata_elements).to eq([ 'moon', 'stars' ])
+      end
+    end
+
+    describe '#metadata_display_context' do
+      it 'returns the display context array' do
+        expect(poster_with_metadata.metadata_display_context).to eq([ 'bedroom', 'office' ])
+      end
+    end
+
+    describe '#metadata_wall_colors' do
+      it 'returns the wall color match array' do
+        expect(poster_with_metadata.metadata_wall_colors).to eq([ 'white', 'gray' ])
+      end
+    end
+  end
 end
