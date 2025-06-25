@@ -806,8 +806,8 @@ namespace :migrate do
       cleaned = price_value.gsub(/[$,]/, "")
       (cleaned.to_f * 100).to_i
     when Integer
-      # Assume already in cents if integer
-      price_value
+      # Production data stores prices as dollars (not cents), so convert to cents
+      price_value * 100
     when Float
       # Convert dollars to cents
       (price_value * 100).to_i

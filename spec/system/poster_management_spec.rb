@@ -169,7 +169,7 @@ RSpec.describe "Poster Management", type: :system do
       expect(page).to have_content("Edit Collection Item")
       expect(page).to have_field("Edition number")
       expect(page).to have_field("Condition")
-      expect(page).to have_field("Purchase price")
+      expect(page).to have_field("Purchase Price")
       expect(page).to have_field("Purchase date")
       expect(page).to have_field("This poster is for sale")
       expect(page).to have_field("Your Photos")
@@ -277,7 +277,7 @@ RSpec.describe "Poster Management", type: :system do
 
   describe "For sale listings" do
     let(:seller) { create(:user) }
-    let(:for_sale_poster) { create(:user_poster, user: seller, poster: poster, status: 'owned', for_sale: true, asking_price: 150.00) }
+    let(:for_sale_poster) { create(:user_poster, user: seller, poster: poster, status: 'owned', for_sale: true, asking_price: 15000) }
 
     before do
       for_sale_poster # Create the for sale poster
@@ -289,7 +289,7 @@ RSpec.describe "Poster Management", type: :system do
 
       expect(page).to have_content("Available Copies")
       expect(page).to have_content(seller.display_name)
-      expect(page).to have_content("$150.0")
+      expect(page).to have_content("$150.00")
     end
   end
 

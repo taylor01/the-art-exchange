@@ -1,4 +1,6 @@
 class Poster < ApplicationRecord
+  include PriceConversion
+
   # Associations
   belongs_to :band, optional: true
   belongs_to :venue, optional: true
@@ -112,8 +114,17 @@ class Poster < ApplicationRecord
   end
 
   def formatted_price
-    return "Price Unknown" unless original_price
-    "$#{original_price}"
+    format_cents_as_currency(original_price)
+  end
+
+  # Get original price in dollars for forms
+  def original_price_in_dollars
+    cents_to_dollars(original_price)
+  end
+
+  # Set original price from dollars
+  def original_price_in_dollars=(dollars)
+    self.original_price = dollars_to_cents(dollars)
   end
 
   # Artist helpers

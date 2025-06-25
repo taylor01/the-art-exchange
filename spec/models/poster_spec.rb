@@ -98,8 +98,10 @@ RSpec.describe Poster, type: :model do
     end
 
     it 'returns formatted price' do
-      poster = create(:poster, original_price: 25.50, band: band, venue: venue)
-      expect(poster.formatted_price).to eq('$25.5')
+      poster = create(:poster, band: band, venue: venue)
+      poster.original_price_in_dollars = 25.50
+      poster.save!
+      expect(poster.formatted_price).to eq('$25.50')
     end
 
     it 'returns price unknown for missing price' do

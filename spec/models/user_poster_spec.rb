@@ -85,10 +85,10 @@ RSpec.describe UserPoster, type: :model do
 
   describe "#formatted_purchase_price" do
     context "with purchase price" do
-      let(:user_poster) { create(:user_poster, :owned, purchase_price: 45.50) }
+      let(:user_poster) { create(:user_poster, :owned, purchase_price: 4550) }
 
       it "formats the price with dollar sign" do
-        expect(user_poster.formatted_purchase_price).to eq("$45.5")
+        expect(user_poster.formatted_purchase_price).to eq("$45.50")
       end
     end
 
@@ -103,10 +103,10 @@ RSpec.describe UserPoster, type: :model do
 
   describe "#formatted_asking_price" do
     context "when for sale with asking price" do
-      let(:user_poster) { create(:user_poster, :for_sale, asking_price: 80.00) }
+      let(:user_poster) { create(:user_poster, :for_sale, asking_price: 8000) }
 
       it "formats the asking price with dollar sign" do
-        expect(user_poster.formatted_asking_price).to eq("$80.0")
+        expect(user_poster.formatted_asking_price).to eq("$80.00")
       end
     end
 

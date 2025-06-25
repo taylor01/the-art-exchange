@@ -1,4 +1,6 @@
 class UserPoster < ApplicationRecord
+  include PriceConversion
+
   belongs_to :user
   belongs_to :poster
 
@@ -37,11 +39,28 @@ class UserPoster < ApplicationRecord
 
   def formatted_purchase_price
     return "Not specified" unless purchase_price
-    "$#{purchase_price}"
+    format_cents_as_currency(purchase_price)
   end
 
   def formatted_asking_price
     return "Not for sale" unless for_sale? && asking_price
-    "$#{asking_price}"
+    format_cents_as_currency(asking_price)
+  end
+
+  # Form helper methods for dollar amounts
+  def purchase_price_in_dollars
+    cents_to_dollars(purchase_price)
+  end
+
+  def purchase_price_in_dollars=(dollars)
+    self.purchase_price = dollars_to_cents(dollars)
+  end
+
+  def asking_price_in_dollars
+    cents_to_dollars(asking_price)
+  end
+
+  def asking_price_in_dollars=(dollars)
+    self.asking_price = dollars_to_cents(dollars)
   end
 end
