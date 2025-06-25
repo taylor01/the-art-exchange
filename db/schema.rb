@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_24_192821) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_25_020622) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -74,8 +74,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_24_192821) do
     t.text "description"
     t.date "release_date"
     t.decimal "original_price", precision: 8, scale: 2
-    t.bigint "band_id", null: false
-    t.bigint "venue_id", null: false
+    t.bigint "band_id"
+    t.bigint "venue_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "edition_size"
@@ -118,6 +118,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_24_192821) do
     t.decimal "asking_price", precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "edition_type"
     t.index ["for_sale"], name: "index_user_posters_on_for_sale"
     t.index ["poster_id"], name: "index_user_posters_on_poster_id"
     t.index ["status"], name: "index_user_posters_on_status"

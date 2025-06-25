@@ -30,8 +30,12 @@
           <!-- Poster Info -->
           <div class="p-4">
             <h3 class="font-semibold text-stone-900 text-sm mb-1 line-clamp-2"><%= poster.name %></h3>
-            <p class="text-stone-600 text-xs mb-2"><%= poster.band.name %></p>
-            <p class="text-stone-500 text-xs mb-2"><%= poster.venue.name %></p>
+            <% if poster.band %>
+              <p class="text-stone-600 text-xs mb-2"><%= poster.band.name %></p>
+            <% end %>
+            <% if poster.venue %>
+              <p class="text-stone-500 text-xs mb-2"><%= poster.venue.name %></p>
+            <% end %>
             <div class="flex items-center justify-between">
               <span class="text-stone-500 text-xs"><%= poster.formatted_date %></span>
               <% if poster.has_price? %>
