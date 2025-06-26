@@ -57,6 +57,18 @@ export default class extends Controller {
     this.performSearch()
   }
 
+  // Handle sort dropdown changes
+  sortChanged(event) {
+    console.log('Sort changed to:', event.target.value)
+    // Reset pagination for new sort order
+    this.currentPage = 1
+    this.hasMoreResults = true
+    this.prefetchedResults = null
+    this.prefetchedPage = null
+    // Perform search with new sort order
+    this.performSearch(false) // false = replace results
+  }
+
   async performSearch(append = false, prefetch = false) {
     const formData = new FormData(this.formTarget)
     const searchParams = new URLSearchParams()

@@ -27,6 +27,39 @@ RSpec.describe "Poster Management", type: :system do
     end
   end
 
+  describe "Sort functionality", js: true do
+    let!(:old_poster) { create(:poster, release_date: Date.new(2020, 1, 1)) }
+    let!(:new_poster) { create(:poster, release_date: Date.new(2023, 1, 1)) }
+
+    it "automatically updates results when sort dropdown changes" do
+      visit posters_path
+
+      # Initially should show newest first (2023 poster first)
+      poster_cards = page.all("[data-testid='poster-card']")
+      expect(poster_cards.count).to be >= 2
+
+      # The newest poster (2023) should be first initially
+      first_poster_name = poster_cards.first.find('h3').text
+      expect(first_poster_name).to eq(new_poster.name)
+
+      # Change sort to oldest first
+      select 'Oldest First', from: 'sort'
+
+      # Wait for results to update automatically (no page refresh)
+      sleep 2
+
+      # Get the updated results
+      updated_poster_cards = page.all("[data-testid='poster-card']")
+      updated_first_poster_name = updated_poster_cards.first.find('h3').text
+
+      # Now the oldest poster (2020) should be first
+      expect(updated_first_poster_name).to eq(old_poster.name)
+
+      # Verify URL was updated with sort parameter
+      expect(current_url).to include('sort=oldest')
+    end
+  end
+
   describe "Collection and list management", js: true do
     before do
       sign_in(user)
