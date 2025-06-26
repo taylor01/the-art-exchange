@@ -14,10 +14,24 @@
   <% posters.each do |poster| %>
     <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden" data-testid="poster-card">
       <%= link_to poster_path(poster), class: "block" do %>
-        <!-- Poster Image -->
-        <div class="aspect-[3/4]">
+        <!-- Poster Image with Progressive Loading -->
+        <div class="aspect-[3/4] relative overflow-hidden">
           <% if poster.image.attached? %>
-            <%= image_tag poster.thumbnail_image_for_display, class: "w-full h-full object-cover" %>
+            <div class="progressive-image-container w-full h-full" 
+                 data-controller="progressive-image"
+                 data-progressive-image-placeholder-src-value="<%= url_for(poster.blur_placeholder_image_for_display) %>"
+                 data-progressive-image-main-src-value="<%= url_for(poster.grid_thumbnail_image_for_display) %>">
+              
+              <!-- Blurred placeholder (loads instantly) -->
+              <img data-progressive-image-target="placeholder" 
+                   class="progressive-placeholder absolute inset-0 w-full h-full object-cover" 
+                   alt="<%= poster.name %> placeholder" />
+              
+              <!-- Main image (loads progressively) -->
+              <img data-progressive-image-target="mainImage" 
+                   class="progressive-main-image absolute inset-0 w-full h-full object-cover loading" 
+                   alt="<%= poster.name %>" />
+            </div>
           <% else %>
             <div class="bg-gradient-to-br from-stone-200 to-stone-300 flex items-center justify-center h-full">
               <div class="text-center text-stone-500">

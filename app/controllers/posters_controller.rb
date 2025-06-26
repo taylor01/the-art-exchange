@@ -95,7 +95,8 @@ class PostersController < ApplicationController
           band: poster.band&.name,
           venue: poster.venue&.name,
           year: poster.year,
-          image_url: poster.image.attached? ? url_for(poster.thumbnail_image_for_display) : nil,
+          image_url: poster.image.attached? ? url_for(poster.grid_thumbnail_image_for_display) : nil,
+          placeholder_url: poster.image.attached? ? url_for(poster.blur_placeholder_image_for_display) : nil,
           url: poster_path(poster)
         }
       end,
