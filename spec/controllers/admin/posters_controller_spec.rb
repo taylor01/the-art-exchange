@@ -165,6 +165,7 @@ RSpec.describe Admin::PostersController, type: :controller do
 
         it "redirects to the poster" do
           patch :update, params: { id: poster.id, poster: new_attributes }
+          poster.reload # Reload to get the updated slug
           expect(response).to redirect_to(admin_poster_path(poster))
         end
 

@@ -25,27 +25,27 @@ RSpec.describe PostersController, type: :controller do
   describe "GET #show" do
     context "when user is not signed in" do
       it "returns http success" do
-        get :show, params: { id: poster.id }
+        get :show, params: { id_or_slug: poster.id }
         expect(response).to have_http_status(:success)
       end
 
       it "assigns @poster" do
-        get :show, params: { id: poster.id }
+        get :show, params: { id_or_slug: poster.id }
         expect(assigns(:poster)).to eq(poster)
       end
 
       it "assigns empty @user_posters" do
-        get :show, params: { id: poster.id }
+        get :show, params: { id_or_slug: poster.id }
         expect(assigns(:user_posters)).to eq([])
       end
 
       it "assigns @for_sale_copies" do
-        get :show, params: { id: poster.id }
+        get :show, params: { id_or_slug: poster.id }
         expect(assigns(:for_sale_copies)).to be_an(ActiveRecord::Relation)
       end
 
       it "renders the show template" do
-        get :show, params: { id: poster.id }
+        get :show, params: { id_or_slug: poster.id }
         expect(response).to render_template(:show)
       end
     end
@@ -60,7 +60,7 @@ RSpec.describe PostersController, type: :controller do
       end
 
       it "assigns user's posters for this poster" do
-        get :show, params: { id: poster.id }
+        get :show, params: { id_or_slug: poster.id }
         expect(assigns(:user_posters)).to include(user_poster)
       end
 
@@ -68,7 +68,7 @@ RSpec.describe PostersController, type: :controller do
         other_user = create(:user)
         for_sale_poster = create(:user_poster, :for_sale, user: other_user, poster: poster)
 
-        get :show, params: { id: poster.id }
+        get :show, params: { id_or_slug: poster.id }
         expect(assigns(:for_sale_copies)).to include(for_sale_poster)
       end
     end
@@ -76,7 +76,59 @@ RSpec.describe PostersController, type: :controller do
     context "when poster doesn't exist" do
       it "raises ActiveRecord::RecordNotFound" do
         expect {
-          get :show, params: { id: 999999 }
+          get :show, params: { id_or_slug: 999999 }
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context "slug and ID parameter handling" do
+      it "finds poster by slug" do
+        get :show, params: { id_or_slug: poster.slug }
+        expect(assigns(:poster)).to eq(poster)
+        expect(response).to have_http_status(:success)
+      end
+
+      it "finds poster by ID when slug doesn't exist" do
+        get :show, params: { id_or_slug: poster.id.to_s }
+        expect(assigns(:poster)).to eq(poster)
+        expect(response).to have_http_status(:success)
+      end
+
+      it "raises error for non-existent slug or ID" do
+        expect {
+          get :show, params: { id_or_slug: 'non-existent-slug' }
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context "slug redirects" do
+      let(:original_slug) { poster.slug }
+
+      before do
+        # Change poster to create a redirect
+        poster.update!(name: 'Updated Poster Name')
+        poster.reload
+      end
+
+      it "redirects old slug to current slug with 301 status" do
+        get :show, params: { id_or_slug: original_slug }
+        expect(response).to redirect_to(poster_path(poster.to_param))
+        expect(response).to have_http_status(:moved_permanently)
+      end
+
+      it "serves current slug normally without redirect" do
+        get :show, params: { id_or_slug: poster.slug }
+        expect(assigns(:poster)).to eq(poster)
+        expect(response).to have_http_status(:success)
+        expect(response).not_to be_redirect
+      end
+
+      it "handles missing old slug gracefully" do
+        # Delete the redirect to simulate edge case
+        PosterSlugRedirect.where(old_slug: original_slug).delete_all
+
+        expect {
+          get :show, params: { id_or_slug: original_slug }
         }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

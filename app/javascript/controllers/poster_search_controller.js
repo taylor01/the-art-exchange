@@ -39,7 +39,7 @@ export default class extends Controller {
     // Debounce the search with 300ms delay
     this.debounceTimeout = setTimeout(() => {
       this.resetPagination()
-      this.performSearch(false) // false = replace results
+      this.performSearch(false, false, true) // false = replace results, false = not prefetch, true = new search
     }, 300)
   }
 
@@ -56,12 +56,12 @@ export default class extends Controller {
     
     this.currentPage += 1
     this.isLoadingMore = true
-    this.performSearch(true) // true = append results
+    this.performSearch(true, false, false) // true = append results, false = not prefetch, false = not new search
   }
 
   search(event) {
     event.preventDefault()
-    this.performSearch()
+    this.performSearch(false, false, true) // false = replace results, false = not prefetch, true = new search
   }
 
   // Handle sort dropdown changes
@@ -70,10 +70,10 @@ export default class extends Controller {
     // Reset pagination for new sort order
     this.resetPagination()
     // Perform search with new sort order
-    this.performSearch(false) // false = replace results
+    this.performSearch(false, false, true) // false = replace results, false = not prefetch, true = new search
   }
 
-  async performSearch(append = false, prefetch = false) {
+  async performSearch(append = false, prefetch = false, isNewSearch = false) {
     const formData = new FormData(this.formTarget)
     const searchParams = new URLSearchParams()
 
@@ -127,7 +127,7 @@ export default class extends Controller {
         const data = await response.json()
         this.updateResults(data, append, prefetch)
         if (!prefetch) {
-          this.updateURL(searchParams)
+          this.updateURL(searchParams, isNewSearch)
         }
       } else {
         console.error('Search request failed:', response.status)
@@ -271,9 +271,16 @@ export default class extends Controller {
     `
   }
 
-  updateURL(searchParams) {
+  updateURL(searchParams, isNewSearch = false) {
     const newUrl = `${window.location.pathname}?${searchParams.toString()}`
-    window.history.pushState({}, '', newUrl)
+    
+    // Use pushState for new searches (back button should work)
+    // Use replaceState for pagination (avoid cluttering browser history)
+    if (isNewSearch) {
+      window.history.pushState({}, '', newUrl)
+    } else {
+      window.history.replaceState({}, '', newUrl)
+    }
   }
 
   showLoading() {
@@ -412,7 +419,7 @@ export default class extends Controller {
 
   async prefetchNextPage() {
     try {
-      await this.performSearch(false, true) // prefetch next page
+      await this.performSearch(false, true, false) // prefetch next page, not new search
     } catch (error) {
       console.log('Prefetch failed:', error)
     }

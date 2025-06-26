@@ -80,6 +80,21 @@ RSpec.describe Poster, type: :model do
       poster = build(:poster, edition_size: 500, band: band, venue: venue)
       expect(poster).to be_valid
     end
+
+    it 'validates presence of slug' do
+      poster = build(:poster, band: band, venue: venue)
+      poster.slug = nil
+      poster.define_singleton_method(:generate_slug) { } # Skip slug generation
+      expect(poster).not_to be_valid
+      expect(poster.errors[:slug]).to include("can't be blank")
+    end
+
+    it 'validates uniqueness of slug' do
+      existing_poster = create(:poster, band: band, venue: venue)
+      duplicate_poster = build(:poster, slug: existing_poster.slug, band: band, venue: venue)
+      expect(duplicate_poster).not_to be_valid
+      expect(duplicate_poster.errors[:slug]).to include("has already been taken")
+    end
   end
 
   describe 'callbacks' do
@@ -87,6 +102,16 @@ RSpec.describe Poster, type: :model do
       poster = build(:poster, name: '  Test Poster  ', band: band, venue: venue)
       poster.valid?
       expect(poster.name).to eq('Test Poster')
+    end
+
+    it 'generates slug before validation' do
+      poster = build(:poster, name: 'Test Poster', band: band, venue: venue, release_date: Date.new(2023, 6, 15))
+      poster.valid?
+      expect(poster.slug).to be_present
+      expect(poster.slug).to include(band.name.parameterize)
+      expect(poster.slug).to include(venue.name.parameterize)
+      expect(poster.slug).to include('test-poster')
+      expect(poster.slug).to include('2023')
     end
   end
 
@@ -158,6 +183,307 @@ RSpec.describe Poster, type: :model do
 
     it 'defines search scope' do
       expect(Poster).to respond_to(:search_by_name_and_description)
+    end
+  end
+
+  describe 'slug functionality' do
+    describe '#to_param' do
+      it 'returns slug when present' do
+        poster = create(:poster, band: band, venue: venue)
+        expect(poster.to_param).to eq(poster.slug)
+      end
+
+      it 'returns ID when slug is blank' do
+        poster = create(:poster, band: band, venue: venue)
+        poster.update_column(:slug, nil)
+        expect(poster.to_param).to eq(poster.id.to_s)
+      end
+    end
+
+    describe '.find_by_slug_or_id' do
+      let!(:poster) { create(:poster, band: band, venue: venue) }
+
+      it 'finds poster by slug' do
+        found_poster = Poster.find_by_slug_or_id(poster.slug)
+        expect(found_poster).to eq(poster)
+      end
+
+      it 'finds poster by ID when slug lookup fails' do
+        found_poster = Poster.find_by_slug_or_id(poster.id.to_s)
+        expect(found_poster).to eq(poster)
+      end
+
+      it 'raises error when neither slug nor ID exists' do
+        expect { Poster.find_by_slug_or_id('nonexistent') }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    describe 'slug generation' do
+      it 'generates slug with band, venue, name, and year' do
+        poster = create(:poster,
+          name: 'Test Poster',
+          band: band,
+          venue: venue,
+          release_date: Date.new(2023, 6, 15)
+        )
+        expected_parts = [ band.name.parameterize, venue.name.parameterize, 'test-poster', '2023' ]
+        expect(poster.slug).to eq(expected_parts.join('-'))
+      end
+
+      it 'generates slug without band when not present' do
+        poster = create(:poster,
+          name: 'Test Poster',
+          band: nil,
+          venue: venue,
+          release_date: Date.new(2023, 6, 15)
+        )
+        expected_parts = [ venue.name.parameterize, 'test-poster', '2023' ]
+        expect(poster.slug).to eq(expected_parts.join('-'))
+      end
+
+      it 'generates slug without venue when not present' do
+        poster = create(:poster,
+          name: 'Test Poster',
+          band: band,
+          venue: nil,
+          release_date: Date.new(2023, 6, 15)
+        )
+        expected_parts = [ band.name.parameterize, 'test-poster', '2023' ]
+        expect(poster.slug).to eq(expected_parts.join('-'))
+      end
+
+      it 'generates slug with proper components including year' do
+        poster = create(:poster,
+          name: 'Test Poster',
+          band: band,
+          venue: venue,
+          release_date: Date.new(2023, 6, 15)
+        )
+        # Test that slug includes year and main components
+        expect(poster.slug).to include('2023')
+        expect(poster.slug).to include('test-poster')
+        # Test that slug includes band and venue components (may have IDs appended)
+        expect(poster.slug).to include(band.name.parameterize.split('_').first)
+        expect(poster.slug).to include(venue.name.parameterize.split('_').first)
+      end
+
+      it 'handles special characters in names' do
+        special_band = create(:band, name: 'The B@nd!')
+        special_venue = create(:venue, name: 'Venue & Place')
+        poster = create(:poster,
+          name: 'Special Poster',
+          band: special_band,
+          venue: special_venue,
+          release_date: Date.new(2023, 6, 15)
+        )
+        # Test that parameterize handles special characters appropriately
+        expect(poster.slug).to include('the-b-nd')
+        expect(poster.slug).to include('venue-place')
+        expect(poster.slug).to include('special-poster')
+        expect(poster.slug).to include('2023')
+      end
+    end
+
+    describe 'unique slug generation' do
+      it 'adds numeric suffix for duplicate slugs' do
+        first_poster = create(:poster, name: 'Test Poster', band: band, venue: venue, release_date: Date.new(2023, 6, 15))
+        second_poster = create(:poster, name: 'Test Poster', band: band, venue: venue, release_date: Date.new(2023, 6, 15))
+
+        expect(first_poster.slug).not_to include('-1')
+        expect(second_poster.slug).to eq("#{first_poster.slug}-1")
+      end
+
+      it 'continues incrementing for multiple duplicates' do
+        base_slug = nil
+        3.times do |i|
+          poster = create(:poster, name: 'Test Poster', band: band, venue: venue, release_date: Date.new(2023, 6, 15))
+          if i == 0
+            base_slug = poster.slug
+            expect(poster.slug).not_to include('-1')
+          else
+            expect(poster.slug).to eq("#{base_slug}-#{i}")
+          end
+        end
+      end
+    end
+
+    describe 'slug regeneration' do
+      let!(:poster) { create(:poster, name: 'Original Name', band: band, venue: venue, release_date: Date.new(2023, 6, 15)) }
+
+      it 'slug contains expected components' do
+        expect(poster.slug).to include(band.name.parameterize)
+        expect(poster.slug).to include(venue.name.parameterize)
+        expect(poster.slug).to include('original-name')
+        expect(poster.slug).to include('2023')
+      end
+
+      it 'regenerates slug when name changes' do
+        original_slug = poster.slug
+        poster.update!(name: 'New Name')
+        poster.reload
+        expect(poster.slug).not_to eq(original_slug)
+        expect(poster.slug).to include('new-name')
+        expect(poster.slug).not_to include('original-name')
+      end
+
+      it 'regenerates slug when band changes' do
+        original_slug = poster.slug
+        new_band = create(:band, name: 'New Band')
+        poster.update!(band: new_band)
+        poster.reload
+        expect(poster.slug).not_to eq(original_slug)
+        expect(poster.slug).to include('new-band')
+      end
+
+      it 'regenerates slug when venue changes' do
+        original_slug = poster.slug
+        new_venue = create(:venue, name: 'New Venue')
+        poster.update!(venue: new_venue)
+        poster.reload
+        expect(poster.slug).not_to eq(original_slug)
+        expect(poster.slug).to include('new-venue')
+      end
+
+      it 'regenerates slug when release date year changes' do
+        original_slug = poster.slug
+        poster.update!(release_date: Date.new(2024, 6, 15))
+        poster.reload
+        expect(poster.slug).not_to eq(original_slug)
+        expect(poster.slug).to include('2024')
+        expect(poster.slug).not_to include('2023')
+      end
+
+      it 'does not regenerate slug for non-slug-affecting changes' do
+        original_slug = poster.slug
+        poster.update!(description: 'New description')
+        poster.reload
+        expect(poster.slug).to eq(original_slug)
+      end
+    end
+  end
+
+  describe 'slug redirect functionality' do
+    let!(:poster) { create(:poster, name: 'Original Name', band: band, venue: venue, release_date: Date.new(2023, 6, 15)) }
+    let(:original_slug) { poster.slug }
+
+    describe 'redirect creation on slug change' do
+      it 'creates redirect when slug changes due to name update' do
+        expect {
+          poster.update!(name: 'New Name')
+        }.to change { PosterSlugRedirect.count }.by(1)
+
+        redirect = PosterSlugRedirect.last
+        expect(redirect.old_slug).to eq(original_slug)
+        expect(redirect.poster).to eq(poster)
+      end
+
+      it 'creates redirect when slug changes due to band update' do
+        new_band = create(:band, name: 'New Band')
+        expect {
+          poster.update!(band: new_band)
+        }.to change { PosterSlugRedirect.count }.by(1)
+
+        redirect = PosterSlugRedirect.last
+        expect(redirect.old_slug).to eq(original_slug)
+      end
+
+      it 'does not create redirect for non-slug-affecting changes' do
+        expect {
+          poster.update!(description: 'New description')
+        }.not_to change { PosterSlugRedirect.count }
+      end
+
+      it 'does not create duplicate redirects' do
+        # First update
+        poster.update!(name: 'New Name')
+        expect(PosterSlugRedirect.count).to eq(1)
+
+        # Second update back to original name (which changes slug again)
+        poster.update!(name: 'Original Name')
+
+        # Should have 2 redirects total, not duplicate of the first
+        expect(PosterSlugRedirect.count).to eq(2)
+        expect(PosterSlugRedirect.pluck(:old_slug)).not_to include(original_slug)
+      end
+    end
+
+    describe '.find_by_slug_or_id with redirects' do
+      before do
+        poster.update!(name: 'Updated Name') # This creates a redirect
+        poster.reload
+      end
+
+      it 'finds poster by current slug' do
+        found_poster = Poster.find_by_slug_or_id(poster.slug)
+        expect(found_poster).to eq(poster)
+      end
+
+      it 'finds poster by old slug via redirect' do
+        found_poster = Poster.find_by_slug_or_id(original_slug)
+        expect(found_poster).to eq(poster)
+      end
+
+      it 'finds poster by ID' do
+        found_poster = Poster.find_by_slug_or_id(poster.id.to_s)
+        expect(found_poster).to eq(poster)
+      end
+
+      it 'raises error for non-existent slug or ID' do
+        expect {
+          Poster.find_by_slug_or_id('completely-non-existent')
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    describe '.redirect_needed?' do
+      before do
+        poster.update!(name: 'Updated Name')
+        poster.reload
+      end
+
+      it 'returns false for current slug' do
+        expect(Poster.redirect_needed?(poster.slug)).to be false
+      end
+
+      it 'returns true for old slug' do
+        expect(Poster.redirect_needed?(original_slug)).to be true
+      end
+
+      it 'returns false for non-existent slug' do
+        expect(Poster.redirect_needed?('non-existent')).to be false
+      end
+    end
+
+    describe '.find_for_redirect' do
+      before do
+        poster.update!(name: 'Updated Name')
+        poster.reload
+      end
+
+      it 'returns poster for old slug' do
+        found_poster = Poster.find_for_redirect(original_slug)
+        expect(found_poster).to eq(poster)
+      end
+
+      it 'returns nil for current slug' do
+        found_poster = Poster.find_for_redirect(poster.slug)
+        expect(found_poster).to be_nil
+      end
+
+      it 'returns nil for non-existent slug' do
+        found_poster = Poster.find_for_redirect('non-existent')
+        expect(found_poster).to be_nil
+      end
+    end
+
+    describe 'redirect cleanup on poster deletion' do
+      it 'deletes associated redirects when poster is deleted' do
+        poster.update!(name: 'Updated Name')
+        expect(PosterSlugRedirect.count).to eq(1)
+
+        poster.destroy
+        expect(PosterSlugRedirect.count).to eq(0)
+      end
     end
   end
 

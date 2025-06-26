@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_25_225333) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_26_230243) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -70,6 +70,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_25_225333) do
     t.index ["name"], name: "index_bands_on_name", unique: true
   end
 
+  create_table "poster_slug_redirects", force: :cascade do |t|
+    t.string "old_slug"
+    t.bigint "poster_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["old_slug"], name: "index_poster_slug_redirects_on_old_slug", unique: true
+    t.index ["poster_id"], name: "index_poster_slug_redirects_on_poster_id"
+  end
+
   create_table "posters", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
@@ -82,6 +91,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_25_225333) do
     t.integer "edition_size"
     t.json "visual_metadata"
     t.string "metadata_version"
+    t.string "slug"
     t.index "EXTRACT(year FROM release_date)", name: "index_posters_on_year"
     t.index ["band_id", "release_date"], name: "index_posters_on_band_id_and_release_date"
     t.index ["band_id", "venue_id"], name: "index_posters_on_band_id_and_venue_id"
@@ -91,6 +101,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_25_225333) do
     t.index ["name"], name: "index_posters_on_name_gin", opclass: :gin_trgm_ops, using: :gin
     t.index ["release_date", "band_id"], name: "index_posters_on_release_date_and_band_id"
     t.index ["release_date"], name: "index_posters_on_release_date"
+    t.index ["slug"], name: "index_posters_on_slug", unique: true
     t.index ["venue_id", "release_date"], name: "index_posters_on_venue_id_and_release_date"
     t.index ["venue_id"], name: "index_posters_on_venue_id"
   end
@@ -232,6 +243,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_25_225333) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "artists_posters", "artists"
   add_foreign_key "artists_posters", "posters"
+  add_foreign_key "poster_slug_redirects", "posters"
   add_foreign_key "posters", "bands"
   add_foreign_key "posters", "venues"
   add_foreign_key "posters_series", "posters"
