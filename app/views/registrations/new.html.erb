@@ -13,7 +13,7 @@
           <%= form.label :first_name, "First Name", class: "block text-sm font-medium text-stone-700 mb-1" %>
           <%= form.text_field :first_name,
               required: true,
-              class: "block w-full px-3 py-2 border border-stone-300 rounded-lg placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors duration-200",
+              class: "block w-full px-3 py-2 border border-stone-300 rounded-lg placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 sm:text-sm transition-colors duration-200",
               placeholder: "First name" %>
         </div>
 
@@ -21,7 +21,7 @@
           <%= form.label :last_name, "Last Name", class: "block text-sm font-medium text-stone-700 mb-1" %>
           <%= form.text_field :last_name,
               required: true,
-              class: "block w-full px-3 py-2 border border-stone-300 rounded-lg placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors duration-200",
+              class: "block w-full px-3 py-2 border border-stone-300 rounded-lg placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 sm:text-sm transition-colors duration-200",
               placeholder: "Last name" %>
         </div>
       </div>
@@ -30,14 +30,14 @@
         <%= form.label :email, "Email Address", class: "block text-sm font-medium text-stone-700 mb-1" %>
         <%= form.email_field :email,
             required: true,
-            class: "block w-full px-3 py-2 border border-stone-300 rounded-lg placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors duration-200",
+            class: "block w-full px-3 py-2 border border-stone-300 rounded-lg placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 sm:text-sm transition-colors duration-200",
             placeholder: "Enter your email address" %>
       </div>
 
       <div>
         <%= form.label :password, "Password (Optional)", class: "block text-sm font-medium text-stone-700 mb-1" %>
         <%= form.password_field :password,
-            class: "block w-full px-3 py-2 border border-stone-300 rounded-lg placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 sm:text-sm transition-colors duration-200",
+            class: "block w-full px-3 py-2 border border-stone-300 rounded-lg placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 sm:text-sm transition-colors duration-200",
             placeholder: "Create a password (optional)" %>
         <p class="mt-1 text-sm text-stone-500">
           You can always sign in using email verification codes. Adding a password gives you an additional sign-in option.
@@ -45,13 +45,13 @@
       </div>
 
       <div>
-        <%= form.submit "Create Account", class: "bg-orange-500 text-white hover:bg-orange-600 focus:ring-orange-500 shadow-sm hover:shadow-md inline-flex items-center justify-center px-6 py-3 text-base border border-transparent font-medium rounded-lg transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 w-full" %>
+        <%= form.submit "Create Account", class: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 shadow-sm hover:shadow-md inline-flex items-center justify-center px-6 py-3 text-base border border-transparent font-medium rounded-lg transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 w-full" %>
       </div>
 
       <div class="text-center pt-4 border-t border-stone-200">
         <span class="text-sm text-stone-600">Already have an account? </span>
         <%= link_to "Sign in", new_session_path, 
-            class: "text-sm font-medium text-orange-600 hover:text-orange-700" %>
+            class: "text-sm font-medium text-red-600 hover:text-red-700" %>
       </div>
     <% end %>
 
@@ -95,8 +95,8 @@
 
     <div class="mt-6 text-xs text-stone-500 text-center leading-relaxed">
       By creating an account, you agree to our 
-      <a href="#" class="text-orange-600 hover:text-orange-700">Terms of Service</a> and 
-      <a href="#" class="text-orange-600 hover:text-orange-700">Privacy Policy</a>.
+      <a href="#" class="text-red-600 hover:text-red-700">Terms of Service</a> and 
+      <a href="#" class="text-red-600 hover:text-red-700">Privacy Policy</a>.
     </div>
   </div>
 <% end %>
