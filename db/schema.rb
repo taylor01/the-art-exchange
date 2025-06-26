@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_25_225333) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_26_222816) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -82,6 +82,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_25_225333) do
     t.integer "edition_size"
     t.json "visual_metadata"
     t.string "metadata_version"
+    t.string "slug"
     t.index "EXTRACT(year FROM release_date)", name: "index_posters_on_year"
     t.index ["band_id", "release_date"], name: "index_posters_on_band_id_and_release_date"
     t.index ["band_id", "venue_id"], name: "index_posters_on_band_id_and_venue_id"
@@ -91,6 +92,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_25_225333) do
     t.index ["name"], name: "index_posters_on_name_gin", opclass: :gin_trgm_ops, using: :gin
     t.index ["release_date", "band_id"], name: "index_posters_on_release_date_and_band_id"
     t.index ["release_date"], name: "index_posters_on_release_date"
+    t.index ["slug"], name: "index_posters_on_slug", unique: true
     t.index ["venue_id", "release_date"], name: "index_posters_on_venue_id_and_release_date"
     t.index ["venue_id"], name: "index_posters_on_venue_id"
   end

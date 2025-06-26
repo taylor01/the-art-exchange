@@ -220,43 +220,43 @@ RSpec.describe Poster, type: :model do
 
     describe 'slug generation' do
       it 'generates slug with band, venue, name, and year' do
-        poster = create(:poster, 
-          name: 'Test Poster', 
-          band: band, 
-          venue: venue, 
+        poster = create(:poster,
+          name: 'Test Poster',
+          band: band,
+          venue: venue,
           release_date: Date.new(2023, 6, 15)
         )
-        expected_parts = [band.name.parameterize, venue.name.parameterize, 'test-poster', '2023']
+        expected_parts = [ band.name.parameterize, venue.name.parameterize, 'test-poster', '2023' ]
         expect(poster.slug).to eq(expected_parts.join('-'))
       end
 
       it 'generates slug without band when not present' do
-        poster = create(:poster, 
-          name: 'Test Poster', 
-          band: nil, 
-          venue: venue, 
+        poster = create(:poster,
+          name: 'Test Poster',
+          band: nil,
+          venue: venue,
           release_date: Date.new(2023, 6, 15)
         )
-        expected_parts = [venue.name.parameterize, 'test-poster', '2023']
+        expected_parts = [ venue.name.parameterize, 'test-poster', '2023' ]
         expect(poster.slug).to eq(expected_parts.join('-'))
       end
 
       it 'generates slug without venue when not present' do
-        poster = create(:poster, 
-          name: 'Test Poster', 
-          band: band, 
-          venue: nil, 
+        poster = create(:poster,
+          name: 'Test Poster',
+          band: band,
+          venue: nil,
           release_date: Date.new(2023, 6, 15)
         )
-        expected_parts = [band.name.parameterize, 'test-poster', '2023']
+        expected_parts = [ band.name.parameterize, 'test-poster', '2023' ]
         expect(poster.slug).to eq(expected_parts.join('-'))
       end
 
       it 'generates slug with proper components including year' do
-        poster = create(:poster, 
-          name: 'Test Poster', 
-          band: band, 
-          venue: venue, 
+        poster = create(:poster,
+          name: 'Test Poster',
+          band: band,
+          venue: venue,
           release_date: Date.new(2023, 6, 15)
         )
         # Test that slug includes year and main components
@@ -270,10 +270,10 @@ RSpec.describe Poster, type: :model do
       it 'handles special characters in names' do
         special_band = create(:band, name: 'The B@nd!')
         special_venue = create(:venue, name: 'Venue & Place')
-        poster = create(:poster, 
-          name: 'Special Poster', 
-          band: special_band, 
-          venue: special_venue, 
+        poster = create(:poster,
+          name: 'Special Poster',
+          band: special_band,
+          venue: special_venue,
           release_date: Date.new(2023, 6, 15)
         )
         # Test that parameterize handles special characters appropriately
@@ -288,7 +288,7 @@ RSpec.describe Poster, type: :model do
       it 'adds numeric suffix for duplicate slugs' do
         first_poster = create(:poster, name: 'Test Poster', band: band, venue: venue, release_date: Date.new(2023, 6, 15))
         second_poster = create(:poster, name: 'Test Poster', band: band, venue: venue, release_date: Date.new(2023, 6, 15))
-        
+
         expect(first_poster.slug).not_to include('-1')
         expect(second_poster.slug).to eq("#{first_poster.slug}-1")
       end

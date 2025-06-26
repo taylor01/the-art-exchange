@@ -23,22 +23,22 @@ module ApplicationHelper
     description << poster.name
     description << "by #{poster.artists.pluck(:name).join(', ')}" if poster.artists.any?
     description << poster.event_summary if poster.event_summary.present?
-    description << "Original price: #{poster.formatted_price}" if poster.formatted_price.present?
+    description << "Original price: #{poster.formatted_price}" if poster.formatted_price.present? && poster.formatted_price != "Price Unknown"
     description << poster.description.truncate(100) if poster.description.present?
-    
+
     description.join(" - ")
   end
 
   def poster_meta_image_url(poster)
     return nil unless poster.image.attached?
-    
+
     # Use the detail image for social media sharing
     url_for(poster.detail_image_for_display)
   end
 
   def default_meta_image_url
     # Return a default image URL for pages without specific images
-    asset_url('logo/the_art_exchange.svg')
+    asset_url("logo/the_art_exchange.svg")
   end
 
   def site_meta_title

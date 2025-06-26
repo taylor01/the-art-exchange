@@ -53,7 +53,7 @@ Rails.application.routes.draw do
 
   # Legacy URL redirects - redirect old /artworks URLs to new /posters URLs
   get "artworks", to: redirect("/posters")
-  get "artworks/:id", to: redirect { |params, req| 
+  get "artworks/:id", to: redirect { |params, req|
     begin
       poster = Poster.find(params[:id])
       "/posters/#{poster.to_param}"

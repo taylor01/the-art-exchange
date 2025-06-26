@@ -5,7 +5,7 @@ RSpec.describe ApplicationHelper, type: :helper do
   let(:venue) { create(:venue, name: 'Test Venue', city: 'Test City') }
   let(:artist) { create(:artist, name: 'Test Artist') }
   let(:poster) { create(:poster, name: 'Test Poster', band: band, venue: venue, original_price: 2500, description: 'A beautiful test poster for the concert') }
-  
+
   before do
     poster.artists << artist
   end
@@ -21,7 +21,7 @@ RSpec.describe ApplicationHelper, type: :helper do
     describe '#poster_meta_description' do
       it 'generates comprehensive meta description' do
         description = helper.poster_meta_description(poster)
-        
+
         expect(description).to include(poster.name)
         expect(description).to include("by #{artist.name}")
         expect(description).to include(poster.event_summary)
@@ -32,7 +32,7 @@ RSpec.describe ApplicationHelper, type: :helper do
       it 'handles poster without artists' do
         poster_without_artists = create(:poster, name: 'Solo Poster', band: band, venue: venue)
         description = helper.poster_meta_description(poster_without_artists)
-        
+
         expect(description).to include(poster_without_artists.name)
         expect(description).not_to include('by')
       end
@@ -40,7 +40,7 @@ RSpec.describe ApplicationHelper, type: :helper do
       it 'handles poster without description' do
         poster.update!(description: nil)
         description = helper.poster_meta_description(poster)
-        
+
         expect(description).to include(poster.name)
         expect(description).not_to end_with(' - ')
       end
@@ -48,7 +48,7 @@ RSpec.describe ApplicationHelper, type: :helper do
       it 'handles poster without price' do
         poster.update!(original_price: nil)
         description = helper.poster_meta_description(poster)
-        
+
         expect(description).to include(poster.name)
         expect(description).not_to include('$')
       end
@@ -67,7 +67,7 @@ RSpec.describe ApplicationHelper, type: :helper do
         it 'returns URL for detail image variant' do
           # Skip this test in test environment where URL generation may not work
           skip "URL generation not available in test environment" unless Rails.env.development?
-          
+
           image_url = helper.poster_meta_image_url(poster)
           expect(image_url).to be_present
           expect(image_url).to include('test_poster.jpg')

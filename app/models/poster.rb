@@ -360,7 +360,7 @@ class Poster < ApplicationRecord
 
   def generate_slug
     return if slug.present? && !slug_needs_regeneration?
-    
+
     base_slug = build_base_slug
     self.slug = ensure_unique_slug(base_slug)
   end
@@ -368,28 +368,28 @@ class Poster < ApplicationRecord
   def slug_needs_regeneration?
     # Regenerate if core data has changed
     return false unless persisted?
-    
+
     old_base_slug = build_base_slug_from_original_attributes
     current_base_slug = build_base_slug
-    
+
     old_base_slug != current_base_slug
   end
 
   def build_base_slug
     parts = []
-    
+
     # Add band name if present
     parts << band&.name&.parameterize
-    
-    # Add venue name if present  
+
+    # Add venue name if present
     parts << venue&.name&.parameterize
-    
+
     # Add poster name
     parts << name&.parameterize
-    
+
     # Add year
     parts << year&.to_s if year
-    
+
     parts.compact.join("-")
   end
 
@@ -399,27 +399,27 @@ class Poster < ApplicationRecord
     old_venue_name = changes["venue_id"] ? Venue.find_by(id: changes["venue_id"][0])&.name : venue&.name
     old_name = changes["name"] ? changes["name"][0] : name
     old_date = changes["release_date"] ? changes["release_date"][0] : release_date
-    
+
     parts = []
     parts << old_band_name&.parameterize
     parts << old_venue_name&.parameterize
     parts << old_name&.parameterize
     parts << old_date&.year&.to_s if old_date
-    
+
     parts.compact.join("-")
   end
 
   def ensure_unique_slug(base_slug)
     return base_slug if base_slug.blank?
-    
+
     candidate_slug = base_slug
     counter = 1
-    
+
     while slug_exists?(candidate_slug)
       candidate_slug = "#{base_slug}-#{counter}"
       counter += 1
     end
-    
+
     candidate_slug
   end
 
