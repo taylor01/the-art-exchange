@@ -61,47 +61,57 @@ class Poster < ApplicationRecord
   # Image attachment - one official image per poster/variant
   has_one_attached :image
 
-  # Image variant helpers with fallback to original image
-  def thumbnail_variant
-    return nil unless image.attached?
+  # Image variant helpers with safe fallback to original image
+  def thumbnail_image_for_display
+    return image unless image.attached?
 
-    # Try to create variant, fall back to original if variant processing fails
-    begin
+    # Check if variant processing is available
+    if self.class.variant_processing_available?
       image.variant(resize_to_fill: [ 400, 600 ])
-    rescue => e
-      Rails.logger.warn "Variant processing not available for poster #{id}: #{e.message}"
+    else
       image
     end
   end
 
-  def small_thumbnail_variant
-    return nil unless image.attached?
+  def small_thumbnail_image_for_display
+    return image unless image.attached?
 
-    # Try to create variant, fall back to original if variant processing fails
-    begin
+    # Check if variant processing is available
+    if self.class.variant_processing_available?
       image.variant(resize_to_fill: [ 100, 125 ])
-    rescue => e
-      Rails.logger.warn "Variant processing not available for poster #{id}: #{e.message}"
+    else
       image
     end
   end
 
   def thumbnail_url
     return nil unless image.attached?
-    Rails.application.routes.url_helpers.url_for(thumbnail_variant)
+    Rails.application.routes.url_helpers.url_for(thumbnail_image_for_display)
   rescue => e
     Rails.logger.warn "Failed to generate thumbnail URL for poster #{id}: #{e.message}"
-    # Fallback to original image URL
     Rails.application.routes.url_helpers.url_for(image)
   end
 
   def small_thumbnail_url
     return nil unless image.attached?
-    Rails.application.routes.url_helpers.url_for(small_thumbnail_variant)
+    Rails.application.routes.url_helpers.url_for(small_thumbnail_image_for_display)
   rescue => e
     Rails.logger.warn "Failed to generate small thumbnail URL for poster #{id}: #{e.message}"
-    # Fallback to original image URL
     Rails.application.routes.url_helpers.url_for(image)
+  end
+
+  # Class method to check if variant processing is available
+  def self.variant_processing_available?
+    return @variant_processing_available if defined?(@variant_processing_available)
+
+    @variant_processing_available = begin
+      # Try to load the image processing library
+      require 'vips'
+      true
+    rescue LoadError
+      Rails.logger.warn "Variant processing unavailable: libvips not installed"
+      false
+    end
   end
 
   # Include search functionality

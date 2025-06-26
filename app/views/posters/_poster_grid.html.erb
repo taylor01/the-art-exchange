@@ -17,7 +17,7 @@
         <!-- Poster Image -->
         <div class="aspect-[3/4]">
           <% if poster.image.attached? %>
-            <%= image_tag poster.thumbnail_variant, class: "w-full h-full object-cover" %>
+            <%= image_tag poster.thumbnail_image_for_display, class: "w-full h-full object-cover" %>
           <% else %>
             <div class="bg-gradient-to-br from-stone-200 to-stone-300 flex items-center justify-center h-full">
               <div class="text-center text-stone-500">
