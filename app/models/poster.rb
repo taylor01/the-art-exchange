@@ -61,6 +61,49 @@ class Poster < ApplicationRecord
   # Image attachment - one official image per poster/variant
   has_one_attached :image
 
+  # Image variant helpers with fallback to original image
+  def thumbnail_variant
+    return nil unless image.attached?
+
+    # Try to create variant, fall back to original if variant processing fails
+    begin
+      image.variant(resize_to_fill: [ 400, 600 ])
+    rescue => e
+      Rails.logger.warn "Variant processing not available for poster #{id}: #{e.message}"
+      image
+    end
+  end
+
+  def small_thumbnail_variant
+    return nil unless image.attached?
+
+    # Try to create variant, fall back to original if variant processing fails
+    begin
+      image.variant(resize_to_fill: [ 100, 125 ])
+    rescue => e
+      Rails.logger.warn "Variant processing not available for poster #{id}: #{e.message}"
+      image
+    end
+  end
+
+  def thumbnail_url
+    return nil unless image.attached?
+    Rails.application.routes.url_helpers.url_for(thumbnail_variant)
+  rescue => e
+    Rails.logger.warn "Failed to generate thumbnail URL for poster #{id}: #{e.message}"
+    # Fallback to original image URL
+    Rails.application.routes.url_helpers.url_for(image)
+  end
+
+  def small_thumbnail_url
+    return nil unless image.attached?
+    Rails.application.routes.url_helpers.url_for(small_thumbnail_variant)
+  rescue => e
+    Rails.logger.warn "Failed to generate small thumbnail URL for poster #{id}: #{e.message}"
+    # Fallback to original image URL
+    Rails.application.routes.url_helpers.url_for(image)
+  end
+
   # Include search functionality
   include PgSearch::Model
   pg_search_scope :search_by_name_and_description,
