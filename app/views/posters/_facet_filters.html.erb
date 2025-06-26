@@ -3,7 +3,7 @@
   <div class="mb-6">
     <div class="flex items-center justify-between mb-3">
       <h4 class="text-sm font-medium text-stone-900">Artists</h4>
-      <span data-facet-filter-target="artistsBadge" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 <%= 'hidden' unless (params[:artists] || []).any? %>">
+      <span data-facet-filter-target="artistsBadge" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 <%= 'hidden' unless (params[:artists] || []).any? %>">
         <span data-facet-filter-target="artistsCount"><%= (params[:artists] || []).count %></span>
       </span>
     </div>
@@ -12,7 +12,7 @@
         <label class="flex items-center">
           <%= check_box_tag "artists[]", artist[:id], 
                 params[:artists]&.include?(artist[:id].to_s),
-                class: "rounded border-stone-300 text-orange-500 focus:ring-orange-500",
+                class: "rounded border-stone-300 text-red-500 focus:ring-red-500",
                 data: { action: "change->facet-filter#updateFilters" } %>
           <span class="ml-2 text-sm text-stone-700"><%= artist[:name] %></span>
         </label>
@@ -24,7 +24,7 @@
             <label class="flex items-center">
               <%= check_box_tag "artists[]", artist[:id], 
                     params[:artists]&.include?(artist[:id].to_s),
-                    class: "rounded border-stone-300 text-orange-500 focus:ring-orange-500",
+                    class: "rounded border-stone-300 text-red-500 focus:ring-red-500",
                     data: { action: "change->facet-filter#updateFilters" } %>
               <span class="ml-2 text-sm text-stone-700"><%= artist[:name] %></span>
             </label>
@@ -32,7 +32,7 @@
         </div>
         
         <button data-action="click->facet-filter#toggleArtists" 
-                class="text-sm text-orange-600 hover:text-orange-800 font-medium">
+                class="text-sm text-red-600 hover:text-red-800 font-medium">
           <span data-facet-filter-target="artistsToggleText">Show more</span>
         </button>
       <% end %>
@@ -43,7 +43,7 @@
   <div class="mb-6">
     <div class="flex items-center justify-between mb-3">
       <h4 class="text-sm font-medium text-stone-900">Venues</h4>
-      <span data-facet-filter-target="venuesBadge" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 <%= 'hidden' unless (params[:venues] || []).any? %>">
+      <span data-facet-filter-target="venuesBadge" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 <%= 'hidden' unless (params[:venues] || []).any? %>">
         <span data-facet-filter-target="venuesCount"><%= (params[:venues] || []).count %></span>
       </span>
     </div>
@@ -52,7 +52,7 @@
         <label class="flex items-center">
           <%= check_box_tag "venues[]", venue[:id], 
                 params[:venues]&.include?(venue[:id].to_s),
-                class: "rounded border-stone-300 text-orange-500 focus:ring-orange-500",
+                class: "rounded border-stone-300 text-red-500 focus:ring-red-500",
                 data: { action: "change->facet-filter#updateFilters" } %>
           <span class="ml-2 text-sm text-stone-700">
             <%= venue[:name] %>
@@ -69,7 +69,7 @@
             <label class="flex items-center">
               <%= check_box_tag "venues[]", venue[:id], 
                     params[:venues]&.include?(venue[:id].to_s),
-                    class: "rounded border-stone-300 text-orange-500 focus:ring-orange-500",
+                    class: "rounded border-stone-300 text-red-500 focus:ring-red-500",
                     data: { action: "change->facet-filter#updateFilters" } %>
               <span class="ml-2 text-sm text-stone-700">
                 <%= venue[:name] %>
@@ -82,7 +82,7 @@
         </div>
         
         <button data-action="click->facet-filter#toggleVenues" 
-                class="text-sm text-orange-600 hover:text-orange-800 font-medium">
+                class="text-sm text-red-600 hover:text-red-800 font-medium">
           <span data-facet-filter-target="venuesToggleText">Show more</span>
         </button>
       <% end %>
@@ -93,7 +93,7 @@
   <div class="mb-6">
     <div class="flex items-center justify-between mb-3">
       <h4 class="text-sm font-medium text-stone-900">Bands</h4>
-      <span data-facet-filter-target="bandsBadge" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 <%= 'hidden' unless (params[:bands] || []).any? %>">
+      <span data-facet-filter-target="bandsBadge" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 <%= 'hidden' unless (params[:bands] || []).any? %>">
         <span data-facet-filter-target="bandsCount"><%= (params[:bands] || []).count %></span>
       </span>
     </div>
@@ -102,7 +102,7 @@
         <label class="flex items-center">
           <%= check_box_tag "bands[]", band[:id], 
                 params[:bands]&.include?(band[:id].to_s),
-                class: "rounded border-stone-300 text-orange-500 focus:ring-orange-500",
+                class: "rounded border-stone-300 text-red-500 focus:ring-red-500",
                 data: { action: "change->facet-filter#updateFilters" } %>
           <span class="ml-2 text-sm text-stone-700"><%= band[:name] %></span>
         </label>
@@ -114,7 +114,7 @@
             <label class="flex items-center">
               <%= check_box_tag "bands[]", band[:id], 
                     params[:bands]&.include?(band[:id].to_s),
-                    class: "rounded border-stone-300 text-orange-500 focus:ring-orange-500",
+                    class: "rounded border-stone-300 text-red-500 focus:ring-red-500",
                     data: { action: "change->facet-filter#updateFilters" } %>
               <span class="ml-2 text-sm text-stone-700"><%= band[:name] %></span>
             </label>
@@ -122,7 +122,7 @@
         </div>
         
         <button data-action="click->facet-filter#toggleBands" 
-                class="text-sm text-orange-600 hover:text-orange-800 font-medium">
+                class="text-sm text-red-600 hover:text-red-800 font-medium">
           <span data-facet-filter-target="bandsToggleText">Show more</span>
         </button>
       <% end %>
@@ -133,7 +133,7 @@
   <div class="mb-6">
     <div class="flex items-center justify-between mb-3">
       <h4 class="text-sm font-medium text-stone-900">Years</h4>
-      <span data-facet-filter-target="yearsBadge" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 <%= 'hidden' unless (params[:years] || []).any? %>">
+      <span data-facet-filter-target="yearsBadge" class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 <%= 'hidden' unless (params[:years] || []).any? %>">
         <span data-facet-filter-target="yearsCount"><%= (params[:years] || []).count %></span>
       </span>
     </div>
@@ -142,7 +142,7 @@
         <label class="flex items-center">
           <%= check_box_tag "years[]", year_data[:year], 
                 params[:years]&.include?(year_data[:year].to_s),
-                class: "rounded border-stone-300 text-orange-500 focus:ring-orange-500",
+                class: "rounded border-stone-300 text-red-500 focus:ring-red-500",
                 data: { action: "change->facet-filter#updateFilters" } %>
           <span class="ml-2 text-sm text-stone-700"><%= year_data[:year] %></span>
         </label>
@@ -154,7 +154,7 @@
             <label class="flex items-center">
               <%= check_box_tag "years[]", year_data[:year], 
                     params[:years]&.include?(year_data[:year].to_s),
-                    class: "rounded border-stone-300 text-orange-500 focus:ring-orange-500",
+                    class: "rounded border-stone-300 text-red-500 focus:ring-red-500",
                     data: { action: "change->facet-filter#updateFilters" } %>
               <span class="ml-2 text-sm text-stone-700"><%= year_data[:year] %></span>
             </label>
@@ -162,7 +162,7 @@
         </div>
         
         <button data-action="click->facet-filter#toggleYears" 
-                class="text-sm text-orange-600 hover:text-orange-800 font-medium">
+                class="text-sm text-red-600 hover:text-red-800 font-medium">
           <span data-facet-filter-target="yearsToggleText">Show more</span>
         </button>
       <% end %>
