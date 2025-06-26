@@ -38,10 +38,17 @@ export default class extends Controller {
 
     // Debounce the search with 300ms delay
     this.debounceTimeout = setTimeout(() => {
-      this.currentPage = 1 // Reset to first page for new search
-      this.hasMoreResults = true // Reset for new search
+      this.resetPagination()
       this.performSearch(false) // false = replace results
     }, 300)
+  }
+
+  resetPagination() {
+    this.currentPage = 1
+    this.hasMoreResults = true
+    this.isLoadingMore = false
+    this.prefetchedResults = null
+    this.prefetchedPage = null
   }
 
   loadMore() {
@@ -61,10 +68,7 @@ export default class extends Controller {
   sortChanged(event) {
     console.log('Sort changed to:', event.target.value)
     // Reset pagination for new sort order
-    this.currentPage = 1
-    this.hasMoreResults = true
-    this.prefetchedResults = null
-    this.prefetchedPage = null
+    this.resetPagination()
     // Perform search with new sort order
     this.performSearch(false) // false = replace results
   }
