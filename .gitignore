@@ -36,3 +36,9 @@
 /app/assets/builds/*
 !/app/assets/builds/.keep
 migration/
+
+# Node.js and Puppeteer
+node_modules/
+package-lock.json
+screenshots/
+test_app.js
