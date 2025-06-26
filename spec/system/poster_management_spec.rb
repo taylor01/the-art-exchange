@@ -404,6 +404,26 @@ RSpec.describe "Poster Management", type: :system do
       expect(fallback_card).to have_css("svg") # Default image placeholder
       expect(fallback_card).not_to have_css(".progressive-image-container")
     end
+
+    it "displays progressive loading on poster show page" do
+      visit poster_path(poster_with_image)
+
+      # Check for progressive image structure on show page
+      expect(page).to have_css(".progressive-image-container")
+      expect(page).to have_css("[data-progressive-image-target='placeholder']")
+      expect(page).to have_css("[data-progressive-image-target='mainImage']")
+
+      # Placeholder should load immediately
+      placeholder = page.find("[data-progressive-image-target='placeholder']")
+      expect(placeholder).to be_visible
+
+      # Main image should start with loading class and transition to loaded
+      main_image = page.find("[data-progressive-image-target='mainImage']")
+      expect(main_image[:class]).to include("loading")
+
+      # Wait for progressive loading to complete on show page
+      expect(page).to have_css("[data-progressive-image-target='mainImage'].loaded", wait: 5)
+    end
   end
 
   private

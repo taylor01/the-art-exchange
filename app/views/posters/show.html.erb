@@ -34,11 +34,25 @@
   </nav>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    <!-- Poster Image -->
+    <!-- Poster Image with Progressive Loading -->
     <div class="bg-stone-100 rounded-lg overflow-hidden shadow-lg">
       <% if @poster.image.attached? %>
-        <div class="aspect-[3/4]">
-          <%= image_tag @poster.image, class: "w-full h-full object-cover" %>
+        <div class="aspect-[3/4] relative overflow-hidden">
+          <div class="progressive-image-container w-full h-full" 
+               data-controller="progressive-image"
+               data-progressive-image-placeholder-src-value="<%= url_for(@poster.blur_placeholder_image_for_display) %>"
+               data-progressive-image-main-src-value="<%= url_for(@poster.detail_image_for_display) %>">
+            
+            <!-- Blurred placeholder (loads instantly) -->
+            <img data-progressive-image-target="placeholder" 
+                 class="progressive-placeholder absolute inset-0 w-full h-full object-cover" 
+                 alt="<%= @poster.name %> placeholder" />
+            
+            <!-- Detail image (loads progressively) -->
+            <img data-progressive-image-target="mainImage" 
+                 class="progressive-main-image absolute inset-0 w-full h-full object-cover loading" 
+                 alt="<%= @poster.name %>" />
+          </div>
         </div>
       <% else %>
         <div class="aspect-[3/4] bg-gradient-to-br from-stone-200 to-stone-300 flex items-center justify-center">

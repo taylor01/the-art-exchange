@@ -108,6 +108,18 @@ class Poster < ApplicationRecord
     end
   end
 
+  # Medium-sized image for show page display (optimized for detail viewing)
+  def detail_image_for_display
+    return image unless image.attached?
+
+    # Check if variant processing is available
+    if self.class.variant_processing_available?
+      image.variant(resize_to_fill: [ 600, 800 ])
+    else
+      image
+    end
+  end
+
   def thumbnail_url
     return nil unless image.attached?
     Rails.application.routes.url_helpers.url_for(thumbnail_image_for_display)
@@ -137,6 +149,14 @@ class Poster < ApplicationRecord
     Rails.application.routes.url_helpers.url_for(blur_placeholder_image_for_display)
   rescue => e
     Rails.logger.warn "Failed to generate blur placeholder URL for poster #{id}: #{e.message}"
+    Rails.application.routes.url_helpers.url_for(image)
+  end
+
+  def detail_image_url
+    return nil unless image.attached?
+    Rails.application.routes.url_helpers.url_for(detail_image_for_display)
+  rescue => e
+    Rails.logger.warn "Failed to generate detail image URL for poster #{id}: #{e.message}"
     Rails.application.routes.url_helpers.url_for(image)
   end
 
