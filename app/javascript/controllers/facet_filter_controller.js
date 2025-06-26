@@ -34,7 +34,9 @@ export default class extends Controller {
     )
     
     if (searchController) {
-      searchController.performSearch()
+      // Reset pagination when facet filters change
+      searchController.resetPagination()
+      searchController.performSearch(false) // false = replace results
     }
   }
 
