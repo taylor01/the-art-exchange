@@ -106,7 +106,7 @@ class Poster < ApplicationRecord
 
     @variant_processing_available = begin
       # Try to load the image processing library
-      require 'vips'
+      require "vips"
       true
     rescue LoadError
       Rails.logger.warn "Variant processing unavailable: libvips not installed"
