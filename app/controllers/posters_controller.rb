@@ -71,7 +71,7 @@ class PostersController < ApplicationController
   private
 
   def set_poster
-    @poster = Poster.find(params[:id])
+    @poster = Poster.find_by_slug_or_id(params[:id_or_slug])
   end
 
   def search_params
@@ -97,7 +97,7 @@ class PostersController < ApplicationController
           year: poster.year,
           image_url: poster.image.attached? ? url_for(poster.grid_thumbnail_image_for_display) : nil,
           placeholder_url: poster.image.attached? ? url_for(poster.blur_placeholder_image_for_display) : nil,
-          url: poster_path(poster)
+          url: poster_path(poster.to_param)
         }
       end,
       facets: @facets,

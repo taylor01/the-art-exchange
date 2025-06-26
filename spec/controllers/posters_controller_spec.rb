@@ -80,5 +80,25 @@ RSpec.describe PostersController, type: :controller do
         }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
+
+    context "slug and ID parameter handling" do
+      it "finds poster by slug" do
+        get :show, params: { id_or_slug: poster.slug }
+        expect(assigns(:poster)).to eq(poster)
+        expect(response).to have_http_status(:success)
+      end
+
+      it "finds poster by ID when slug doesn't exist" do
+        get :show, params: { id_or_slug: poster.id.to_s }
+        expect(assigns(:poster)).to eq(poster)
+        expect(response).to have_http_status(:success)
+      end
+
+      it "raises error for non-existent slug or ID" do
+        expect {
+          get :show, params: { id_or_slug: 'non-existent-slug' }
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end
