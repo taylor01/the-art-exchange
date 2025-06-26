@@ -46,7 +46,7 @@ class PostersController < ApplicationController
 
   def create_search_share
     # Parse JSON body if content type is JSON
-    if request.content_type == 'application/json'
+    if request.content_type == "application/json"
       parsed_params = JSON.parse(request.body.read)
       search_share = SearchShare.create_for_search(ActionController::Parameters.new(parsed_params).permit(:q, artists: [], venues: [], bands: [], years: []))
     else
@@ -75,7 +75,7 @@ class PostersController < ApplicationController
   end
 
   def search_params
-    params.permit(:q, :page, :per_page, artists: [], venues: [], bands: [], years: [])
+    params.permit(:q, :page, :per_page, :sort, artists: [], venues: [], bands: [], years: [])
   end
 
   def short_url(token)

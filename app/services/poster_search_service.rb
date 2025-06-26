@@ -7,8 +7,9 @@ class PosterSearchService
     @venue_ids = Array(params[:venues]).reject(&:blank?).map(&:to_i)
     @band_ids = Array(params[:bands]).reject(&:blank?).map(&:to_i)
     @years = Array(params[:years]).reject(&:blank?).map(&:to_i)
+    @sort = params[:sort] || "newest"
     @page = params[:page] || 1
-    @per_page = params[:per_page] || 20
+    @per_page = params[:per_page] || 40
   end
 
   def search
@@ -36,7 +37,8 @@ class PosterSearchService
       artists: @artist_ids,
       venues: @venue_ids,
       bands: @band_ids,
-      years: @years
+      years: @years,
+      sort: @sort
     }.reject { |_, v| v.blank? }
   end
 
@@ -62,11 +64,27 @@ class PosterSearchService
 
   def apply_ordering(scope)
     if @query.present?
-      # When searching, order by relevance (pg_search handles this)
-      scope
+      # When searching with text, we can still apply secondary sorting
+      case @sort
+      when "oldest"
+        scope.chronological
+      when "newest"
+        scope.chronological.reverse_order
+      else
+        # Default to relevance for text searches
+        scope
+      end
     else
-      # Default browsing order - most recent first
-      scope.chronological.reverse_order
+      # No text search - sort by selected option
+      case @sort
+      when "oldest"
+        scope.chronological
+      when "newest"
+        scope.chronological.reverse_order
+      else
+        # Default browsing order - most recent first
+        scope.chronological.reverse_order
+      end
     end
   end
 

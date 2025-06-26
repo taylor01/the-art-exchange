@@ -71,6 +71,15 @@ export default class extends Controller {
     // Add facet filters from checkboxes
     this.addFacetFilters(searchParams)
     
+    // Add sort parameter from dropdown (check both desktop and mobile)
+    const sortDropdown = document.querySelector('select[name="sort"]:not([id="mobile-sort"])') || 
+                         document.querySelector('select[id="mobile-sort"]')
+    if (sortDropdown && sortDropdown.value) {
+      searchParams.set('sort', sortDropdown.value)
+      // Sync the other dropdown
+      this.syncSortDropdowns(sortDropdown.value)
+    }
+    
     // Add pagination
     searchParams.set('page', prefetch ? this.currentPage + 1 : this.currentPage)
 
@@ -154,7 +163,8 @@ export default class extends Controller {
       // Replace all results (new search)
       this.hasMoreResults = true // Reset for new search
       if (this.hasResultsTarget) {
-        this.resultsTarget.innerHTML = this.renderPosterGrid(data.posters)
+        const totalCount = data.pagination ? data.pagination.total_count : null
+        this.resultsTarget.innerHTML = this.renderPosterGrid(data.posters, totalCount)
       }
       // Start prefetching next page immediately after new search
       if (data.posters.length > 0) {
@@ -165,17 +175,21 @@ export default class extends Controller {
     }
   }
 
-  renderPosterGrid(posters) {
+  renderPosterGrid(posters, totalCount = null) {
     if (posters.length === 0) {
       return this.renderEmptyState()
     }
 
     const postersHtml = posters.map(poster => this.renderPosterCard(poster)).join('')
     
+    const countText = totalCount && totalCount > posters.length 
+      ? `Showing ${posters.length} of ${totalCount.toLocaleString()} posters`
+      : `Showing ${posters.length} posters`
+    
     return `
       <div class="mb-6">
         <p class="text-sm text-stone-600">
-          Showing ${posters.length} posters
+          ${countText}
         </p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
@@ -261,6 +275,13 @@ export default class extends Controller {
         }
       }
       this.addFacetFilters(searchParams)
+      
+      // Add sort parameter
+      const sortDropdown = document.querySelector('select[name="sort"]:not([id="mobile-sort"])') || 
+                           document.querySelector('select[id="mobile-sort"]')
+      if (sortDropdown && sortDropdown.value) {
+        searchParams.set('sort', sortDropdown.value)
+      }
 
       const response = await fetch(this.shareUrlValue, {
         method: 'POST',
@@ -373,8 +394,32 @@ export default class extends Controller {
 
   appendResults(posters) {
     if (this.hasResultsTarget) {
-      const newPostersHtml = this.renderPosterGrid(posters, true) // true = append mode
+      const newPostersHtml = this.renderPosterCards(posters)
       this.resultsTarget.insertAdjacentHTML('beforeend', newPostersHtml)
     }
+  }
+
+  syncSortDropdowns(value) {
+    const desktopSort = document.querySelector('select[name="sort"]:not([id="mobile-sort"])')
+    const mobileSort = document.querySelector('select[id="mobile-sort"]')
+    
+    if (desktopSort && desktopSort.value !== value) {
+      desktopSort.value = value
+    }
+    if (mobileSort && mobileSort.value !== value) {
+      mobileSort.value = value
+    }
+  }
+
+  renderPosterCards(posters) {
+    if (posters.length === 0) return ''
+    
+    const postersHtml = posters.map(poster => this.renderPosterCard(poster)).join('')
+    
+    return `
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+        ${postersHtml}
+      </div>
+    `
   }
 }
