@@ -40,8 +40,8 @@ Rails.application.routes.draw do
   get "profile/edit", to: "profiles#edit", as: :edit_profile
   patch "profile", to: "profiles#update", as: :update_profile
 
-  # Poster routes
-  resources :posters, only: [ :index, :show ] do
+  # Poster routes with slug support
+  resources :posters, only: [ :index, :show ], param: :id_or_slug do
     member do
       post :add_to_collection
       delete :remove_from_collection
@@ -50,6 +50,17 @@ Rails.application.routes.draw do
       post :create_search_share
     end
   end
+
+  # Legacy URL redirects - redirect old /artworks URLs to new /posters URLs
+  get "artworks", to: redirect("/posters")
+  get "artworks/:id", to: redirect { |params, req| 
+    begin
+      poster = Poster.find(params[:id])
+      "/posters/#{poster.to_param}"
+    rescue ActiveRecord::RecordNotFound
+      "/posters"
+    end
+  }
 
   # Search short URLs
   get "s/:token", to: "search#show", as: :search_share
