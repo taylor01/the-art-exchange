@@ -57,10 +57,31 @@ The Art Exchange is a community-driven marketplace and collection management pla
 ### Key Dependencies
 - `omniauth` + provider gems (Google, Apple, Facebook)
 - `geocoder` for address geocoding
-- `image_processing` for photo resizing
+- `image_processing` for photo resizing and variants
 - `pg_search` for full-text search
 - `tailwindcss-rails` for styling
 - `kamal` for deployment
+
+### System Requirements
+
+#### Image Processing (libvips)
+The application requires **libvips** for Active Storage image variant processing:
+
+```bash
+# macOS (development)
+brew install vips
+
+# Ubuntu/Debian (production)
+apt-get update && apt-get install -y libvips-dev
+
+# RHEL/CentOS/Amazon Linux (production)
+yum install -y vips-devel
+
+# Alpine Linux (Docker)
+apk add --no-cache vips-dev
+```
+
+**Important**: Without libvips, image optimization will gracefully degrade to serving original images, resulting in slower page loads and higher bandwidth usage. See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed production setup instructions.
 
 ## Development Phases
 
@@ -107,6 +128,20 @@ The application will import existing data:
 - ~1000 poster records from current system
 - Venue and artist information
 - Existing user accounts (with re-verification required)
+
+## Development Setup
+
+### Prerequisites
+
+Before running the application, install required system dependencies:
+
+```bash
+# Install libvips for image processing
+brew install vips
+
+# Install other dependencies
+bundle install
+```
 
 ## Development Commands
 
