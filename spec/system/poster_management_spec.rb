@@ -327,6 +327,85 @@ RSpec.describe "Poster Management", type: :system do
     end
   end
 
+  describe "Progressive image loading", js: true do
+    let!(:poster_with_image) { create(:poster) }
+
+    before do
+      # Attach a test image to the poster for progressive loading tests
+      poster_with_image.image.attach(
+        io: File.open(Rails.root.join("spec", "fixtures", "test_poster.jpg")),
+        filename: "test_poster.jpg",
+        content_type: "image/jpeg"
+      )
+    end
+
+    it "displays progressive image containers on poster grid" do
+      visit posters_path
+
+      # Check for progressive image structure
+      within("[data-testid='poster-card']") do
+        expect(page).to have_css(".progressive-image-container")
+        expect(page).to have_css("[data-progressive-image-target='placeholder']")
+        expect(page).to have_css("[data-progressive-image-target='mainImage']")
+      end
+    end
+
+    it "loads blur placeholder images immediately" do
+      visit posters_path
+
+      # Placeholder images should be visible (loaded class applied)
+      within("[data-testid='poster-card']") do
+        placeholder = page.find("[data-progressive-image-target='placeholder']")
+        expect(placeholder).to be_visible
+        expect(placeholder[:src]).to include("variant") # Should have blur placeholder variant URL
+      end
+    end
+
+    it "progressive loads main images with proper CSS classes" do
+      visit posters_path
+
+      # Main images should start with loading class
+      within("[data-testid='poster-card']") do
+        main_image = page.find("[data-progressive-image-target='mainImage']")
+        expect(main_image[:class]).to include("loading")
+
+        # Wait for progressive loading to complete
+        expect(page).to have_css("[data-progressive-image-target='mainImage'].loaded", wait: 5)
+      end
+    end
+
+    it "handles search results with progressive loading", js: true do
+      visit posters_path
+
+      # Trigger a search to test AJAX results
+      fill_in "Search posters, artists, venues...", with: poster_with_image.name
+
+      # Wait for search results to load
+      expect(page).to have_css("[data-testid='poster-card']", wait: 3)
+
+      # Verify progressive loading structure in search results
+      within("[data-testid='poster-card']") do
+        expect(page).to have_css(".progressive-image-container")
+        expect(page).to have_css("[data-progressive-image-target='placeholder']")
+        expect(page).to have_css("[data-progressive-image-target='mainImage']")
+      end
+    end
+
+    it "falls back gracefully when images fail to load" do
+      # Create poster without image attachment to test fallback
+      poster_without_image = create(:poster)
+
+      visit posters_path
+
+      # Should show default placeholder for posters without images
+      poster_cards = page.all("[data-testid='poster-card']")
+      fallback_card = poster_cards.find { |card| card.has_css?("svg") }
+
+      expect(fallback_card).to have_css("svg") # Default image placeholder
+      expect(fallback_card).not_to have_css(".progressive-image-container")
+    end
+  end
+
   private
 
   def sign_in(user)

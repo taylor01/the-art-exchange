@@ -54,3 +54,60 @@
     }
   }
 }
+
+@layer components {
+  /* Progressive Image Loading Styles */
+  .progressive-image-container {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .progressive-placeholder {
+    filter: blur(8px);
+    transform: scale(1.05);
+    transition: opacity 0.3s ease-out;
+    z-index: 1;
+  }
+  
+  .progressive-placeholder.loaded {
+    opacity: 1;
+  }
+  
+  .progressive-placeholder.hidden {
+    opacity: 0;
+  }
+  
+  .progressive-placeholder.error {
+    filter: blur(0);
+    transform: scale(1);
+  }
+  
+  .progressive-main-image {
+    transition: opacity 0.3s ease-in;
+    z-index: 2;
+  }
+  
+  .progressive-main-image.loading {
+    opacity: 0;
+  }
+  
+  .progressive-main-image.loaded {
+    opacity: 1;
+  }
+  
+  /* Smooth blur-to-sharp transition */
+  @keyframes blurToSharp {
+    from {
+      filter: blur(8px);
+      transform: scale(1.05);
+    }
+    to {
+      filter: blur(0);
+      transform: scale(1);
+    }
+  }
+  
+  .progressive-main-image.loaded {
+    animation: blurToSharp 0.3s ease-out;
+  }
+}

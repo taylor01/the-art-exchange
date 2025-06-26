@@ -215,8 +215,18 @@ export default class extends Controller {
   }
 
   renderPosterCard(poster) {
-    const imageHtml = poster.image_url 
-      ? `<img src="${poster.image_url}" class="w-full h-full object-cover" alt="${poster.name}">`
+    const imageHtml = poster.image_url && poster.placeholder_url
+      ? `<div class="progressive-image-container w-full h-full" 
+             data-controller="progressive-image"
+             data-progressive-image-placeholder-src-value="${poster.placeholder_url}"
+             data-progressive-image-main-src-value="${poster.image_url}">
+           <img data-progressive-image-target="placeholder" 
+                class="progressive-placeholder absolute inset-0 w-full h-full object-cover" 
+                alt="${poster.name} placeholder" />
+           <img data-progressive-image-target="mainImage" 
+                class="progressive-main-image absolute inset-0 w-full h-full object-cover loading" 
+                alt="${poster.name}" />
+         </div>`
       : `<div class="bg-gradient-to-br from-stone-200 to-stone-300 flex items-center justify-center h-full">
            <div class="text-center text-stone-500">
              <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -228,7 +238,7 @@ export default class extends Controller {
     return `
       <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden" data-testid="poster-card">
         <a href="${poster.url}" class="block">
-          <div class="aspect-[3/4]">
+          <div class="aspect-[3/4] relative overflow-hidden">
             ${imageHtml}
           </div>
           <div class="p-4">
