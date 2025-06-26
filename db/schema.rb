@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_25_215612) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_25_225333) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -81,11 +82,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_25_215612) do
     t.integer "edition_size"
     t.json "visual_metadata"
     t.string "metadata_version"
+    t.index "EXTRACT(year FROM release_date)", name: "index_posters_on_year"
+    t.index ["band_id", "release_date"], name: "index_posters_on_band_id_and_release_date"
     t.index ["band_id", "venue_id"], name: "index_posters_on_band_id_and_venue_id"
     t.index ["band_id"], name: "index_posters_on_band_id"
+    t.index ["description"], name: "index_posters_on_description", opclass: :gin_trgm_ops, using: :gin
     t.index ["name"], name: "index_posters_on_name"
+    t.index ["name"], name: "index_posters_on_name_gin", opclass: :gin_trgm_ops, using: :gin
     t.index ["release_date", "band_id"], name: "index_posters_on_release_date_and_band_id"
     t.index ["release_date"], name: "index_posters_on_release_date"
+    t.index ["venue_id", "release_date"], name: "index_posters_on_venue_id_and_release_date"
     t.index ["venue_id"], name: "index_posters_on_venue_id"
   end
 
@@ -94,6 +100,31 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_25_215612) do
     t.bigint "series_id", null: false
     t.index ["poster_id", "series_id"], name: "index_posters_series_on_poster_id_and_series_id", unique: true
     t.index ["series_id", "poster_id"], name: "index_posters_series_on_series_id_and_poster_id"
+  end
+
+  create_table "search_analytics", force: :cascade do |t|
+    t.string "query"
+    t.json "facet_filters"
+    t.integer "results_count"
+    t.bigint "user_id"
+    t.datetime "performed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["performed_at"], name: "index_search_analytics_on_performed_at"
+    t.index ["query", "performed_at"], name: "index_search_analytics_on_query_and_performed_at"
+    t.index ["query"], name: "index_search_analytics_on_query"
+    t.index ["user_id"], name: "index_search_analytics_on_user_id"
+  end
+
+  create_table "search_shares", force: :cascade do |t|
+    t.string "token"
+    t.text "search_params"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expires_at"], name: "index_search_shares_on_expires_at"
+    t.index ["token", "expires_at"], name: "index_search_shares_on_token_and_expires_at"
+    t.index ["token"], name: "index_search_shares_on_token", unique: true
   end
 
   create_table "series", force: :cascade do |t|
@@ -205,6 +236,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_25_215612) do
   add_foreign_key "posters", "venues"
   add_foreign_key "posters_series", "posters"
   add_foreign_key "posters_series", "series"
+  add_foreign_key "search_analytics", "users"
   add_foreign_key "user_posters", "posters"
   add_foreign_key "user_posters", "users"
 end

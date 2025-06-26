@@ -1,4 +1,7 @@
 class Venue < ApplicationRecord
+  # Associations
+  has_many :posters, dependent: :nullify
+
   # Include geocoding functionality
   geocoded_by :full_address
   after_validation :geocode, if: :location_fields_changed?
