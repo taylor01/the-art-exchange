@@ -42,3 +42,6 @@ node_modules/
 package-lock.json
 screenshots/
 test_app.js
+
+# Redis dump file
+dump.rdb

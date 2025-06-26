@@ -1,4 +1,11 @@
-<% content_for :title, @poster.full_title %>
+<% content_for :title, poster_meta_title(@poster) %>
+<% content_for :meta_description, poster_meta_description(@poster) %>
+<% content_for :meta_keywords, "#{@poster.name}, #{@poster.artists.pluck(:name).join(', ')}, #{@poster.band&.name}, #{@poster.venue&.name}, concert poster, art poster, collectible" %>
+<% content_for :og_type, 'product' %>
+<% content_for :canonical_url, poster_url(@poster) %>
+<% if poster_meta_image_url(@poster) %>
+  <% content_for :meta_image, poster_meta_image_url(@poster) %>
+<% end %>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <!-- Breadcrumb -->
