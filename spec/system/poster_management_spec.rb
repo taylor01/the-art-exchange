@@ -13,7 +13,8 @@ RSpec.describe "Poster Management", type: :system do
     it "allows users to browse posters" do
       visit posters_path
 
-      expect(page).to have_content("Artwork")
+      # Check for search interface instead of removed "Artwork" heading
+      expect(page).to have_field("Search posters, artists, venues...")
       expect(page).to have_css("[data-testid='poster-card']", count: 3)
     end
 
