@@ -100,5 +100,37 @@ RSpec.describe PostersController, type: :controller do
         }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
+
+    context "slug redirects" do
+      let(:original_slug) { poster.slug }
+
+      before do
+        # Change poster to create a redirect
+        poster.update!(name: 'Updated Poster Name')
+        poster.reload
+      end
+
+      it "redirects old slug to current slug with 301 status" do
+        get :show, params: { id_or_slug: original_slug }
+        expect(response).to redirect_to(poster_path(poster.to_param))
+        expect(response).to have_http_status(:moved_permanently)
+      end
+
+      it "serves current slug normally without redirect" do
+        get :show, params: { id_or_slug: poster.slug }
+        expect(assigns(:poster)).to eq(poster)
+        expect(response).to have_http_status(:success)
+        expect(response).not_to be_redirect
+      end
+
+      it "handles missing old slug gracefully" do
+        # Delete the redirect to simulate edge case
+        PosterSlugRedirect.where(old_slug: original_slug).delete_all
+
+        expect {
+          get :show, params: { id_or_slug: original_slug }
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
   end
 end

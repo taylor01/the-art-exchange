@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_26_222816) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_26_230243) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -68,6 +68,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_26_222816) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_bands_on_name", unique: true
+  end
+
+  create_table "poster_slug_redirects", force: :cascade do |t|
+    t.string "old_slug"
+    t.bigint "poster_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["old_slug"], name: "index_poster_slug_redirects_on_old_slug", unique: true
+    t.index ["poster_id"], name: "index_poster_slug_redirects_on_poster_id"
   end
 
   create_table "posters", force: :cascade do |t|
@@ -234,6 +243,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_26_222816) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "artists_posters", "artists"
   add_foreign_key "artists_posters", "posters"
+  add_foreign_key "poster_slug_redirects", "posters"
   add_foreign_key "posters", "bands"
   add_foreign_key "posters", "venues"
   add_foreign_key "posters_series", "posters"

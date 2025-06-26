@@ -362,6 +362,131 @@ RSpec.describe Poster, type: :model do
     end
   end
 
+  describe 'slug redirect functionality' do
+    let!(:poster) { create(:poster, name: 'Original Name', band: band, venue: venue, release_date: Date.new(2023, 6, 15)) }
+    let(:original_slug) { poster.slug }
+
+    describe 'redirect creation on slug change' do
+      it 'creates redirect when slug changes due to name update' do
+        expect {
+          poster.update!(name: 'New Name')
+        }.to change { PosterSlugRedirect.count }.by(1)
+
+        redirect = PosterSlugRedirect.last
+        expect(redirect.old_slug).to eq(original_slug)
+        expect(redirect.poster).to eq(poster)
+      end
+
+      it 'creates redirect when slug changes due to band update' do
+        new_band = create(:band, name: 'New Band')
+        expect {
+          poster.update!(band: new_band)
+        }.to change { PosterSlugRedirect.count }.by(1)
+
+        redirect = PosterSlugRedirect.last
+        expect(redirect.old_slug).to eq(original_slug)
+      end
+
+      it 'does not create redirect for non-slug-affecting changes' do
+        expect {
+          poster.update!(description: 'New description')
+        }.not_to change { PosterSlugRedirect.count }
+      end
+
+      it 'does not create duplicate redirects' do
+        # First update
+        poster.update!(name: 'New Name')
+        expect(PosterSlugRedirect.count).to eq(1)
+
+        # Second update back to original name (which changes slug again)
+        poster.update!(name: 'Original Name')
+
+        # Should have 2 redirects total, not duplicate of the first
+        expect(PosterSlugRedirect.count).to eq(2)
+        expect(PosterSlugRedirect.pluck(:old_slug)).not_to include(original_slug)
+      end
+    end
+
+    describe '.find_by_slug_or_id with redirects' do
+      before do
+        poster.update!(name: 'Updated Name') # This creates a redirect
+        poster.reload
+      end
+
+      it 'finds poster by current slug' do
+        found_poster = Poster.find_by_slug_or_id(poster.slug)
+        expect(found_poster).to eq(poster)
+      end
+
+      it 'finds poster by old slug via redirect' do
+        found_poster = Poster.find_by_slug_or_id(original_slug)
+        expect(found_poster).to eq(poster)
+      end
+
+      it 'finds poster by ID' do
+        found_poster = Poster.find_by_slug_or_id(poster.id.to_s)
+        expect(found_poster).to eq(poster)
+      end
+
+      it 'raises error for non-existent slug or ID' do
+        expect {
+          Poster.find_by_slug_or_id('completely-non-existent')
+        }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    describe '.redirect_needed?' do
+      before do
+        poster.update!(name: 'Updated Name')
+        poster.reload
+      end
+
+      it 'returns false for current slug' do
+        expect(Poster.redirect_needed?(poster.slug)).to be false
+      end
+
+      it 'returns true for old slug' do
+        expect(Poster.redirect_needed?(original_slug)).to be true
+      end
+
+      it 'returns false for non-existent slug' do
+        expect(Poster.redirect_needed?('non-existent')).to be false
+      end
+    end
+
+    describe '.find_for_redirect' do
+      before do
+        poster.update!(name: 'Updated Name')
+        poster.reload
+      end
+
+      it 'returns poster for old slug' do
+        found_poster = Poster.find_for_redirect(original_slug)
+        expect(found_poster).to eq(poster)
+      end
+
+      it 'returns nil for current slug' do
+        found_poster = Poster.find_for_redirect(poster.slug)
+        expect(found_poster).to be_nil
+      end
+
+      it 'returns nil for non-existent slug' do
+        found_poster = Poster.find_for_redirect('non-existent')
+        expect(found_poster).to be_nil
+      end
+    end
+
+    describe 'redirect cleanup on poster deletion' do
+      it 'deletes associated redirects when poster is deleted' do
+        poster.update!(name: 'Updated Name')
+        expect(PosterSlugRedirect.count).to eq(1)
+
+        poster.destroy
+        expect(PosterSlugRedirect.count).to eq(0)
+      end
+    end
+  end
+
   describe 'visual metadata' do
     let(:sample_metadata) do
       {

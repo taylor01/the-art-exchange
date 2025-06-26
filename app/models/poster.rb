@@ -57,6 +57,7 @@ class Poster < ApplicationRecord
   has_and_belongs_to_many :series
   has_many :user_posters, dependent: :destroy
   has_many :users, through: :user_posters
+  has_many :slug_redirects, class_name: "PosterSlugRedirect", dependent: :destroy
 
   # Image attachment - one official image per poster/variant
   has_one_attached :image
@@ -198,6 +199,7 @@ class Poster < ApplicationRecord
   # Callbacks
   before_validation :normalize_name
   before_validation :generate_slug
+  after_update :create_slug_redirect_if_needed
 
   # Scopes
   scope :by_year, ->(year) { where("EXTRACT(year FROM release_date) = ?", year) }
@@ -347,9 +349,30 @@ class Poster < ApplicationRecord
     slug.presence || id.to_s
   end
 
-  # Find by slug or ID
+  # Find by slug or ID, with redirect support
   def self.find_by_slug_or_id(param)
-    find_by(slug: param) || find(param)
+    # First try direct slug lookup
+    poster = find_by(slug: param)
+    return poster if poster
+
+    # Check for slug redirects
+    redirect = PosterSlugRedirect.find_by(old_slug: param)
+    return redirect.poster if redirect
+
+    # Finally try by ID
+    find(param)
+  end
+
+  # Check if parameter is an old slug that should redirect
+  def self.redirect_needed?(param)
+    return false if find_by(slug: param) # Current slug, no redirect needed
+    PosterSlugRedirect.exists?(old_slug: param)
+  end
+
+  # Get the current poster for a potentially old slug
+  def self.find_for_redirect(param)
+    redirect = PosterSlugRedirect.find_by(old_slug: param)
+    redirect&.poster
   end
 
   private
@@ -360,6 +383,11 @@ class Poster < ApplicationRecord
 
   def generate_slug
     return if slug.present? && !slug_needs_regeneration?
+
+    # Store old slug for redirect creation after update
+    if persisted? && slug.present? && slug_needs_regeneration?
+      @old_slug_for_redirect = slug
+    end
 
     base_slug = build_base_slug
     self.slug = ensure_unique_slug(base_slug)
@@ -425,5 +453,23 @@ class Poster < ApplicationRecord
 
   def slug_exists?(candidate_slug)
     self.class.where(slug: candidate_slug).where.not(id: id).exists?
+  end
+
+  def create_slug_redirect_if_needed
+    return unless @old_slug_for_redirect.present?
+
+    save_slug_redirect(@old_slug_for_redirect)
+    @old_slug_for_redirect = nil # Clear the instance variable
+  end
+
+  def save_slug_redirect(old_slug)
+    return if old_slug.blank?
+    return if slug_redirects.exists?(old_slug: old_slug) # Already have this redirect
+    return if old_slug == slug # Don't create redirect to current slug
+
+    # Create redirect record
+    slug_redirects.create!(old_slug: old_slug)
+  rescue ActiveRecord::RecordInvalid => e
+    Rails.logger.warn "Failed to create slug redirect for poster #{id}: #{e.message}"
   end
 end

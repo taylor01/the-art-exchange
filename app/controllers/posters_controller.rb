@@ -71,7 +71,18 @@ class PostersController < ApplicationController
   private
 
   def set_poster
-    @poster = Poster.find_by_slug_or_id(params[:id_or_slug])
+    param = params[:id_or_slug]
+
+    # Check if we need to redirect to current slug
+    if Poster.redirect_needed?(param)
+      poster = Poster.find_for_redirect(param)
+      if poster
+        redirect_to poster_path(poster.to_param), status: :moved_permanently
+        return
+      end
+    end
+
+    @poster = Poster.find_by_slug_or_id(param)
   end
 
   def search_params
