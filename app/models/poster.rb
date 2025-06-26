@@ -193,9 +193,11 @@ class Poster < ApplicationRecord
   validates :release_date, presence: true
   validates :original_price, numericality: { greater_than: 0 }, allow_blank: true
   validates :edition_size, numericality: { greater_than: 0, only_integer: true }, allow_blank: true
+  validates :slug, presence: true, uniqueness: true
 
   # Callbacks
   before_validation :normalize_name
+  before_validation :generate_slug
 
   # Scopes
   scope :by_year, ->(year) { where("EXTRACT(year FROM release_date) = ?", year) }
@@ -340,9 +342,88 @@ class Poster < ApplicationRecord
     scope
   end
 
+  # URL parameter method - use slug for URLs
+  def to_param
+    slug.presence || id.to_s
+  end
+
+  # Find by slug or ID
+  def self.find_by_slug_or_id(param)
+    find_by(slug: param) || find(param)
+  end
+
   private
 
   def normalize_name
     self.name = name&.strip
+  end
+
+  def generate_slug
+    return if slug.present? && !slug_needs_regeneration?
+    
+    base_slug = build_base_slug
+    self.slug = ensure_unique_slug(base_slug)
+  end
+
+  def slug_needs_regeneration?
+    # Regenerate if core data has changed
+    return false unless persisted?
+    
+    old_base_slug = build_base_slug_from_original_attributes
+    current_base_slug = build_base_slug
+    
+    old_base_slug != current_base_slug
+  end
+
+  def build_base_slug
+    parts = []
+    
+    # Add band name if present
+    parts << band&.name&.parameterize
+    
+    # Add venue name if present  
+    parts << venue&.name&.parameterize
+    
+    # Add poster name
+    parts << name&.parameterize
+    
+    # Add year
+    parts << year&.to_s if year
+    
+    parts.compact.join("-")
+  end
+
+  def build_base_slug_from_original_attributes
+    # Build slug from original attributes to detect changes
+    old_band_name = changes["band_id"] ? Band.find_by(id: changes["band_id"][0])&.name : band&.name
+    old_venue_name = changes["venue_id"] ? Venue.find_by(id: changes["venue_id"][0])&.name : venue&.name
+    old_name = changes["name"] ? changes["name"][0] : name
+    old_date = changes["release_date"] ? changes["release_date"][0] : release_date
+    
+    parts = []
+    parts << old_band_name&.parameterize
+    parts << old_venue_name&.parameterize
+    parts << old_name&.parameterize
+    parts << old_date&.year&.to_s if old_date
+    
+    parts.compact.join("-")
+  end
+
+  def ensure_unique_slug(base_slug)
+    return base_slug if base_slug.blank?
+    
+    candidate_slug = base_slug
+    counter = 1
+    
+    while slug_exists?(candidate_slug)
+      candidate_slug = "#{base_slug}-#{counter}"
+      counter += 1
+    end
+    
+    candidate_slug
+  end
+
+  def slug_exists?(candidate_slug)
+    self.class.where(slug: candidate_slug).where.not(id: id).exists?
   end
 end
