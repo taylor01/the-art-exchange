@@ -45,3 +45,6 @@ test_app.js
 
 # Redis dump file
 dump.rdb
+
+# DMB setlist data directory
+dmb_setlists/
