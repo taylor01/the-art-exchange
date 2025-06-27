@@ -45,3 +45,7 @@ test_app.js
 
 # Redis dump file
 dump.rdb
+
+# DMB scraper generated data
+/tools/dmb_scraper/setlists/*.json
+!/tools/dmb_scraper/setlists/sample_dmb_setlists.json

@@ -385,6 +385,7 @@ class Poster < ApplicationRecord
     return if slug.present? && !slug_needs_regeneration?
 
     # Store old slug for redirect creation after update
+    # We need to store this BEFORE we change the slug
     if persisted? && slug.present? && slug_needs_regeneration?
       @old_slug_for_redirect = slug
     end
@@ -423,10 +424,14 @@ class Poster < ApplicationRecord
 
   def build_base_slug_from_original_attributes
     # Build slug from original attributes to detect changes
-    old_band_name = changes["band_id"] ? Band.find_by(id: changes["band_id"][0])&.name : band&.name
-    old_venue_name = changes["venue_id"] ? Venue.find_by(id: changes["venue_id"][0])&.name : venue&.name
-    old_name = changes["name"] ? changes["name"][0] : name
-    old_date = changes["release_date"] ? changes["release_date"][0] : release_date
+    # Use attribute_was to get the previous values
+    old_band_id = band_id_was || band_id
+    old_venue_id = venue_id_was || venue_id
+    old_name = name_was || name
+    old_date = release_date_was || release_date
+
+    old_band_name = old_band_id ? Band.find_by(id: old_band_id)&.name : nil
+    old_venue_name = old_venue_id ? Venue.find_by(id: old_venue_id)&.name : nil
 
     parts = []
     parts << old_band_name&.parameterize
@@ -456,6 +461,7 @@ class Poster < ApplicationRecord
   end
 
   def create_slug_redirect_if_needed
+    Rails.logger.debug "DEBUG: create_slug_redirect_if_needed called with @old_slug_for_redirect = #{@old_slug_for_redirect}"
     return unless @old_slug_for_redirect.present?
 
     save_slug_redirect(@old_slug_for_redirect)

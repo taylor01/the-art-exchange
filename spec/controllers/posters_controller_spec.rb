@@ -102,9 +102,11 @@ RSpec.describe PostersController, type: :controller do
     end
 
     context "slug redirects" do
-      let(:original_slug) { poster.slug }
+      let(:original_slug) { @original_slug }
 
       before do
+        # Store the original slug before changing it
+        @original_slug = poster.slug
         # Change poster to create a redirect
         poster.update!(name: 'Updated Poster Name')
         poster.reload
