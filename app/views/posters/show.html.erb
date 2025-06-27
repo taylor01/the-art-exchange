@@ -52,12 +52,12 @@
             
             <!-- Blurred placeholder (loads instantly) -->
             <img data-progressive-image-target="placeholder" 
-                 class="progressive-placeholder absolute inset-0 w-full h-full object-cover" 
+                 class="progressive-placeholder absolute inset-0 w-full h-full object-contain" 
                  alt="<%= @poster.name %> placeholder" />
             
             <!-- Detail image (loads progressively) -->
             <img data-progressive-image-target="mainImage" 
-                 class="progressive-main-image absolute inset-0 w-full h-full object-cover loading" 
+                 class="progressive-main-image absolute inset-0 w-full h-full object-contain loading" 
                  alt="<%= @poster.name %>" />
           </div>
         </div>
