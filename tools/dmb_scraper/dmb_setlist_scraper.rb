@@ -32,18 +32,18 @@ class DMBSetlistScraper
 
   def fetch_page(url, retries = 3)
     uri = URI(url)
-    
+
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = uri.scheme == 'https'
     http.open_timeout = 15
     http.read_timeout = 45
-    
+
     begin
       request = Net::HTTP::Get.new(uri)
       request['User-Agent'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-      
+
       response = http.request(request)
-      
+
       if response.code.to_i == 200
         response.body
       else
@@ -69,16 +69,16 @@ class DMBSetlistScraper
 
   def has_setlists?(html_content)
     return false unless html_content
-    
+
     doc = Nokogiri::HTML(html_content)
-    
+
     # Check if "no-tours" div is hidden (meaning there are setlists)
     no_tours_div = doc.css('.no-tours').first
     if no_tours_div
       style = no_tours_div['style']
       return style&.include?('display: none')
     end
-    
+
     # Fallback: look for setlist-content class
     setlist_content = doc.css('.setlist-content')
     setlist_content.any?
@@ -93,7 +93,7 @@ class DMBSetlistScraper
     # Look for setlist content - the page contains all setlists for the year
     # Each setlist is in its own section
     setlist_sections = find_setlist_sections(doc)
-    
+
     puts "  Found #{setlist_sections.length} potential setlist sections" if @options[:verbose]
 
     setlist_sections.each_with_index do |section, i|
@@ -135,9 +135,9 @@ class DMBSetlistScraper
     # Fallback: find elements containing date patterns
     all_elements = doc.css('*')
     date_elements = all_elements.select { |elem| elem.text =~ /\d{2}\.\d{2}\.\d{4}/ }
-    
+
     puts "    Fallback: found #{date_elements.length} elements with date patterns" if @options[:verbose]
-    
+
     # Group elements that are likely part of the same setlist
     sections = []
     date_elements.each do |elem|
@@ -204,7 +204,7 @@ class DMBSetlistScraper
 
     # Validate essential data
     return nil unless concert[:date] && concert[:venue]
-    
+
     concert
   rescue StandardError => e
     puts "    Error parsing setlist: #{e.message}" if @options[:verbose]
@@ -217,7 +217,7 @@ class DMBSetlistScraper
     if setlist_text
       song_items = setlist_text.css('li')
       position = 1
-      
+
       song_items.each do |item|
         song_text = item.text.strip
         next if song_text.empty?
@@ -237,7 +237,7 @@ class DMBSetlistScraper
     if encore_text
       encore_items = encore_text.css('li')
       encore_position = 1
-      
+
       encore_items.each do |item|
         song_text = item.text.strip
         next if song_text.empty?
@@ -297,11 +297,11 @@ class DMBSetlistScraper
   def extract_show_notes(section, concert)
     # Look for legend or show notes sections
     notes_elements = section.css('.show-notes, .notes, .legend')
-    
+
     if notes_elements.any?
       notes_text = notes_elements.text.strip
       concert[:show_notes][:additional] = notes_text unless notes_text.empty?
-      
+
       # Parse legend (e.g., "* = Neil Young")
       legend_matches = notes_text.scan(/([*+→]+)\s*[=:]\s*([^,\n]+)/)
       legend_matches.each do |symbol, meaning|
@@ -312,29 +312,29 @@ class DMBSetlistScraper
 
   def sanitize_filename_part(text)
     return 'unknown' unless text && !text.empty?
-    
+
     # Remove/replace special characters and normalize
     clean = text.downcase
                 .gsub(/[^a-z0-9\s]/, ' ')  # Replace special chars with spaces
                 .gsub(/\s+/, '_')          # Replace spaces with underscores
                 .gsub(/_+/, '_')           # Collapse multiple underscores
                 .gsub(/^_|_$/, '')         # Remove leading/trailing underscores
-    
+
     # Limit length
     clean = clean[0..30] if clean.length > 30
-    
+
     clean.empty? ? 'unknown' : clean
   end
 
   def parse_location(location_str)
     return { city: 'unknown', region: 'unknown' } unless location_str
-    
+
     parts = location_str.split(',').map(&:strip)
-    
+
     if parts.length >= 2
       city = parts[0]
       region = parts[1]
-      
+
       # Handle different formats
       if region.length == 2 # US state
         { city: sanitize_filename_part(city), region: sanitize_filename_part(region) }
@@ -348,22 +348,22 @@ class DMBSetlistScraper
 
   def generate_filename(concert)
     return nil unless concert[:date] && concert[:venue]
-    
+
     date_parts = concert[:date].split('-')
     year, month, day = date_parts[0], date_parts[1], date_parts[2]
-    
+
     venue = sanitize_filename_part(concert[:venue])
     location = parse_location(concert[:location])
-    
+
     base_name = "#{year}_#{month}_#{day}_#{venue}_#{location[:city]}_#{location[:region]}"
-    
+
     # Find unique filename with 4-digit suffix
     counter = 1
     loop do
       suffix = counter.to_s.rjust(4, '0')
       filename = "#{base_name}_#{suffix}.json"
       filepath = File.join(@output_dir, filename)
-      
+
       break filename unless File.exist?(filepath)
       counter += 1
     end
@@ -372,21 +372,21 @@ class DMBSetlistScraper
   def save_concert_file(concert)
     filename = generate_filename(concert)
     return false unless filename
-    
+
     filepath = File.join(@output_dir, filename)
-    
+
     begin
       File.write(filepath, JSON.pretty_generate(concert))
       puts "    Saved: #{filename}" if @options[:verbose]
-      
+
       # Print show summary
       main_count = concert[:setlist][:main_set].length
       encore_count = concert[:setlist][:encore].length
       total_count = main_count + encore_count
-      
+
       puts "    #{concert[:date]} - #{concert[:venue]} - #{concert[:location]}"
       puts "      Main set: #{main_count} songs, Encore: #{encore_count} songs, Total: #{total_count} songs"
-      
+
       true
     rescue StandardError => e
       puts "    Error saving #{filename}: #{e.message}"
@@ -396,20 +396,20 @@ class DMBSetlistScraper
 
   def scrape_year(year)
     puts "Processing year #{year}..."
-    
+
     url = "#{BASE_URL}?year=#{year}"
     html_content = fetch_page(url)
-    
+
     return [] unless html_content
-    
+
     # Check if this year has any setlists
     unless has_setlists?(html_content)
       puts "  No setlists found for #{year}"
       return []
     end
-    
+
     concerts = parse_setlist_page(html_content, year)
-    
+
     year_saved = 0
     concerts.each do |concert|
       if save_concert_file(concert)
@@ -417,35 +417,35 @@ class DMBSetlistScraper
         @show_count += 1
       end
     end
-    
+
     @year_stats[year] = { found: concerts.length, saved: year_saved }
     puts "  Year #{year}: #{concerts.length} shows found, #{year_saved} saved"
-    
+
     concerts
   end
 
   def scrape_all_years
     puts "Starting comprehensive DMB setlist scraping (2025 back to 1991 or earlier)..."
     puts "Will stop when a year returns no setlists."
-    
+
     ensure_output_directory
-    
+
     start_year = 2025
     current_year = start_year
-    
+
     # Continue until we find a year with no setlists
     while current_year >= 1985 # Safety limit
       concerts = scrape_year(current_year)
-      
+
       # If no concerts found, we've likely reached the earliest year
       break if concerts.empty?
-      
+
       # Rate limiting - be respectful
       sleep(2)
-      
+
       current_year -= 1
     end
-    
+
     print_final_statistics
   end
 
@@ -453,31 +453,31 @@ class DMBSetlistScraper
     puts "\n" + "="*60
     puts "FINAL SCRAPING STATISTICS"
     puts "="*60
-    
+
     puts "Total shows discovered and saved: #{@show_count}"
     puts "Years processed: #{@year_stats.keys.sort.reverse.join(', ')}"
-    
+
     if @year_stats.any?
       earliest_year = @year_stats.keys.min
       latest_year = @year_stats.keys.max
       puts "Date range: #{earliest_year} - #{latest_year}"
-      
+
       puts "\nYear-by-year breakdown:"
       @year_stats.keys.sort.reverse.each do |year|
         stats = @year_stats[year]
         puts "  #{year}: #{stats[:saved]} shows saved (#{stats[:found]} found)"
       end
     end
-    
+
     puts "\nOutput directory: #{@output_dir}/"
-    
+
     # Show sample files
     sample_files = Dir.glob(File.join(@output_dir, '*.json')).first(5)
     if sample_files.any?
       puts "\nSample files created:"
       sample_files.each { |file| puts "  #{File.basename(file)}" }
     end
-    
+
     puts "\nScraping completed successfully!"
   end
 
@@ -490,14 +490,14 @@ end
 # Command line interface
 if __FILE__ == $PROGRAM_NAME
   options = {}
-  
+
   OptionParser.new do |opts|
     opts.banner = 'Usage: ruby dmb_setlist_scraper.rb [options]'
-    
+
     opts.on('-v', '--verbose', 'Verbose output with detailed progress') do
       options[:verbose] = true
     end
-    
+
     opts.on('-h', '--help', 'Show this help') do
       puts opts
       puts "\nDescription:"

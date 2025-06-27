@@ -29,50 +29,50 @@ class DMBIndividualScraper
 
   def sanitize_filename_part(text)
     return 'unknown' unless text && !text.empty?
-    
+
     # Remove/replace special characters and normalize
     clean = text.downcase
                 .gsub(/[^a-z0-9\s]/, ' ')  # Replace special chars with spaces
                 .gsub(/\s+/, '_')          # Replace spaces with underscores
                 .gsub(/_+/, '_')           # Collapse multiple underscores
                 .gsub(/^_|_$/, '')         # Remove leading/trailing underscores
-    
+
     # Limit length to prevent overly long filenames
     clean = clean[0..30] if clean.length > 30
-    
+
     clean.empty? ? 'unknown' : clean
   end
 
   def parse_location(location_str)
     return { city: 'unknown', region: 'unknown' } unless location_str
-    
+
     parts = location_str.split(',').map(&:strip)
-    
+
     if parts.length >= 2
       city = parts[0]
       region = parts[1]
-      
+
       # Handle different location formats
       if region.length == 2 # US state abbreviation
-        { 
-          city: sanitize_filename_part(city), 
-          region: sanitize_filename_part(region) 
+        {
+          city: sanitize_filename_part(city),
+          region: sanitize_filename_part(region)
         }
       elsif region.length <= 4 && region.upcase == region # Province abbreviation
-        { 
-          city: sanitize_filename_part(city), 
-          region: sanitize_filename_part(region) 
+        {
+          city: sanitize_filename_part(city),
+          region: sanitize_filename_part(region)
         }
       else # International or full region name
-        { 
-          city: sanitize_filename_part(city), 
-          region: sanitize_filename_part(region) 
+        {
+          city: sanitize_filename_part(city),
+          region: sanitize_filename_part(region)
         }
       end
     else
-      { 
-        city: sanitize_filename_part(parts[0] || 'unknown'), 
-        region: 'unknown' 
+      {
+        city: sanitize_filename_part(parts[0] || 'unknown'),
+        region: 'unknown'
       }
     end
   end
@@ -109,9 +109,9 @@ class DMBIndividualScraper
         @collision_count += 1 if counter > 1
         return filename
       end
-      
+
       counter += 1
-      
+
       # Safety check to prevent infinite loops
       if counter > 9999
         puts "Warning: Reached maximum collision counter for #{base_name}"
@@ -140,11 +140,11 @@ class DMBIndividualScraper
     # Process setlist data
     if concert_data['setlist'] || concert_data[:setlist]
       setlist = concert_data['setlist'] || concert_data[:setlist]
-      
+
       if setlist['main_set'] || setlist[:main_set]
         processed_data['setlist']['main_set'] = setlist['main_set'] || setlist[:main_set]
       end
-      
+
       if setlist['encore'] || setlist[:encore]
         processed_data['setlist']['encore'] = setlist['encore'] || setlist[:encore]
       end
@@ -153,19 +153,19 @@ class DMBIndividualScraper
     # Process legacy song format (flat array)
     if concert_data['songs'] || concert_data[:songs]
       songs = concert_data['songs'] || concert_data[:songs]
-      
+
       # Try to separate main set and encore
       encore_index = songs.find_index { |song| song.to_s.downcase.include?('encore') }
-      
+
       if encore_index
         # Split at encore marker
         main_songs = songs[0...encore_index]
         encore_songs = songs[(encore_index + 1)..-1] || []
-        
+
         processed_data['setlist']['main_set'] = main_songs.map.with_index(1) do |song, pos|
           { 'title' => song, 'position' => pos }
         end
-        
+
         processed_data['setlist']['encore'] = encore_songs.map.with_index(1) do |song, pos|
           { 'title' => song, 'position' => pos }
         end
@@ -199,7 +199,7 @@ class DMBIndividualScraper
 
   def save_individual_file(concert_data, source_file = nil)
     processed_data = process_concert_data(concert_data, source_file)
-    
+
     filename = generate_filename(processed_data)
     return false unless filename
 
@@ -207,12 +207,12 @@ class DMBIndividualScraper
 
     begin
       File.write(filepath, JSON.pretty_generate(processed_data))
-      
+
       if @options[:verbose]
         main_count = processed_data['setlist']['main_set'].length
         encore_count = processed_data['setlist']['encore'].length
         total_count = main_count + encore_count
-        
+
         puts "  Saved: #{filename}"
         puts "    #{processed_data['date']} - #{processed_data['venue']} - #{processed_data['location']}"
         puts "    Main set: #{main_count} songs, Encore: #{encore_count} songs, Total: #{total_count} songs"
@@ -257,12 +257,12 @@ class DMBIndividualScraper
 
   def process_directory
     puts "Processing setlist data files in #{@input_dir}/..."
-    
+
     ensure_directories
-    
+
     # Find all JSON files in the input directory
     json_files = Dir.glob(File.join(@input_dir, '*.json'))
-    
+
     if json_files.empty?
       puts "No JSON files found in #{@input_dir}/"
       puts "Run the main scraper first: ruby dmb_setlist_scraper.rb"
@@ -301,7 +301,7 @@ class DMBIndividualScraper
 
   def run(options = {})
     @options = options
-    
+
     if @options[:input_file]
       # Process single file
       filepath = @options[:input_file]
@@ -309,7 +309,7 @@ class DMBIndividualScraper
         puts "Error: Input file not found: #{filepath}"
         return false
       end
-      
+
       puts "Processing single file: #{filepath}"
       process_json_file(filepath)
       print_statistics

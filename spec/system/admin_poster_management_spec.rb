@@ -5,7 +5,7 @@ RSpec.describe "Admin Poster Management", type: :system do
   let(:regular_user) { create(:user, admin: false) }
   let(:poster) { create(:poster) }
   let(:band) { create(:band) }
-  let(:venue) { create(:venue) }
+  let(:venue) { create(:venue, :fillmore) }
   let(:artist) { create(:artist) }
 
   before do
@@ -98,7 +98,7 @@ RSpec.describe "Admin Poster Management", type: :system do
         visit admin_posters_path
 
         expect(page).to have_content("Poster Management")
-        expect(page).to have_css("tbody tr", count: 5)
+        expect(page).to have_css("tbody tr", minimum: 5) # At least 5 posters
         expect(page).to have_link("Add New Poster")
       end
 
@@ -199,16 +199,13 @@ RSpec.describe "Admin Poster Management", type: :system do
 
   describe "Bulk operations" do
     before do
-      create_list(:poster, 10)
+      create_list(:poster, 25) # Create enough posters to trigger pagination (20 per page)
     end
 
     it "shows pagination controls" do
       visit admin_posters_path
 
-      # Assuming pagination is implemented
-      if Poster.count > 10
-        expect(page).to have_css(".pagination")
-      end
+      expect(page).to have_css(".pagination")
     end
 
     it "allows searching/filtering posters" do

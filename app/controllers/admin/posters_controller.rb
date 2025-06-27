@@ -49,7 +49,7 @@ class Admin::PostersController < ApplicationController
   private
 
   def set_poster
-    @poster = Poster.find(params[:id])
+    @poster = Poster.find_by_slug_or_id(params[:id])
   end
 
   def poster_params
