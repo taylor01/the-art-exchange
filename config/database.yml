@@ -83,19 +83,19 @@ production:
     <<: *default
     host: <%= ENV["DB_HOST"] %>
     port: 25060
-    database: defaultdb
+    database: <%= ENV["DATABASE_NAME"] %>
     username: doadmin
     password: <%= ENV["DATABASE_PASSWORD"] %>
     sslmode: require
   cache:
     <<: *primary_production
-    database: defaultdb
+    database: <%= ENV["DATABASE_NAME"] %>
     migrations_paths: db/cache_migrate
   queue:
     <<: *primary_production
-    database: defaultdb
+    database: <%= ENV["DATABASE_NAME"] %>
     migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
-    database: defaultdb
+    database: <%= ENV["DATABASE_NAME"] %>
     migrations_paths: db/cable_migrate

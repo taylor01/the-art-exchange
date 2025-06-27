@@ -38,6 +38,7 @@ env:
     - DATABASE_PASSWORD
     - KAMAL_REGISTRY_PASSWORD
     - DB_HOST
+    - DATABASE_NAME
     - ANTHROPIC_API_KEY
   clear:
     # Ensure Rails runs in production mode
