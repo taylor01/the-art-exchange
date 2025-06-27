@@ -81,18 +81,21 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: the_art_exchange_production
-    username: the_art_exchange
-    password: <%= ENV["THE_ART_EXCHANGE_DATABASE_PASSWORD"] %>
+    host: <%= ENV["DB_HOST"] %>
+    port: 25060
+    database: defaultdb
+    username: doadmin
+    password: <%= ENV["DATABASE_PASSWORD"] %>
+    sslmode: require
   cache:
     <<: *primary_production
-    database: the_art_exchange_production_cache
+    database: defaultdb
     migrations_paths: db/cache_migrate
   queue:
     <<: *primary_production
-    database: the_art_exchange_production_queue
+    database: defaultdb
     migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
-    database: the_art_exchange_production_cable
+    database: defaultdb
     migrations_paths: db/cable_migrate
