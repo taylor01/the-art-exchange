@@ -1,0 +1,4 @@
+CREATE DATABASE the_art_exchange_production;
+CREATE DATABASE the_art_exchange_cache;
+CREATE DATABASE the_art_exchange_queue;
+CREATE DATABASE the_art_exchange_cable;
