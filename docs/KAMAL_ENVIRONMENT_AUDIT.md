@@ -186,6 +186,150 @@ Each script includes built-in help:
 - All actual secrets are stored securely in 1Password
 - Scripts include syntax validation to prevent credential exposure
 
+## Rails 8 Single Database Configuration
+
+### Critical Configuration Changes Required
+
+When deploying Rails 8 to DigitalOcean with a single database (instead of the default multi-database setup), several configuration files must be modified:
+
+#### 1. **Database Configuration (`config/database.yml`)**
+```yaml
+# BEFORE (Rails 8 default - multi-database)
+production:
+  primary: &primary_production
+    <<: *default
+    url: <%= ENV["DATABASE_URL"] %>
+    database: the_art_exchange_production
+    sslmode: require
+  cache:
+    <<: *primary_production
+    database: the_art_exchange_cache
+    migrations_paths: db/cache_migrate
+  queue:
+    <<: *primary_production
+    database: the_art_exchange_queue
+    migrations_paths: db/queue_migrate
+  cable:
+    <<: *primary_production
+    database: the_art_exchange_cable
+    migrations_paths: db/cable_migrate
+
+# AFTER (Single database setup)
+production:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
+  sslmode: require
+```
+
+#### 2. **Solid Queue Configuration (`config/environments/production.rb`)**
+```ruby
+# BEFORE
+config.active_job.queue_adapter = :solid_queue
+config.solid_queue.connects_to = { database: { writing: :queue } }
+
+# AFTER
+config.active_job.queue_adapter = :solid_queue
+# Use primary database for Solid Queue (single database setup)
+# config.solid_queue.connects_to = { database: { writing: :queue } }
+```
+
+#### 3. **Solid Cache Configuration (`config/cache.yml`)**
+```yaml
+# BEFORE
+production:
+  database: cache
+  <<: *default
+
+# AFTER  
+production:
+  <<: *default
+```
+
+#### 4. **Solid Cable Configuration (`config/cable.yml`)**
+```yaml
+# BEFORE
+production:
+  adapter: solid_cable
+  connects_to:
+    database:
+      writing: cable
+  polling_interval: 0.1.seconds
+  message_retention: 1.day
+
+# AFTER
+production:
+  adapter: solid_cable
+  polling_interval: 0.1.seconds
+  message_retention: 1.day
+```
+
+#### 5. **Solid Cache Environment Configuration (`config/environments/production.rb`)**
+```ruby
+# ADD THIS LINE
+config.solid_cache.connects_to = nil
+```
+
+#### 6. **Remove Separate Schema Files**
+```bash
+# Move these files out of the way (Rails auto-detects them and tries to configure separate databases)
+mv db/cache_schema.rb db/cache_schema.rb.unused
+mv db/cable_schema.rb db/cable_schema.rb.unused  
+mv db/queue_schema.rb db/queue_schema.rb.unused
+```
+
+### Why This Is Necessary
+
+**Rails 8 Default Behavior:**
+- Expects separate databases for cache, queue, and cable
+- Optimized for high-traffic, multi-server deployments
+- Each component gets isolated database connections
+
+**DigitalOcean Managed PostgreSQL:**
+- Provides single database (`defaultdb`)
+- Additional databases cost extra
+- Single database is perfect for small-to-medium applications
+
+**Single Database Benefits:**
+- ✅ Lower cost (one database vs four)
+- ✅ Simpler management
+- ✅ Fewer connections to manage
+- ✅ All data in one place
+- ✅ Perfect for single-server deployments
+
+### Verification Commands
+
+After deployment, verify all Solid components are using the primary database:
+
+```bash
+# Check all Solid tables exist in primary database
+kamal app exec "bin/rails runner 'puts ActiveRecord::Base.connection.tables.grep(/solid/)'"
+
+# Should show 13 tables:
+# solid_queue_* (9 tables)
+# solid_cache_entries (1 table)  
+# solid_cable_messages (1 table)
+```
+
+### Common Gotchas
+
+1. **Installer Commands Revert Changes**
+   ```bash
+   # These commands will recreate separate database configurations:
+   bin/rails solid_queue:install
+   bin/rails solid_cache:install  
+   bin/rails solid_cable:install
+   
+   # Re-apply single database fixes after running installers
+   ```
+
+2. **Schema Files Auto-Detection**
+   - Rails detects `db/*_schema.rb` files and assumes separate databases
+   - Move them out of the way to prevent auto-configuration
+
+3. **Multiple Configuration Locations**
+   - Check both `config/environments/production.rb` AND component-specific YAML files
+   - Installers may add configurations in multiple places
+
 ## Integration with Development Workflow
 
 These tools integrate with your existing development workflow:
