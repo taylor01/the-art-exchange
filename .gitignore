@@ -49,3 +49,6 @@ dump.rdb
 # DMB scraper generated data
 /tools/dmb_scraper/setlists/*.json
 !/tools/dmb_scraper/setlists/sample_dmb_setlists.json
+
+# 1Password CLI directory (contains sensitive session/cache data)
+.op/
