@@ -38,6 +38,10 @@ env:
     - DATABASE_URL
     - KAMAL_REGISTRY_PASSWORD
     - ANTHROPIC_API_KEY
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
+    - AWS_S3_BUCKET
+    - AWS_REGION
   clear:
     # Ensure Rails runs in production mode
     RAILS_ENV: production

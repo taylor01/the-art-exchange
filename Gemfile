@@ -42,6 +42,9 @@ gem "thruster", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
 
+# AWS S3 for production file storage
+gem "aws-sdk-s3", require: false
+
 # Core application gems
 gem "geocoder"
 gem "pg_search"
