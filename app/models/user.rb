@@ -25,6 +25,7 @@ class User < ApplicationRecord
 
   # Terms of Service acceptance validation
   validates :terms_accepted_at, presence: { message: "You must accept the Terms of Service to create an account" }, on: :create
+  validates :terms_version, presence: true, if: :terms_accepted_at?
   validate :terms_acceptance_is_recent, on: :create
 
   # Optional password validation
@@ -159,6 +160,7 @@ class User < ApplicationRecord
       user.last_name = info[:last_name] || info["last_name"] || info[:name]&.split&.last || info["name"]&.split&.last
       user.confirmed_at = Time.current
       user.terms_accepted_at = Time.current  # Auto-accept terms for OAuth users
+      user.terms_version = Rails.application.config.authentication[:current_terms_version]
       user.provider_data = auth.respond_to?(:to_h) ? auth.to_h : auth
     end
   end
@@ -211,17 +213,27 @@ class User < ApplicationRecord
   end
 
   # Terms of Service acceptance
-  def accept_terms!
-    update!(terms_accepted_at: Time.current)
+  def accept_terms!(version = nil)
+    version ||= auth_config[:current_terms_version]
+    update!(terms_accepted_at: Time.current, terms_version: version)
   end
 
   def terms_accepted?
     terms_accepted_at.present?
   end
 
+  def terms_current?
+    return false unless terms_accepted? && terms_version.present?
+    terms_version == auth_config[:current_terms_version]
+  end
+
+  # Legacy method for backwards compatibility
   def terms_acceptance_current?
-    return false unless terms_accepted?
-    terms_accepted_at >= 1.year.ago
+    terms_current?
+  end
+
+  def current_terms_version
+    auth_config[:current_terms_version]
   end
 
   private

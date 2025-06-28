@@ -9,9 +9,10 @@ class RegistrationsController < ApplicationController
     @user = User.new(registration_params)
     @user.email = @user.email&.downcase&.strip
 
-    # Set terms acceptance timestamp if checkbox was checked
+    # Set terms acceptance timestamp and version if checkbox was checked
     if params[:user][:terms_accepted].present? && params[:user][:terms_accepted] != "0"
       @user.terms_accepted_at = Time.current
+      @user.terms_version = Rails.application.config.authentication[:current_terms_version]
     end
 
     if @user.save

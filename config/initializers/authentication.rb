@@ -20,6 +20,9 @@ Rails.application.configure do
 
     # Password settings (for optional traditional passwords)
     password_min_length: 8,
-    password_require_special_chars: true
+    password_require_special_chars: true,
+
+    # Terms of Service versioning
+    current_terms_version: "2024-06-28"
   }
 end

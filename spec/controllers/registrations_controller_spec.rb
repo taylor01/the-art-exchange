@@ -91,12 +91,18 @@ RSpec.describe RegistrationsController, type: :controller do
     end
 
     context "with terms acceptance" do
-      it "sets terms_accepted_at when checkbox is checked" do
+      before do
+        allow(Rails.application.config.authentication).to receive(:[]).and_call_original
+        allow(Rails.application.config.authentication).to receive(:[]).with(:current_terms_version).and_return("2024-06-28")
+      end
+
+      it "sets terms_accepted_at and terms_version when checkbox is checked" do
         params_with_terms = valid_params.deep_merge(user: { terms_accepted: "1" })
         post :create, params: params_with_terms
 
         user = User.last
         expect(user.terms_accepted_at).to be_within(1.second).of(Time.current)
+        expect(user.terms_version).to eq("2024-06-28")
       end
 
       it "does not set terms_accepted_at when checkbox is unchecked" do

@@ -299,7 +299,9 @@ namespace :migrate do
               last_name: prod_user["last_name"],
               admin: prod_user["is_admin"] || false,
               created_at: prod_user["created_at"],
-              updated_at: prod_user["updated_at"]
+              updated_at: prod_user["updated_at"],
+              terms_accepted_at: prod_user["created_at"], # Set terms acceptance to original account creation
+              terms_version: "legacy-import" # Mark as legacy users for later re-acceptance
               # Note: Skip encrypted_password - users will need to reset passwords
             )
             imported_count += 1
@@ -856,6 +858,53 @@ namespace :migrate do
     end
 
     puts "✅ Cleanup complete!"
+  end
+
+  desc "Reset terms acceptance for imported users to force re-acceptance"
+  task reset_terms_acceptance: :environment do
+    puts "📋 Resetting terms acceptance for imported users..."
+
+    # Find all users with legacy import terms version
+    legacy_users = User.where(terms_version: "legacy-import")
+    legacy_count = legacy_users.count
+
+    puts "📊 Found #{legacy_count} users with legacy terms version"
+
+    if legacy_count == 0
+      puts "⚠️  No legacy users found. Terms reset not needed."
+      return
+    end
+
+    # Confirm this action
+    puts "⚠️  This will clear terms acceptance for #{legacy_count} users."
+    puts "   Users will be prompted to accept current terms on next login."
+    puts "   Continue? (y/N)"
+
+    unless Rails.env.production? || ENV["FORCE_RESET"] == "true"
+      # In development/test, proceed automatically
+      puts "   (Auto-proceeding in non-production environment)"
+    else
+      # In production, require confirmation
+      response = STDIN.gets.chomp.downcase
+      unless response == "y" || response == "yes"
+        puts "❌ Terms reset cancelled."
+        return
+      end
+    end
+
+    # Reset terms acceptance for legacy users
+    reset_count = 0
+    legacy_users.find_each do |user|
+      user.update!(
+        terms_accepted_at: nil,
+        terms_version: nil
+      )
+      reset_count += 1
+      puts "  ✅ Reset terms for user #{user.id}: #{user.email}" if reset_count % 100 == 0
+    end
+
+    puts "✅ Terms reset complete: #{reset_count} users will be prompted to accept current terms"
+    puts "📋 Current terms version: #{Rails.application.config.authentication[:current_terms_version]}"
   end
 
   private

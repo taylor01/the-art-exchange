@@ -48,12 +48,21 @@ RSpec.describe User, type: :model do
     describe 'terms of service acceptance' do
       it 'requires terms acceptance on create' do
         user.terms_accepted_at = nil
+        user.terms_version = nil
         expect(user).not_to be_valid
         expect(user.errors[:terms_accepted_at]).to include('You must accept the Terms of Service to create an account')
       end
 
-      it 'accepts recent terms acceptance' do
+      it 'requires terms version when terms are accepted' do
+        user.terms_accepted_at = Time.current
+        user.terms_version = nil
+        expect(user).not_to be_valid
+        expect(user.errors[:terms_version]).to include("can't be blank")
+      end
+
+      it 'accepts recent terms acceptance with version' do
         user.terms_accepted_at = 30.minutes.ago
+        user.terms_version = "2024-06-28"
         expect(user).to be_valid
       end
 
@@ -71,6 +80,7 @@ RSpec.describe User, type: :model do
 
       it 'allows updating existing users without terms validation' do
         user.terms_accepted_at = Time.current
+        user.terms_version = "2024-06-28"
         user.save!
 
         user.reload
@@ -418,7 +428,7 @@ RSpec.describe User, type: :model do
     end
 
     describe 'terms acceptance methods' do
-      let(:user) { create(:user, terms_accepted_at: Time.current) }
+      let(:user) { create(:user, terms_accepted_at: Time.current, terms_version: "2024-06-28") }
 
       describe '#terms_accepted?' do
         it 'returns true when terms_accepted_at is present' do
@@ -426,33 +436,75 @@ RSpec.describe User, type: :model do
         end
 
         it 'returns false when terms_accepted_at is nil' do
-          user.update_column(:terms_accepted_at, nil)
+          user.update_columns(terms_accepted_at: nil, terms_version: nil)
           expect(user.terms_accepted?).to be false
         end
       end
 
-      describe '#terms_acceptance_current?' do
-        it 'returns true for recent acceptance' do
-          user.update_column(:terms_accepted_at, 6.months.ago)
-          expect(user.terms_acceptance_current?).to be true
+      describe '#terms_current?' do
+        before do
+          allow(Rails.application.config.authentication).to receive(:[]).and_call_original
+          allow(Rails.application.config.authentication).to receive(:[]).with(:current_terms_version).and_return("2024-06-28")
         end
 
-        it 'returns false for old acceptance' do
-          user.update_column(:terms_accepted_at, 2.years.ago)
-          expect(user.terms_acceptance_current?).to be false
+        it 'returns true when user has accepted current terms version' do
+          user.update_columns(terms_accepted_at: Time.current, terms_version: "2024-06-28")
+          expect(user.terms_current?).to be true
+        end
+
+        it 'returns false when user has accepted old terms version' do
+          user.update_columns(terms_accepted_at: Time.current, terms_version: "2023-01-01")
+          expect(user.terms_current?).to be false
         end
 
         it 'returns false when terms not accepted' do
-          user.update_column(:terms_accepted_at, nil)
-          expect(user.terms_acceptance_current?).to be false
+          user.update_columns(terms_accepted_at: nil, terms_version: nil)
+          expect(user.terms_current?).to be false
+        end
+
+        it 'returns false when terms_version is nil' do
+          user.update_columns(terms_accepted_at: Time.current, terms_version: nil)
+          expect(user.terms_current?).to be false
+        end
+      end
+
+      describe '#terms_acceptance_current?' do
+        it 'delegates to terms_current? for backwards compatibility' do
+          expect(user).to receive(:terms_current?).and_return(true)
+          expect(user.terms_acceptance_current?).to be true
         end
       end
 
       describe '#accept_terms!' do
-        it 'sets terms_accepted_at to current time' do
-          user.update_column(:terms_accepted_at, nil)
+        before do
+          allow(Rails.application.config.authentication).to receive(:[]).and_call_original
+          allow(Rails.application.config.authentication).to receive(:[]).with(:current_terms_version).and_return("2024-06-28")
+        end
+
+        it 'sets terms_accepted_at to current time and current version' do
+          user.update_columns(terms_accepted_at: nil, terms_version: nil)
+
           expect { user.accept_terms! }.to change { user.terms_accepted_at }.from(nil)
           expect(user.terms_accepted_at).to be_within(1.second).of(Time.current)
+          expect(user.reload.terms_version).to eq("2024-06-28")
+        end
+
+        it 'accepts custom version parameter' do
+          user.update_columns(terms_accepted_at: nil, terms_version: nil)
+
+          user.accept_terms!("custom-version")
+          expect(user.reload.terms_version).to eq("custom-version")
+        end
+      end
+
+      describe '#current_terms_version' do
+        before do
+          allow(Rails.application.config.authentication).to receive(:[]).and_call_original
+          allow(Rails.application.config.authentication).to receive(:[]).with(:current_terms_version).and_return("2024-06-28")
+        end
+
+        it 'returns the current terms version from config' do
+          expect(user.current_terms_version).to eq("2024-06-28")
         end
       end
     end
