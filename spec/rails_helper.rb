@@ -54,6 +54,9 @@ RSpec.configure do |config|
 
   # Configure FactoryBot
   config.include FactoryBot::Syntax::Methods
+  
+  # Include time travel helpers for testing
+  config.include ActiveSupport::Testing::TimeHelpers
 
   # Configure Capybara for system tests
   config.before(:each, type: :system) do
