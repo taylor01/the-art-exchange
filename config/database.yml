@@ -87,6 +87,8 @@ production:
     username: doadmin
     password: <%= ENV["DATABASE_PASSWORD"] %>
     sslmode: require
+    # Use the main database for administrative tasks
+    database_tasks: true
   cache:
     <<: *primary_production
     database: the_art_exchange_cache
