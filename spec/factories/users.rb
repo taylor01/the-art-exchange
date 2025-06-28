@@ -5,6 +5,7 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     confirmed_at { Time.current }
     terms_accepted_at { Time.current }
+    terms_version { "2024-06-28" }
 
     trait :unconfirmed do
       confirmed_at { nil }

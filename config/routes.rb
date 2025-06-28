@@ -78,6 +78,10 @@ Rails.application.routes.draw do
   get "terms-of-service", to: "legal#terms_of_service", as: :terms_of_service
   get "privacy-policy", to: "legal#privacy_policy", as: :privacy_policy
 
+  # Terms acceptance
+  get "terms/accept", to: "terms_acceptance#show", as: :terms_acceptance
+  patch "terms/accept", to: "terms_acceptance#update", as: :update_terms_acceptance
+
   # Root route
   root "home#index"
 end

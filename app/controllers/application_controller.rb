@@ -2,6 +2,9 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
+  # Terms of Service enforcement
+  before_action :ensure_current_terms_accepted
+
   protected
 
   def current_user
@@ -38,6 +41,23 @@ class ApplicationController < ActionController::Base
 
   def redirect_back_or_to(default_path)
     redirect_to(session.delete(:user_return_to) || default_path)
+  end
+
+  def ensure_current_terms_accepted
+    return unless user_signed_in?
+    return if skip_terms_enforcement?
+
+    unless current_user.terms_current?
+      store_location_for_user
+      redirect_to terms_acceptance_path, alert: "Please review and accept our updated Terms of Service to continue."
+    end
+  end
+
+  def skip_terms_enforcement?
+    # Skip enforcement for certain controllers and actions
+    controller_name.in?([ "sessions", "registrations", "legal", "terms_acceptance" ]) ||
+    (controller_name == "password_resets") ||
+    (controller_name == "otp")
   end
 
   helper_method :current_user, :user_signed_in?
