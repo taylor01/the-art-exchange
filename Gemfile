@@ -87,6 +87,10 @@ group :development, :test do
 
   # Security scanning
   gem "bundler-audit", require: false
+
+  # Test coverage analysis
+  gem "simplecov", require: false
+  gem "simplecov_json_formatter", require: false
 end
 
 group :development do

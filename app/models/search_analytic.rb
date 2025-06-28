@@ -23,7 +23,7 @@ class SearchAnalytic < ApplicationRecord
     with_query
       .recent
       .group(:query)
-      .order("count(*) DESC")
+      .order(Arel.sql("count(*) DESC"))
       .limit(limit)
       .count
   end

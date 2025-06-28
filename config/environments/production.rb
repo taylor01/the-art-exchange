@@ -48,7 +48,7 @@ Rails.application.configure do
 
   # Replace the default in-process memory cache store with a durable alternative.
   config.cache_store = :solid_cache_store
-  
+
   # Use primary database for Solid Cache (single database setup)
   config.solid_cache.connects_to = nil
 
