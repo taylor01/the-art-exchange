@@ -80,12 +80,9 @@ test:
 #
 production:
   primary: &primary_production
-    <<: *default
-    host: <%= ENV["DB_HOST"] %>
-    port: 25060
-    database: <%= ENV["DATABASE_NAME"] %>
-    username: doadmin
-    password: <%= ENV["DATABASE_PASSWORD"] %>
+    <<: *defaults
+    url: <%= ENV["DATABASE_URL"] %>
+    database: the_art_exchange_production
     sslmode: require
     # Use the main database for administrative tasks
     database_tasks: true
