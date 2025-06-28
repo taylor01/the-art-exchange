@@ -80,7 +80,7 @@ test:
 #
 production:
   primary: &primary_production
-    <<: *defaults
+    <<: *default
     url: <%= ENV["DATABASE_URL"] %>
     database: the_art_exchange_production
     sslmode: require
