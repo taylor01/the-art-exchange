@@ -52,3 +52,6 @@ dump.rdb
 
 # 1Password CLI directory (contains sensitive session/cache data)
 .op/
+
+# Test coverage reports
+/coverage/
