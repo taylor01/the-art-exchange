@@ -14,7 +14,7 @@ RSpec.describe SearchAnalytic, type: :model do
     let!(:old_search) { create(:search_analytic, performed_at: 45.days.ago) }
     let!(:query_search) { create(:search_analytic, query: 'test query') }
     let!(:empty_query_search) { create(:search_analytic, query: '') }
-    let!(:faceted_search) { create(:search_analytic, facet_filters: { artists: ['Beatles'] }) }
+    let!(:faceted_search) { create(:search_analytic, facet_filters: { artists: [ 'Beatles' ] }) }
     let!(:non_faceted_search) { create(:search_analytic, facet_filters: nil) }
 
     describe '.recent' do
@@ -41,7 +41,7 @@ RSpec.describe SearchAnalytic, type: :model do
 
   describe '.track_search' do
     let(:user) { create(:user) }
-    let(:params) { { q: 'test query', artists: ['Beatles'], venues: ['Madison Square Garden'] } }
+    let(:params) { { q: 'test query', artists: [ 'Beatles' ], venues: [ 'Madison Square Garden' ] } }
 
     it 'creates a search analytic record' do
       expect {
@@ -57,8 +57,8 @@ RSpec.describe SearchAnalytic, type: :model do
     it 'records facet filters' do
       analytic = SearchAnalytic.track_search(params, user: user, results_count: 5)
       expect(analytic.facet_filters).to eq({
-        'artists' => ['Beatles'],
-        'venues' => ['Madison Square Garden']
+        'artists' => [ 'Beatles' ],
+        'venues' => [ 'Madison Square Garden' ]
       })
     end
 
@@ -114,24 +114,24 @@ RSpec.describe SearchAnalytic, type: :model do
 
   describe '.popular_facets' do
     before do
-      create(:search_analytic, 
-        facet_filters: { artists: ['Beatles'], venues: ['Abbey Road'] }, 
+      create(:search_analytic,
+        facet_filters: { artists: [ 'Beatles' ], venues: [ 'Abbey Road' ] },
         performed_at: 1.day.ago
       )
-      create(:search_analytic, 
-        facet_filters: { artists: ['Stones'], venues: ['Abbey Road'] }, 
+      create(:search_analytic,
+        facet_filters: { artists: [ 'Stones' ], venues: [ 'Abbey Road' ] },
         performed_at: 2.days.ago
       )
-      create(:search_analytic, 
-        facet_filters: { artists: ['Old Band'] }, 
+      create(:search_analytic,
+        facet_filters: { artists: [ 'Old Band' ] },
         performed_at: 45.days.ago
       )
     end
 
     it 'returns popular facet keys from recent searches' do
       popular = SearchAnalytic.popular_facets
-      expect(popular).to include(['artists', 2])
-      expect(popular).to include(['venues', 2])
+      expect(popular).to include([ 'artists', 2 ])
+      expect(popular).to include([ 'venues', 2 ])
     end
 
     it 'excludes old searches' do

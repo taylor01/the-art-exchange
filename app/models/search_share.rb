@@ -24,7 +24,7 @@ class SearchShare < ApplicationRecord
 
   def parsed_params
     return {} if search_params.blank?
-    
+
     JSON.parse(search_params).with_indifferent_access
   rescue JSON::ParserError
     {}

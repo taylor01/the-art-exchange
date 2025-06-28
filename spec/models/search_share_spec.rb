@@ -36,13 +36,13 @@ RSpec.describe SearchShare, type: :model do
     it 'generates unique tokens' do
       # Create first share
       first_share = create(:search_share)
-      
+
       # Mock SecureRandom to return the same token initially, then a different one
       allow(SecureRandom).to receive(:alphanumeric).with(8).and_return(first_share.token, 'unique12')
-      
+
       second_share = SearchShare.new(search_params: '{"q": "test2"}')
       second_share.valid?
-      
+
       expect(second_share.token).to eq('unique12')
       expect(second_share.token).not_to eq(first_share.token)
     end
@@ -61,7 +61,7 @@ RSpec.describe SearchShare, type: :model do
   end
 
   describe '.create_for_search' do
-    let(:search_params) { { q: 'beatles', artists: ['Beatles'], page: '2', per_page: '20', blank_param: '' } }
+    let(:search_params) { { q: 'beatles', artists: [ 'Beatles' ], page: '2', per_page: '20', blank_param: '' } }
 
     it 'creates a search share record' do
       expect {
@@ -72,7 +72,7 @@ RSpec.describe SearchShare, type: :model do
     it 'removes pagination and blank parameters' do
       share = SearchShare.create_for_search(search_params)
       parsed = share.parsed_params
-      
+
       expect(parsed).to have_key('q')
       expect(parsed).to have_key('artists')
       expect(parsed).not_to have_key('page')
@@ -90,10 +90,10 @@ RSpec.describe SearchShare, type: :model do
     it 'stores search params as JSON' do
       share = SearchShare.create_for_search(search_params)
       expect(share.search_params).to be_a(String)
-      
+
       parsed = JSON.parse(share.search_params)
       expect(parsed['q']).to eq('beatles')
-      expect(parsed['artists']).to eq(['Beatles'])
+      expect(parsed['artists']).to eq([ 'Beatles' ])
     end
   end
 
@@ -118,13 +118,13 @@ RSpec.describe SearchShare, type: :model do
 
   describe '#parsed_params' do
     it 'returns parsed JSON as indifferent access hash' do
-      params = { q: 'test', artists: ['Beatles'] }
+      params = { q: 'test', artists: [ 'Beatles' ] }
       share = create(:search_share, search_params: params.to_json)
-      
+
       parsed = share.parsed_params
       expect(parsed[:q]).to eq('test')
       expect(parsed['q']).to eq('test')
-      expect(parsed[:artists]).to eq(['Beatles'])
+      expect(parsed[:artists]).to eq([ 'Beatles' ])
     end
 
     it 'returns empty hash for invalid JSON' do
