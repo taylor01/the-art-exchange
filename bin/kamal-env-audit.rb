@@ -36,6 +36,7 @@ class KamalEnvironmentAuditor
     "AWS_SECRET_ACCESS_KEY" => { required: true, source: "storage.yml", description: "AWS S3 secret key" },
     "AWS_REGION" => { required: true, source: "storage.yml", description: "AWS S3 region" },
     "AWS_S3_BUCKET" => { required: true, source: "storage.yml", description: "AWS S3 bucket name" },
+    "AWS_S3_MIGRATION_BUCKET" => { required: true, source: "deployment", description: "AWS S3 bucket for migrations" },
     
     # Authentication/OAuth
     "GOOGLE_CLIENT_ID" => { required: false, source: "omniauth.rb", description: "Google OAuth client ID" },
@@ -232,7 +233,7 @@ class KamalEnvironmentAuditor
   end
 
   def test_vault_access
-    vault_path = "Kamal-Deployment-Secrets/the-art-exchange-production"
+    vault_path = "Personal Dev/the-art-exchange-production"
     
     puts "\n🔍 Testing vault access: #{vault_path}"
     
@@ -242,7 +243,10 @@ class KamalEnvironmentAuditor
     secrets_to_test.each do |secret|
       print "   Testing #{secret}... "
       
-      if system("op item get '#{vault_path}' --fields #{secret} > /dev/null 2>&1")
+      # Convert to lowercase for 1Password field lookup
+      lowercase_secret = secret.downcase
+      
+      if system("op item get 'the-art-exchange-production' --vault 'Personal Dev' --fields #{lowercase_secret} > /dev/null 2>&1")
         puts "✅".colorize(:green)
       else
         puts "❌".colorize(:red)
