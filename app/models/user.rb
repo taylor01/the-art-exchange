@@ -24,9 +24,9 @@ class User < ApplicationRecord
   validates :twitter_handle, format: { with: /\A[a-zA-Z0-9_]{1,15}\z/ }, allow_blank: true
 
   # Terms of Service acceptance validation
-  validates :terms_accepted_at, presence: { message: "You must accept the Terms of Service to create an account" }, on: :create
+  validates :terms_accepted_at, presence: { message: "You must accept the Terms of Service to create an account" }, on: :create, unless: -> { validation_context == :migration }
   validates :terms_version, presence: true, if: :terms_accepted_at?
-  validate :terms_acceptance_is_recent, on: :create
+  validate :terms_acceptance_is_recent, on: :create, unless: -> { validation_context == :migration }
 
   # Optional password validation
   validates :password, length: {
