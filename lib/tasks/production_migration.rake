@@ -51,9 +51,34 @@ namespace :migrate do
     puts "✅ Phase 1 Core Data Migration Complete!"
   end
 
-  desc "Migrate poster images from downloaded S3 files (Phase 2)"
+  desc "Migrate poster images from S3 source bucket (Phase 2)"
   task migrate_images: :environment do
-    puts "🖼️ Starting Phase 2: Image Migration"
+    puts "🖼️ Starting Phase 2: Image Migration from S3 Source"
+
+    # Validate S3 source configuration
+    source_bucket = ENV["SOURCE_S3_BUCKET"] || "the-art-exchange-migration-source"
+    source_region = ENV["SOURCE_S3_REGION"] || "us-east-1"
+
+    unless ENV["SOURCE_S3_ACCESS_KEY"] && ENV["SOURCE_S3_SECRET_KEY"]
+      puts "❌ Missing S3 source credentials. Please set:"
+      puts "   SOURCE_S3_ACCESS_KEY"
+      puts "   SOURCE_S3_SECRET_KEY"
+      puts "   SOURCE_S3_REGION (optional, defaults to us-east-1)"
+      puts "   SOURCE_S3_BUCKET (optional, defaults to the-art-exchange-migration-source)"
+      exit 1
+    end
+
+    puts "🗂️  Source S3 Configuration:"
+    puts "   Bucket: #{source_bucket}"
+    puts "   Region: #{source_region}"
+
+    # Initialize S3 client for source bucket
+    require "aws-sdk-s3"
+    s3_client = Aws::S3::Client.new(
+      access_key_id: ENV["SOURCE_S3_ACCESS_KEY"],
+      secret_access_key: ENV["SOURCE_S3_SECRET_KEY"],
+      region: source_region
+    )
 
     # Store original connection
     original_config = ActiveRecord::Base.connection_db_config
@@ -82,8 +107,6 @@ namespace :migrate do
     missing_files = 0
     missing_posters = 0
 
-    images_dir = Rails.root.join("migration", "images")
-
     mappings.each_with_index do |mapping, index|
       artwork_id = mapping["artwork_id"]
       blob_key = mapping["key"]
@@ -111,28 +134,40 @@ namespace :migrate do
           next
         end
 
-        # Check if local image file exists
-        image_path = images_dir.join(blob_key)
-        unless File.exist?(image_path)
-          puts "⚠️  Image file not found: #{blob_key}, skipping poster #{poster.id}" if index < 10
+        # Map database blob key to S3 source key
+        s3_key = map_blob_key_to_s3_path(blob_key)
+
+        # Download image from S3 source bucket
+        begin
+          response = s3_client.get_object(
+            bucket: source_bucket,
+            key: s3_key
+          )
+
+          # Attach image to poster using S3 data stream
+          poster.image.attach(
+            io: response.body,
+            filename: filename,
+            content_type: content_type
+          )
+
+          # Verify attachment was successful
+          if poster.image.attached?
+            successful_migrations += 1
+            puts "✅ Attached #{filename} to poster #{poster.id} (#{poster.name})" if index < 10 # Show first 10 for verification
+          else
+            puts "❌ Failed to attach image to poster #{poster.id}"
+            failed_migrations += 1
+          end
+
+        rescue Aws::S3::Errors::NoSuchKey
+          puts "⚠️  S3 object not found: #{s3_key}, skipping poster #{poster.id}" if index < 10
           missing_files += 1
           next
-        end
-
-        # Attach image to poster
-        poster.image.attach(
-          io: File.open(image_path),
-          filename: filename,
-          content_type: content_type
-        )
-
-        # Verify attachment was successful
-        if poster.image.attached?
-          successful_migrations += 1
-          puts "✅ Attached #{filename} to poster #{poster.id} (#{poster.name})" if index < 10 # Show first 10 for verification
-        else
-          puts "❌ Failed to attach image to poster #{poster.id}"
+        rescue Aws::S3::Errors::ServiceError => e
+          puts "❌ S3 error for #{s3_key}: #{e.message}"
           failed_migrations += 1
+          next
         end
 
       rescue => e
@@ -146,7 +181,7 @@ namespace :migrate do
     puts "\n📊 Image Migration Complete!"
     puts "✅ Successful: #{successful_migrations}"
     puts "❌ Failed: #{failed_migrations}"
-    puts "📁 Missing files: #{missing_files}"
+    puts "📁 Missing S3 objects: #{missing_files}"
     puts "📋 Missing posters: #{missing_posters}"
     puts "📈 Success rate: #{(successful_migrations * 100.0 / mappings.length).round(1)}%"
 
@@ -154,12 +189,30 @@ namespace :migrate do
     total_attached = Poster.joins(:image_attachment).count
     puts "🔗 Total posters with images: #{total_attached}/#{Poster.count}"
 
-    puts "\n🎯 Ready for Phase 3: User Collections Migration"
+    puts "\n🎯 Image Migration from S3 Source Complete!"
   end
 
-  desc "Test image migration with small batch"
+  desc "Test image migration with small batch from S3 source"
   task test_image_migration: :environment do
-    puts "🧪 Testing Image Migration (5 images)"
+    puts "🧪 Testing S3 Image Migration (5 images)"
+
+    # Validate S3 source configuration
+    source_bucket = ENV["SOURCE_S3_BUCKET"] || "the-art-exchange-migration-source"
+    source_region = ENV["SOURCE_S3_REGION"] || "us-east-1"
+
+    unless ENV["SOURCE_S3_ACCESS_KEY"] && ENV["SOURCE_S3_SECRET_KEY"]
+      puts "❌ Missing S3 source credentials for testing"
+      puts "✅ Test complete. Configure S3 credentials and run 'rake migrate:migrate_images' for full migration."
+      return
+    end
+
+    # Initialize S3 client for source bucket
+    require "aws-sdk-s3"
+    s3_client = Aws::S3::Client.new(
+      access_key_id: ENV["SOURCE_S3_ACCESS_KEY"],
+      secret_access_key: ENV["SOURCE_S3_SECRET_KEY"],
+      region: source_region
+    )
 
     # Store original connection
     original_config = ActiveRecord::Base.connection_db_config
@@ -180,21 +233,32 @@ namespace :migrate do
     # Restore development database connection
     ActiveRecord::Base.establish_connection(original_config)
 
-    puts "📋 Testing with #{mappings.length} images"
-
-    images_dir = Rails.root.join("migration", "images")
+    puts "📋 Testing with #{mappings.length} images from S3 bucket: #{source_bucket}"
 
     mappings.each do |mapping|
       artwork_id = mapping["artwork_id"]
       blob_key = mapping["key"]
       filename = mapping["filename"]
+      s3_key = map_blob_key_to_s3_path(blob_key)
 
       poster = Poster.find_by(id: artwork_id)
-      image_path = images_dir.join(blob_key)
 
-      puts "🔍 Artwork #{artwork_id} → Poster #{poster&.id} → Image #{blob_key}"
-      puts "   File exists: #{File.exist?(image_path)}"
-      puts "   File size: #{File.exist?(image_path) ? "#{(File.size(image_path) / 1024.0).round(1)} KB" : "N/A"}"
+      # Check if S3 object exists
+      s3_exists = false
+      s3_size = "N/A"
+      begin
+        response = s3_client.head_object(bucket: source_bucket, key: s3_key)
+        s3_exists = true
+        s3_size = "#{(response.content_length / 1024.0).round(1)} KB"
+      rescue Aws::S3::Errors::NoSuchKey
+        s3_exists = false
+      rescue => e
+        s3_exists = "Error: #{e.message}"
+      end
+
+      puts "🔍 Artwork #{artwork_id} → Poster #{poster&.id} → S3 #{s3_key}"
+      puts "   S3 object exists: #{s3_exists}"
+      puts "   S3 object size: #{s3_size}"
       puts "   Already attached: #{poster&.image&.attached?}"
       puts ""
     end
@@ -795,6 +859,22 @@ namespace :migrate do
   end
 
   private
+
+  # Helper method to map ActiveStorage blob key to S3 source path
+  def map_blob_key_to_s3_path(blob_key)
+    # ActiveStorage keys are typically like: 2a/x7/2ax7abc123def456...
+    # For migration source bucket, we'll use the same key structure
+    # This can be customized based on how images are organized in the source bucket
+
+    # Option 1: Use the blob key directly (if source bucket mirrors ActiveStorage structure)
+    blob_key
+
+    # Option 2: Add a prefix if images are organized differently
+    # "images/#{blob_key}"
+
+    # Option 3: Custom mapping based on your source bucket organization
+    # You may need to adjust this based on how the source bucket is structured
+  end
 
   # Helper method to normalize price values (dollars to cents)
   def normalize_price(price_value)
