@@ -112,9 +112,10 @@ portfolios        → (IGNORE - unused tagging feature)
    ```
 
 3. **Core Image Migration**
-   - Migrate 968 artwork images to poster.image attachments
-   - S3-to-S3 copy for speed and quality preservation
-   - Update ActiveStorage blob records
+   - Migrate 968 artwork images from S3 source bucket to poster.image attachments
+   - Direct S3-to-S3 transfer via ActiveStorage for speed and quality preservation
+   - Environment variables for source bucket credentials required
+   - Update ActiveStorage blob records automatically
 
 ### Phase 2: External Sales Feature (Week 2)
 **Priority: Medium - Valuable feature enhancement**
@@ -171,6 +172,190 @@ portfolios        → (IGNORE - unused tagging feature)
    - Collection functionality
    - Image display and upload
    - Search and browsing
+
+## S3 Source Migration Setup
+
+### AWS Policy Configuration
+
+#### Current Production Policy
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": "arn:aws:s3:::the-art-exchange/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": "arn:aws:s3:::the-art-exchange"
+        }
+    ]
+}
+```
+
+#### Temporary Migration Policy (During Migration Only)
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": "arn:aws:s3:::the-art-exchange/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": "arn:aws:s3:::the-art-exchange"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": "arn:aws:s3:::the-art-exchange-migration-source/*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": "arn:aws:s3:::the-art-exchange-migration-source"
+        }
+    ]
+}
+```
+
+### Environment Variables Required
+
+#### S3 Source Bucket Configuration
+```bash
+# Required for migration
+SOURCE_S3_ACCESS_KEY=AKIA...              # AWS access key with read access to source bucket
+SOURCE_S3_SECRET_KEY=...                  # AWS secret key
+SOURCE_S3_REGION=us-east-1               # AWS region (optional, defaults to us-east-1)
+SOURCE_S3_BUCKET=the-art-exchange-migration-source  # Source bucket name (optional, uses default)
+```
+
+### Migration Workflow
+
+#### Pre-Migration Setup
+1. **Clone production S3 bucket** to `the-art-exchange-migration-source`
+2. **Update AWS IAM policy** to include read access to migration source bucket
+3. **Configure environment variables** for source bucket credentials
+4. **Test connectivity** with small batch: `rake migrate:test_image_migration`
+
+#### Migration Execution
+
+##### Local Development
+```bash
+# Test with 5 images first
+rake migrate:test_image_migration
+
+# Run full migration (968 images)
+rake migrate:migrate_images
+```
+
+##### Heroku Production
+```bash
+# Set environment variables on Heroku
+heroku config:set SOURCE_S3_ACCESS_KEY=AKIA... -a your-app-name
+heroku config:set SOURCE_S3_SECRET_KEY=... -a your-app-name
+heroku config:set SOURCE_S3_REGION=us-east-1 -a your-app-name
+heroku config:set SOURCE_S3_BUCKET=the-art-exchange-migration-source -a your-app-name
+
+# Test migration with small batch via Heroku console
+heroku run rake migrate:test_image_migration -a your-app-name
+
+# Run full migration (use one-off dyno for long-running task)
+heroku run:detached rake migrate:migrate_images -a your-app-name
+
+# Monitor the detached dyno
+heroku logs --tail -a your-app-name
+
+# Alternative: Run in console session (stays connected)
+heroku run console -a your-app-name
+# Then in console: system("rake migrate:migrate_images")
+```
+
+#### Heroku-Specific Considerations
+
+##### Database Access Setup
+```bash
+# If production backup is on local machine, create accessible backup:
+# Option 1: Upload backup to S3 and download on Heroku
+aws s3 cp production_backup.dump s3://your-backup-bucket/
+heroku run bash -a your-app-name
+# In Heroku bash: curl https://s3.../production_backup.dump -o /tmp/backup.dump
+
+# Option 2: Use Heroku Postgres backup (if migrating from another Heroku app)
+heroku pg:backups:capture -a source-app-name
+heroku pg:backups:download b001 -a source-app-name  # Download locally
+# Then upload to migration bucket or restore to temporary database
+```
+
+##### Performance and Timeouts
+- **Detached dynos recommended** for migration (968 images)
+- **Standard dynos timeout** after 30 minutes (use `run:detached`)
+- **Memory considerations**: Each S3 transfer streams directly (low memory usage)
+- **Network transfer time**: ~1-2 seconds per image on Heroku
+- **Total estimated time**: 15-30 minutes for full migration
+
+##### Monitoring Progress
+```bash
+# View real-time logs
+heroku logs --tail -a your-app-name
+
+# Check dyno status
+heroku ps -a your-app-name
+
+# Verify results via Heroku console
+heroku run console -a your-app-name
+# In console: puts "Images: #{Poster.joins(:image_attachment).count}/#{Poster.count}"
+```
+
+##### Environment Variables Management
+```bash
+# View current config
+heroku config -a your-app-name
+
+# Remove migration variables after completion
+heroku config:unset SOURCE_S3_ACCESS_KEY -a your-app-name
+heroku config:unset SOURCE_S3_SECRET_KEY -a your-app-name
+heroku config:unset SOURCE_S3_REGION -a your-app-name
+heroku config:unset SOURCE_S3_BUCKET -a your-app-name
+```
+
+#### Post-Migration Cleanup
+1. **Revert AWS IAM policy** to original (remove migration source bucket access)
+2. **Delete migration source bucket** (optional - can keep as backup)
+3. **Remove environment variables** for source bucket credentials
+4. **Clean up Heroku config vars** (see commands above)
+
+### Image Path Mapping
+
+#### Current Implementation
+- **Default**: Uses ActiveStorage blob key directly (`map_blob_key_to_s3_path`)
+- **Customizable**: Method can be modified based on source bucket organization
+- **Options**:
+  - Direct key mapping: `blob_key` → `blob_key`
+  - Prefixed mapping: `blob_key` → `images/blob_key`
+  - Custom mapping: Based on source bucket structure
 
 ## Technical Implementation
 
