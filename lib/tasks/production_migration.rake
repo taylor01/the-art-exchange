@@ -292,7 +292,7 @@ namespace :migrate do
           end
 
           begin
-            User.create!(
+            user = User.new(
               id: prod_user["id"],
               email: prod_user["email"],
               first_name: prod_user["first_name"],
@@ -304,6 +304,7 @@ namespace :migrate do
               terms_version: "legacy-import" # Mark as legacy users for later re-acceptance
               # Note: Skip encrypted_password - users will need to reset passwords
             )
+            user.save!(context: :migration)
             imported_count += 1
             puts "  ✅ Imported user #{prod_user['id']}: #{prod_user['email']}" if imported_count % 50 == 0
           rescue ActiveRecord::RecordInvalid => e
