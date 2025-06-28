@@ -9,6 +9,11 @@ class RegistrationsController < ApplicationController
     @user = User.new(registration_params)
     @user.email = @user.email&.downcase&.strip
 
+    # Set terms acceptance timestamp if checkbox was checked
+    if params[:user][:terms_accepted].present? && params[:user][:terms_accepted] != "0"
+      @user.terms_accepted_at = Time.current
+    end
+
     if @user.save
       @user.generate_confirmation_token!
       AuthenticationMailer.confirmation_email(@user).deliver_now

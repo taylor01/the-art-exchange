@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_26_230243) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_28_020704) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -203,6 +203,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_26_230243) do
     t.string "preferred_contact_method", default: "email"
     t.string "instagram_handle"
     t.string "twitter_handle"
+    t.datetime "terms_accepted_at", precision: nil
     t.index ["collector_since"], name: "index_users_on_collector_since"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true

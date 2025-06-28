@@ -44,6 +44,40 @@ RSpec.describe User, type: :model do
       user.save!
       expect(user.email).to eq('test@example.com')
     end
+
+    describe 'terms of service acceptance' do
+      it 'requires terms acceptance on create' do
+        user.terms_accepted_at = nil
+        expect(user).not_to be_valid
+        expect(user.errors[:terms_accepted_at]).to include('You must accept the Terms of Service to create an account')
+      end
+
+      it 'accepts recent terms acceptance' do
+        user.terms_accepted_at = 30.minutes.ago
+        expect(user).to be_valid
+      end
+
+      it 'rejects future terms acceptance' do
+        user.terms_accepted_at = 1.hour.from_now
+        expect(user).not_to be_valid
+        expect(user.errors[:terms_accepted_at]).to include('cannot be in the future')
+      end
+
+      it 'rejects old terms acceptance' do
+        user.terms_accepted_at = 2.hours.ago
+        expect(user).not_to be_valid
+        expect(user.errors[:terms_accepted_at]).to include('acceptance must be recent (within the last hour)')
+      end
+
+      it 'allows updating existing users without terms validation' do
+        user.terms_accepted_at = Time.current
+        user.save!
+
+        user.reload
+        user.first_name = 'Updated'
+        expect(user).to be_valid
+      end
+    end
   end
 
   describe 'confirmation' do
@@ -380,6 +414,46 @@ RSpec.describe User, type: :model do
         user = create(:user, preferred_contact_method: 'both')
         expect(user.prefers_phone_contact?).to be true
         expect(user.prefers_email_contact?).to be true
+      end
+    end
+
+    describe 'terms acceptance methods' do
+      let(:user) { create(:user, terms_accepted_at: Time.current) }
+
+      describe '#terms_accepted?' do
+        it 'returns true when terms_accepted_at is present' do
+          expect(user.terms_accepted?).to be true
+        end
+
+        it 'returns false when terms_accepted_at is nil' do
+          user.update_column(:terms_accepted_at, nil)
+          expect(user.terms_accepted?).to be false
+        end
+      end
+
+      describe '#terms_acceptance_current?' do
+        it 'returns true for recent acceptance' do
+          user.update_column(:terms_accepted_at, 6.months.ago)
+          expect(user.terms_acceptance_current?).to be true
+        end
+
+        it 'returns false for old acceptance' do
+          user.update_column(:terms_accepted_at, 2.years.ago)
+          expect(user.terms_acceptance_current?).to be false
+        end
+
+        it 'returns false when terms not accepted' do
+          user.update_column(:terms_accepted_at, nil)
+          expect(user.terms_acceptance_current?).to be false
+        end
+      end
+
+      describe '#accept_terms!' do
+        it 'sets terms_accepted_at to current time' do
+          user.update_column(:terms_accepted_at, nil)
+          expect { user.accept_terms! }.to change { user.terms_accepted_at }.from(nil)
+          expect(user.terms_accepted_at).to be_within(1.second).of(Time.current)
+        end
       end
     end
   end
