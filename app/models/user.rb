@@ -23,6 +23,10 @@ class User < ApplicationRecord
   validates :instagram_handle, format: { with: /\A[a-zA-Z0-9._]{1,30}\z/ }, allow_blank: true
   validates :twitter_handle, format: { with: /\A[a-zA-Z0-9_]{1,15}\z/ }, allow_blank: true
 
+  # Terms of Service acceptance validation
+  validates :terms_accepted_at, presence: { message: "You must accept the Terms of Service to create an account" }, on: :create
+  validate :terms_acceptance_is_recent, on: :create
+
   # Optional password validation
   validates :password, length: {
     minimum: Rails.application.config.authentication[:password_min_length]
@@ -154,6 +158,7 @@ class User < ApplicationRecord
       user.first_name = info[:first_name] || info["first_name"] || info[:name]&.split&.first || info["name"]&.split&.first
       user.last_name = info[:last_name] || info["last_name"] || info[:name]&.split&.last || info["name"]&.split&.last
       user.confirmed_at = Time.current
+      user.terms_accepted_at = Time.current  # Auto-accept terms for OAuth users
       user.provider_data = auth.respond_to?(:to_h) ? auth.to_h : auth
     end
   end
@@ -205,6 +210,20 @@ class User < ApplicationRecord
     preferred_contact_method.in?([ "email", "both" ])
   end
 
+  # Terms of Service acceptance
+  def accept_terms!
+    update!(terms_accepted_at: Time.current)
+  end
+
+  def terms_accepted?
+    terms_accepted_at.present?
+  end
+
+  def terms_acceptance_current?
+    return false unless terms_accepted?
+    terms_accepted_at >= 1.year.ago
+  end
+
   private
 
   def normalize_email
@@ -235,5 +254,15 @@ class User < ApplicationRecord
   def secure_compare(a, b)
     return false if a.nil? || b.nil?
     ActiveSupport::SecurityUtils.secure_compare(a, b)
+  end
+
+  def terms_acceptance_is_recent
+    return unless terms_accepted_at
+
+    if terms_accepted_at > Time.current
+      errors.add(:terms_accepted_at, "cannot be in the future")
+    elsif terms_accepted_at < 1.hour.ago
+      errors.add(:terms_accepted_at, "acceptance must be recent (within the last hour)")
+    end
   end
 end

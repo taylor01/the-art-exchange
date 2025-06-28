@@ -21,7 +21,8 @@ RSpec.describe RegistrationsController, type: :controller do
         user: {
           email: "test@example.com",
           first_name: "John",
-          last_name: "Doe"
+          last_name: "Doe",
+          terms_accepted: "1"
         }
       }
     end
@@ -86,6 +87,52 @@ RSpec.describe RegistrationsController, type: :controller do
         expect {
           post :create, params: valid_params
         }.not_to change(User, :count)
+      end
+    end
+
+    context "with terms acceptance" do
+      it "sets terms_accepted_at when checkbox is checked" do
+        params_with_terms = valid_params.deep_merge(user: { terms_accepted: "1" })
+        post :create, params: params_with_terms
+
+        user = User.last
+        expect(user.terms_accepted_at).to be_within(1.second).of(Time.current)
+      end
+
+      it "does not set terms_accepted_at when checkbox is unchecked" do
+        params_without_terms = valid_params.deep_merge(user: { terms_accepted: "0" })
+        post :create, params: params_without_terms
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(User.count).to eq(0)
+      end
+
+      it "does not set terms_accepted_at when checkbox param is missing" do
+        params_without_terms_key = {
+          user: {
+            email: "test@example.com",
+            first_name: "John",
+            last_name: "Doe"
+          }
+        }
+        post :create, params: params_without_terms_key
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(User.count).to eq(0)
+      end
+
+      it "fails validation without terms acceptance" do
+        params_without_terms_key = {
+          user: {
+            email: "test@example.com",
+            first_name: "John",
+            last_name: "Doe"
+          }
+        }
+        post :create, params: params_without_terms_key
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(assigns(:user).errors[:terms_accepted_at]).to include('You must accept the Terms of Service to create an account')
       end
     end
   end
