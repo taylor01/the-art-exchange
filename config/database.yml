@@ -85,7 +85,7 @@ production:
     database: the_art_exchange_production
     sslmode: require
     # Use the main database for administrative tasks
-    database_tasks: true
+    # database_tasks: true
   cache:
     <<: *primary_production
     database: the_art_exchange_cache
