@@ -203,7 +203,7 @@ namespace :migrate do
     unless ENV["AWS_ACCESS_KEY_ID"] && ENV["AWS_SECRET_ACCESS_KEY"]
       puts "❌ Missing S3 source credentials for testing"
       puts "✅ Test complete. Configure S3 credentials and run 'rake migrate:migrate_images' for full migration."
-      next
+      return
     end
 
     # Initialize S3 client for source bucket
