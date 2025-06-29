@@ -65,7 +65,7 @@ namespace :migrate do
       puts "   SOURCE_S3_SECRET_KEY"
       puts "   SOURCE_S3_REGION (optional, defaults to us-east-1)"
       puts "   SOURCE_S3_BUCKET (optional, defaults to the-art-exchange-migration-source)"
-      exit 1
+      abort("Missing required S3 credentials")
     end
 
     puts "🗂️  Source S3 Configuration:"
@@ -203,7 +203,7 @@ namespace :migrate do
     unless ENV["SOURCE_S3_ACCESS_KEY"] && ENV["SOURCE_S3_SECRET_KEY"]
       puts "❌ Missing S3 source credentials for testing"
       puts "✅ Test complete. Configure S3 credentials and run 'rake migrate:migrate_images' for full migration."
-      return
+      next
     end
 
     # Initialize S3 client for source bucket
