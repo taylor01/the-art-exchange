@@ -103,7 +103,7 @@ class Poster < ApplicationRecord
 
     # Check if variant processing is available
     if self.class.variant_processing_available?
-      image.variant(resize_to_fill: [ 20, 27 ], quality: 30)
+      image.variant(resize_to_fill: [ 20, 27 ])
     else
       image
     end
