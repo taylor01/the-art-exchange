@@ -99,6 +99,11 @@
         <!-- Details Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
+            <dt class="text-sm font-medium text-stone-500">Poster ID:</dt>
+            <dd class="text-sm text-stone-900 font-mono">#<%= @poster.id %></dd>
+          </div>
+          
+          <div>
             <dt class="text-sm font-medium text-stone-500">Release date:</dt>
             <dd class="text-sm text-stone-900"><%= @poster.formatted_date %></dd>
           </div>
@@ -160,6 +165,71 @@
         <% end %>
       </div>
 
+      <!-- Poster Analysis -->
+      <% if @poster.has_metadata? %>
+        <div class="mt-8 pt-8 border-t border-stone-200">
+          <h3 class="text-lg font-medium text-stone-900 mb-4">Poster Analysis</h3>
+          
+          <!-- Color Families -->
+          <% if @poster.visual_metadata.dig("visual", "dominant_colors").present? %>
+            <div class="mb-6">
+              <h4 class="text-sm font-medium text-stone-500 mb-3">Color Families</h4>
+              <div class="flex flex-wrap gap-3">
+                <% @poster.visual_metadata.dig("visual", "dominant_colors").each_with_index do |hex_color, index| %>
+                  <% color_name = @poster.visual_metadata.dig("visual", "color_palette")&.at(index) || "Color #{index + 1}" %>
+                  <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded border border-stone-300 flex-shrink-0" style="background-color: <%= hex_color %>"></div>
+                    <div class="text-xs text-stone-600 font-medium"><%= color_name.titleize %></div>
+                    <div class="text-xs text-stone-400 font-mono">(<%= hex_color %>)</div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+          
+          <!-- Themes -->
+          <% if @poster.metadata_themes.present? %>
+            <div class="mb-6">
+              <h4 class="text-sm font-medium text-stone-500 mb-3">Themes</h4>
+              <div class="flex flex-wrap gap-2">
+                <% @poster.metadata_themes.each do |theme| %>
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-stone-100 text-stone-700">
+                    <%= theme.titleize %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+          
+          <!-- Mood -->
+          <% if @poster.metadata_mood.present? %>
+            <div class="mb-6">
+              <h4 class="text-sm font-medium text-stone-500 mb-3">Mood</h4>
+              <div class="flex flex-wrap gap-2">
+                <% @poster.metadata_mood.each do |mood| %>
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                    <%= mood.titleize %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+          
+          <!-- Elements -->
+          <% if @poster.metadata_elements.present? %>
+            <div class="mb-6">
+              <h4 class="text-sm font-medium text-stone-500 mb-3">Elements</h4>
+              <div class="flex flex-wrap gap-2">
+                <% @poster.metadata_elements.each do |element| %>
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                    <%= element.titleize %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
 
       <!-- User Collection & Lists -->
       <% if user_signed_in? %>
