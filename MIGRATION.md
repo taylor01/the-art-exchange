@@ -262,13 +262,22 @@ SOURCE_S3_BUCKET=the-art-exchange-migration-source  # Source bucket name (option
 
 #### Migration Execution
 
-##### Local Development
+##### Local Development Setup
 ```bash
-# Test with 5 images first
-rake migrate:test_image_migration
+# 1. Setup database with Solid Queue/Cache/Cable tables
+bundle exec rake db:drop db:create db:migrate
 
-# Run full migration (968 images)
-rake migrate:migrate_images
+# 2. Core data migration
+bundle exec rake migrate:import_core_data
+
+# 3. Image migration (requires 1Password CLI with .env file)
+op run --env-file=".env" -- bundle exec rake migrate:migrate_images
+
+# 4. Validation
+bundle exec rake migrate:validate_migration
+
+# 5. Create production database dump
+bundle exec rake dev:create_production_dump
 ```
 
 ##### Heroku Production
@@ -511,9 +520,116 @@ end
 
 ---
 
-**Last Updated**: 2025-06-25
-**Status**: Phase 1 Complete - Core Data Migrated
-**Next Review**: Ready for Phase 2 (Image Migration)
+**Last Updated**: 2025-06-29
+**Status**: Core Data Migration Complete - Ready for Production Database Transfer
+**Next Review**: Deploy to Production (Images will be migrated directly on production server)
+
+## Production Deployment Strategy
+
+### Deployment Approach
+The production deployment uses a two-phase approach:
+
+1. **Phase 1**: Database dump/restore for core data (development → production)
+2. **Phase 2**: Image migration directly on production server (S3 → S3 via ActiveStorage)
+
+This approach is necessary because:
+- Development uses local ActiveStorage (`:local`)
+- Production uses S3 ActiveStorage (`:amazon`) 
+- Image migration must run in the target environment to populate correct storage
+
+### Current Status
+- ✅ **Core Data**: Successfully migrated in development (99.7% success rate)
+- ✅ **Database Schema**: Production-ready with all migrations applied
+- ✅ **Solid Queue/Cache/Cable**: Single database configuration implemented
+- ⏳ **Images**: Will be migrated directly on production server after database import
+- ✅ **Production Environment**: Deployed and ready via Kamal on DigitalOcean
+
+---
+
+## Rails 8 Single Database Configuration
+
+### Overview
+The application uses Rails 8 with Solid Queue, Solid Cache, and Solid Cable configured to share a single database instead of separate databases. This simplifies deployment while maintaining all the benefits of the Solid components for background jobs, caching, and WebSocket functionality.
+
+### Configuration Implementation
+
+#### Database Configuration
+Updated `config/database.yml` to support both local development and production-style DATABASE_URL:
+
+```yaml
+development:
+  <<: *default
+  # Use DATABASE_URL if provided (production-style), otherwise use local database
+  <% if ENV["DATABASE_URL"] %>
+  url: <%= ENV["DATABASE_URL"] %>
+  <% else %>
+  database: the_art_exchange_development
+  <% end %>
+```
+
+#### Production Environment Configuration
+Production is configured for single database setup in `config/environments/production.rb`:
+
+```ruby
+# Use Solid Cache with primary database
+config.cache_store = :solid_cache_store
+config.solid_cache.connects_to = nil
+
+# Use Solid Queue with primary database  
+config.active_job.queue_adapter = :solid_queue
+# config.solid_queue.connects_to commented out for single database
+
+# Solid Queue configuration in config/queue.yml
+```
+
+#### Migration Implementation
+Converted schema files to standard Rails migrations for single database setup:
+
+**Migration Files Created:**
+- `20250629004648_add_solid_queue_tables.rb` - 11 tables for job queue functionality
+- `20250629004653_add_solid_cache_tables.rb` - 1 table for cache storage
+- `20250629004658_add_solid_cable_tables.rb` - 1 table for WebSocket messages
+
+**Tables Added:**
+```
+Solid Queue (11 tables):
+- solid_queue_blocked_executions
+- solid_queue_claimed_executions  
+- solid_queue_failed_executions
+- solid_queue_jobs
+- solid_queue_pauses
+- solid_queue_processes
+- solid_queue_ready_executions
+- solid_queue_recurring_executions
+- solid_queue_recurring_tasks
+- solid_queue_scheduled_executions
+- solid_queue_semaphores
+
+Solid Cache (1 table):
+- solid_cache_entries
+
+Solid Cable (1 table):
+- solid_cable_messages
+```
+
+#### Setup Process Completed
+1. ✅ **Generated migration files** instead of using `rails solid_queue:install` to avoid overwriting existing configuration
+2. ✅ **Copied table definitions** from `db/queue_schema.rb`, `db/cache_schema.rb`, and `db/cable_schema.rb`
+3. ✅ **Removed schema files** after converting to migrations
+4. ✅ **Ran migrations** to create all 13 Solid tables in primary database
+
+### Benefits of Single Database Configuration
+- **Simplified deployment** - one database to manage
+- **ACID compliance** - jobs and application data in same transaction scope
+- **Easier development** - no need for separate database containers
+- **Cost effective** - single database instance for smaller applications
+- **Maintains functionality** - all Solid Queue/Cache/Cable features preserved
+
+### Production Deployment Impact
+- Database dump will include all Solid tables automatically
+- No separate database setup required on production
+- Job processing starts immediately after deployment
+- Cache and WebSocket functionality ready out of the box
 
 ---
 
