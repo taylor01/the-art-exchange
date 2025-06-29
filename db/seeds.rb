@@ -370,9 +370,8 @@ user_data = [
 ]
 
 user_data.each do |user_attrs|
-  User.create!(user_attrs) do |user|
-    user.validation_context = :migration
-  end
+  user = User.new(user_attrs)
+  user.save!(context: :migration)
 end
 puts "Created #{user_data.length} users"
 
