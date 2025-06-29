@@ -27,10 +27,9 @@ class Rack::Attack
     end
   end
 
-  # General request throttling
-  throttle("req/ip", limit: 300, period: 5.minutes) do |req|
-    req.ip
-  end
+  # General request throttling disabled for browsing-heavy poster app
+  # Auth-specific rate limits above are sufficient for security
+  # Unlimited browsing allows infinite scroll, AJAX, prefetch, and image loading
 
   # Custom response for throttled requests
   self.throttled_responder = lambda do |request|
