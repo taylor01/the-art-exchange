@@ -91,7 +91,7 @@ class Poster < ApplicationRecord
 
     # Check if variant processing is available
     if self.class.variant_processing_available?
-      image.variant(resize_to_fill: [ 230, 300 ])
+      image.variant(resize_to_limit: [ 230, 300 ])
     else
       image
     end
@@ -103,7 +103,7 @@ class Poster < ApplicationRecord
 
     # Check if variant processing is available
     if self.class.variant_processing_available?
-      image.variant(resize_to_fill: [ 20, 27 ])
+      image.variant(resize_to_limit: [ 20, 27 ])
     else
       image
     end
@@ -115,7 +115,7 @@ class Poster < ApplicationRecord
 
     # Check if variant processing is available
     if self.class.variant_processing_available?
-      image.variant(resize_to_fill: [ 600, 800 ])
+      image.variant(resize_to_limit: [ 600, 800 ])
     else
       image
     end

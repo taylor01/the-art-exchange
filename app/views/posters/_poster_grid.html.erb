@@ -15,7 +15,7 @@
     <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 overflow-hidden" data-testid="poster-card">
       <%= link_to poster_path(poster), class: "block" do %>
         <!-- Poster Image with Progressive Loading -->
-        <div class="aspect-[3/4] relative overflow-hidden">
+        <div class="aspect-[3/4] relative overflow-hidden bg-stone-100">
           <% if poster.image.attached? %>
             <div class="progressive-image-container w-full h-full" 
                  data-controller="progressive-image"
@@ -24,12 +24,12 @@
               
               <!-- Blurred placeholder (loads instantly) -->
               <img data-progressive-image-target="placeholder" 
-                   class="progressive-placeholder absolute inset-0 w-full h-full object-cover" 
+                   class="progressive-placeholder absolute inset-0 w-full h-full object-contain" 
                    alt="<%= poster.name %> placeholder" />
               
               <!-- Main image (loads progressively) -->
               <img data-progressive-image-target="mainImage" 
-                   class="progressive-main-image absolute inset-0 w-full h-full object-cover loading" 
+                   class="progressive-main-image absolute inset-0 w-full h-full object-contain loading" 
                    alt="<%= poster.name %>" />
             </div>
           <% else %>
