@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 namespace :migrate do
-  desc "Migrate poster images using extracted blob mappings (Production)"
+  desc "Migrate poster images using ORIGINAL blob mappings (Production)"
   task migrate_production_images: :environment do
-    puts "🖼️ Starting Production Image Migration from S3 Source"
+    puts "🖼️ Starting Production Image Migration from S3 Source (using ORIGINAL blob keys)"
 
-    # Load blob mappings
-    mappings_file = Rails.root.join("db", "poster_blob_mappings.json")
+    # Load ORIGINAL blob mappings
+    mappings_file = Rails.root.join("db", "original_poster_blob_mappings.json")
     unless File.exist?(mappings_file)
-      abort("❌ Mappings file not found: #{mappings_file}")
+      abort("❌ ORIGINAL mappings file not found: #{mappings_file}")
     end
 
     mappings = JSON.parse(File.read(mappings_file))
-    puts "📊 Loaded #{mappings.length} image mappings"
+    puts "📊 Loaded #{mappings.length} ORIGINAL image mappings"
 
     # Validate S3 source configuration
     source_bucket = ENV["SOURCE_S3_BUCKET"] || "the-art-exchange-migration-source"
@@ -48,7 +48,7 @@ namespace :migrate do
 
     mappings.each_with_index do |mapping, index|
       poster_id = mapping["poster_id"]
-      blob_key = mapping["blob_key"]
+      original_blob_key = mapping["original_blob_key"]  # Use ORIGINAL blob key
       filename = mapping["filename"]
       content_type = mapping["content_type"]
       byte_size = mapping["byte_size"]
@@ -73,8 +73,8 @@ namespace :migrate do
           next
         end
 
-        # Use blob key directly as S3 key
-        s3_key = blob_key
+        # Use ORIGINAL blob key directly as S3 key
+        s3_key = original_blob_key
 
         # Download image from S3 source bucket
         begin
@@ -132,25 +132,25 @@ namespace :migrate do
     puts "\n🎯 Production Image Migration Complete!"
   end
 
-  desc "Test production image migration with small batch"
+  desc "Test production image migration with small batch (ORIGINAL blob keys)"
   task test_production_image_migration: :environment do
-    puts "🧪 Testing Production Image Migration (first 5 mappings)"
+    puts "🧪 Testing Production Image Migration (first 5 ORIGINAL mappings)"
 
-    # Load blob mappings (limit to first 5 for testing)
-    mappings_file = Rails.root.join("db", "poster_blob_mappings.json")
+    # Load ORIGINAL blob mappings (limit to first 5 for testing)
+    mappings_file = Rails.root.join("db", "original_poster_blob_mappings.json")
     unless File.exist?(mappings_file)
-      abort("❌ Mappings file not found: #{mappings_file}")
+      abort("❌ ORIGINAL mappings file not found: #{mappings_file}")
     end
 
     all_mappings = JSON.parse(File.read(mappings_file))
     mappings = all_mappings.first(5)
-    puts "📊 Testing with #{mappings.length} mappings (of #{all_mappings.length} total)"
+    puts "📊 Testing with #{mappings.length} ORIGINAL mappings (of #{all_mappings.length} total)"
 
     # Use same migration logic as main task
     Rake::Task["migrate:migrate_production_images"].reenable
     
     # Temporarily replace the mappings file with test subset
-    test_mappings_file = Rails.root.join("db", "test_poster_blob_mappings.json")
+    test_mappings_file = Rails.root.join("db", "test_original_poster_blob_mappings.json")
     File.write(test_mappings_file, JSON.pretty_generate(mappings))
     
     # Backup original and use test file
