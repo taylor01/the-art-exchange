@@ -22,7 +22,12 @@ default: &default
 
 development:
   <<: *default
+  # Use DATABASE_URL if provided (production-style), otherwise use local database
+  <% if ENV["DATABASE_URL"] %>
+  url: <%= ENV["DATABASE_URL"] %>
+  <% else %>
   database: the_art_exchange_development
+  <% end %>
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.

@@ -59,13 +59,13 @@ namespace :migrate do
     source_bucket = ENV["SOURCE_S3_BUCKET"] || "the-art-exchange-migration-source"
     source_region = ENV["SOURCE_S3_REGION"] || "us-east-1"
 
-    unless ENV["SOURCE_S3_ACCESS_KEY"] && ENV["SOURCE_S3_SECRET_KEY"]
+    unless ENV["AWS_ACCESS_KEY_ID"] && ENV["AWS_SECRET_ACCESS_KEY"]
       puts "❌ Missing S3 source credentials. Please set:"
-      puts "   SOURCE_S3_ACCESS_KEY"
-      puts "   SOURCE_S3_SECRET_KEY"
+      puts "   AWS_ACCESS_KEY_ID"
+      puts "   AWS_SECRET_ACCESS_KEY"
       puts "   SOURCE_S3_REGION (optional, defaults to us-east-1)"
       puts "   SOURCE_S3_BUCKET (optional, defaults to the-art-exchange-migration-source)"
-      exit 1
+      abort("Missing required S3 credentials")
     end
 
     puts "🗂️  Source S3 Configuration:"
@@ -75,8 +75,8 @@ namespace :migrate do
     # Initialize S3 client for source bucket
     require "aws-sdk-s3"
     s3_client = Aws::S3::Client.new(
-      access_key_id: ENV["SOURCE_S3_ACCESS_KEY"],
-      secret_access_key: ENV["SOURCE_S3_SECRET_KEY"],
+      access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
       region: source_region
     )
 
@@ -200,7 +200,7 @@ namespace :migrate do
     source_bucket = ENV["SOURCE_S3_BUCKET"] || "the-art-exchange-migration-source"
     source_region = ENV["SOURCE_S3_REGION"] || "us-east-1"
 
-    unless ENV["SOURCE_S3_ACCESS_KEY"] && ENV["SOURCE_S3_SECRET_KEY"]
+    unless ENV["AWS_ACCESS_KEY_ID"] && ENV["AWS_SECRET_ACCESS_KEY"]
       puts "❌ Missing S3 source credentials for testing"
       puts "✅ Test complete. Configure S3 credentials and run 'rake migrate:migrate_images' for full migration."
       return
@@ -209,8 +209,8 @@ namespace :migrate do
     # Initialize S3 client for source bucket
     require "aws-sdk-s3"
     s3_client = Aws::S3::Client.new(
-      access_key_id: ENV["SOURCE_S3_ACCESS_KEY"],
-      secret_access_key: ENV["SOURCE_S3_SECRET_KEY"],
+      access_key_id: ENV["AWS_ACCESS_KEY_ID"],
+      secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
       region: source_region
     )
 
