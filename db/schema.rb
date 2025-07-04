@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_29_004658) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_04_234842) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -41,6 +41,36 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_29_004658) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "album_songs", force: :cascade do |t|
+    t.bigint "album_id", null: false
+    t.bigint "song_id", null: false
+    t.integer "track_number"
+    t.integer "disc_number", default: 1
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["album_id", "song_id"], name: "index_album_songs_on_album_id_and_song_id", unique: true
+    t.index ["album_id", "track_number", "disc_number"], name: "index_album_songs_on_album_track_disc", unique: true
+    t.index ["album_id"], name: "index_album_songs_on_album_id"
+    t.index ["song_id"], name: "index_album_songs_on_song_id"
+  end
+
+  create_table "albums", force: :cascade do |t|
+    t.string "title", null: false
+    t.bigint "band_id", null: false
+    t.date "release_date"
+    t.string "album_type", null: false
+    t.string "musicbrainz_id"
+    t.string "spotify_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["album_type"], name: "index_albums_on_album_type"
+    t.index ["band_id", "title"], name: "index_albums_on_band_id_and_title", unique: true
+    t.index ["band_id"], name: "index_albums_on_band_id"
+    t.index ["musicbrainz_id"], name: "index_albums_on_musicbrainz_id"
+    t.index ["release_date"], name: "index_albums_on_release_date"
+    t.index ["spotify_id"], name: "index_albums_on_spotify_id"
   end
 
   create_table "artists", force: :cascade do |t|
@@ -92,6 +122,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_29_004658) do
     t.json "visual_metadata"
     t.string "metadata_version"
     t.string "slug"
+    t.bigint "show_id"
     t.index "EXTRACT(year FROM release_date)", name: "index_posters_on_year"
     t.index ["band_id", "release_date"], name: "index_posters_on_band_id_and_release_date"
     t.index ["band_id", "venue_id"], name: "index_posters_on_band_id_and_venue_id"
@@ -101,6 +132,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_29_004658) do
     t.index ["name"], name: "index_posters_on_name_gin", opclass: :gin_trgm_ops, using: :gin
     t.index ["release_date", "band_id"], name: "index_posters_on_release_date_and_band_id"
     t.index ["release_date"], name: "index_posters_on_release_date"
+    t.index ["show_id"], name: "index_posters_on_show_id"
     t.index ["slug"], name: "index_posters_on_slug", unique: true
     t.index ["venue_id", "release_date"], name: "index_posters_on_venue_id_and_release_date"
     t.index ["venue_id"], name: "index_posters_on_venue_id"
@@ -147,6 +179,36 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_29_004658) do
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_series_on_name"
     t.index ["year"], name: "index_series_on_year"
+  end
+
+  create_table "setlist_songs", force: :cascade do |t|
+    t.bigint "show_id", null: false
+    t.bigint "song_id", null: false
+    t.string "set_type", null: false
+    t.integer "position", null: false
+    t.json "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["set_type"], name: "index_setlist_songs_on_set_type"
+    t.index ["show_id", "set_type", "position"], name: "index_setlist_songs_on_show_set_position", unique: true
+    t.index ["show_id"], name: "index_setlist_songs_on_show_id"
+    t.index ["song_id"], name: "index_setlist_songs_on_song_id"
+  end
+
+  create_table "shows", force: :cascade do |t|
+    t.bigint "band_id", null: false
+    t.bigint "venue_id", null: false
+    t.date "show_date", null: false
+    t.text "show_notes"
+    t.datetime "scraped_at", precision: nil
+    t.string "slug", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["band_id", "venue_id", "show_date"], name: "index_shows_on_band_venue_date", unique: true
+    t.index ["band_id"], name: "index_shows_on_band_id"
+    t.index ["show_date"], name: "index_shows_on_show_date"
+    t.index ["slug"], name: "index_shows_on_slug", unique: true
+    t.index ["venue_id"], name: "index_shows_on_venue_id"
   end
 
   create_table "solid_cable_messages", force: :cascade do |t|
@@ -291,6 +353,25 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_29_004658) do
     t.index ["key"], name: "index_solid_queue_semaphores_on_key", unique: true
   end
 
+  create_table "songs", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "artist_credit"
+    t.string "slug", null: false
+    t.boolean "is_cover_song", default: false
+    t.string "original_artist"
+    t.date "first_performed_at"
+    t.string "musicbrainz_id"
+    t.string "spotify_id"
+    t.json "audio_features"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["is_cover_song"], name: "index_songs_on_is_cover_song"
+    t.index ["musicbrainz_id"], name: "index_songs_on_musicbrainz_id"
+    t.index ["slug"], name: "index_songs_on_slug", unique: true
+    t.index ["spotify_id"], name: "index_songs_on_spotify_id"
+    t.index ["title"], name: "index_songs_on_title"
+  end
+
   create_table "user_posters", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "poster_id", null: false
@@ -385,14 +466,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_29_004658) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "album_songs", "albums"
+  add_foreign_key "album_songs", "songs"
+  add_foreign_key "albums", "bands"
   add_foreign_key "artists_posters", "artists"
   add_foreign_key "artists_posters", "posters"
   add_foreign_key "poster_slug_redirects", "posters"
   add_foreign_key "posters", "bands"
+  add_foreign_key "posters", "shows"
   add_foreign_key "posters", "venues"
   add_foreign_key "posters_series", "posters"
   add_foreign_key "posters_series", "series"
   add_foreign_key "search_analytics", "users"
+  add_foreign_key "setlist_songs", "shows"
+  add_foreign_key "setlist_songs", "songs"
+  add_foreign_key "shows", "bands"
+  add_foreign_key "shows", "venues"
   add_foreign_key "solid_queue_blocked_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_claimed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "solid_queue_failed_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
