@@ -53,6 +53,7 @@ class Poster < ApplicationRecord
   # Associations
   belongs_to :band, optional: true
   belongs_to :venue, optional: true
+  belongs_to :show, optional: true
   has_and_belongs_to_many :artists
   has_and_belongs_to_many :series
   has_many :user_posters, dependent: :destroy
@@ -330,6 +331,25 @@ class Poster < ApplicationRecord
 
   def venue_city
     venue&.city
+  end
+
+  # Show helpers
+  def has_setlist?
+    show.present?
+  end
+
+  def show_date
+    show&.show_date
+  end
+
+  def setlist_songs_count
+    return 0 unless has_setlist?
+    show.total_songs
+  end
+
+  def encore_songs_count
+    return 0 unless has_setlist?
+    show.encore_songs
   end
 
   # Search helpers
