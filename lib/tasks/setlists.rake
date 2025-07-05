@@ -20,14 +20,15 @@ namespace :setlists do
     # Generate summary reports
     puts "\nGenerating reports..."
     
-    # Venue matching report
+    # Generate summary reports
     if importer.imported_count > 0
-      venue_matcher = VenueMatchingService.new
-      venue_matcher.generate_unmatched_report(Venue.all)
-      
-      # Song deduplication report  
-      song_deduplicator = SongDeduplicationService.new
-      song_deduplicator.generate_deduplication_report(Song.all)
+      puts "\n" + "=" * 50
+      puts "IMPORT COMPLETE"
+      puts "=" * 50
+      puts "✓ Shows imported: #{importer.imported_count}"
+      puts "✓ Total venues: #{Venue.count}"
+      puts "✓ Total songs: #{Song.count}"
+      puts "=" * 50
     end
   end
 

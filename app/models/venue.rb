@@ -5,7 +5,7 @@ class Venue < ApplicationRecord
 
   # Include geocoding functionality
   geocoded_by :full_address
-  after_validation :geocode, if: :location_fields_changed?
+  after_validation :geocode, if: :should_geocode?
 
   # Include search functionality
   include PgSearch::Model
@@ -123,6 +123,11 @@ class Venue < ApplicationRecord
   def location_fields_changed?
     address_changed? || city_changed? || administrative_area_changed? ||
     postal_code_changed? || country_changed?
+  end
+
+  def should_geocode?
+    return false if Thread.current[:skip_geocoding]
+    location_fields_changed?
   end
 
   # Display helpers

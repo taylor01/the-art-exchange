@@ -1,13 +1,14 @@
 class SetlistImportService
   attr_reader :imported_count, :skipped_count, :error_count, :errors
 
-  def initialize
+  def initialize(skip_geocoding: true)
     @imported_count = 0
     @skipped_count = 0
     @error_count = 0
     @errors = []
     @venue_matcher = VenueMatchingService.new
     @song_deduplicator = SongDeduplicationService.new
+    @skip_geocoding = skip_geocoding
   end
 
   def import_all(progress_callback: nil)
@@ -15,6 +16,10 @@ class SetlistImportService
     total_files = json_files.size
 
     puts "Found #{total_files} setlist files to import..."
+    puts "Geocoding: #{@skip_geocoding ? 'DISABLED' : 'ENABLED'}"
+
+    # Set geocoding flag for this thread
+    Thread.current[:skip_geocoding] = @skip_geocoding
 
     json_files.each_with_index do |file_path, index|
       begin
@@ -30,6 +35,9 @@ class SetlistImportService
         record_error(file_path, e)
       end
     end
+
+    # Clear geocoding flag
+    Thread.current[:skip_geocoding] = nil
 
     generate_import_summary
   end
