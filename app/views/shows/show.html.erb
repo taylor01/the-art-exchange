@@ -126,9 +126,18 @@
                           <% if setlist_song.notes.is_a?(Array)
                                setlist_song.notes.each do |note|
                                  if note.is_a?(Hash) %>
-                                   <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 mr-1 mb-1">
-                                     <%= note['description'] || note['note'] || note['type'] %>
-                                   </span>
+                                   <% if note['type'] == 'special_performance' && note['description'] == 'guest performance'
+                                        # Parse guest information from show notes
+                                        guest_info = @show.show_notes&.match(/\*\s*(.+?)(?:\n|$)/)&.captures&.first&.strip
+                                        badge_text = guest_info ? "Guest: #{guest_info}" : "Guest performance" %>
+                                     <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 mr-1 mb-1">
+                                       <%= badge_text %>
+                                     </span>
+                                   <% else %>
+                                     <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 mr-1 mb-1">
+                                       <%= note['description'] || note['note'] || note['type'] %>
+                                     </span>
+                                   <% end %>
                                  <% else %>
                                    <span class="text-stone-600"><%= note %></span>
                                  <% end
