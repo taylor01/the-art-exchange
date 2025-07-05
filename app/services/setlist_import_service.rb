@@ -176,8 +176,9 @@ class SetlistImportService
       notes_parts << data["show_notes"]["additional"].strip
     end
     
-    if data["show_notes"]&.dig("legend").present? && data["show_notes"]["legend"].any?
-      legend_text = data["show_notes"]["legend"].map { |k, v| "#{k}: #{v}" }.join(", ")
+    legend = data["show_notes"]&.dig("legend")
+    if legend.is_a?(Hash) && legend.any?
+      legend_text = legend.map { |k, v| "#{k}: #{v}" }.join(", ")
       notes_parts << "Legend: #{legend_text}"
     end
 
