@@ -20,6 +20,12 @@ class SetlistImportService
       begin
         import_file(file_path)
         progress_callback&.call(index + 1, total_files, File.basename(file_path))
+        
+        # Clear caches every 50 files to prevent stale data issues
+        if (index + 1) % 50 == 0
+          clear_caches
+          puts "  Cleared caches after #{index + 1} files"
+        end
       rescue => e
         record_error(file_path, e)
       end
@@ -53,7 +59,10 @@ class SetlistImportService
   def show_exists?(data)
     show_date = Date.parse(data["date"])
     band = find_or_create_band(data["band"])
-    venue = @venue_matcher.find_or_create_venue(data["venue"], data["location"])
+    
+    # Only check for existing venues, don't create new ones during existence check
+    venue = @venue_matcher.find_existing_venue(data["venue"], data["location"])
+    return false unless venue # If venue doesn't exist, show doesn't exist
     
     Show.exists?(band: band, venue: venue, show_date: show_date)
   end
@@ -180,6 +189,14 @@ class SetlistImportService
     error_message = error.is_a?(Exception) ? error.message : error.to_s
     @errors << { file: File.basename(file_path), error: error_message }
     puts "✗ Error importing #{File.basename(file_path)}: #{error_message}"
+  end
+
+  def clear_caches
+    # Clear venue matching cache
+    @venue_matcher = VenueMatchingService.new
+    
+    # Clear song deduplication cache
+    @song_deduplicator = SongDeduplicationService.new
   end
 
   def generate_import_summary

@@ -1,6 +1,7 @@
 class Venue < ApplicationRecord
   # Associations
   has_many :posters, dependent: :nullify
+  has_many :shows, dependent: :destroy
 
   # Include geocoding functionality
   geocoded_by :full_address

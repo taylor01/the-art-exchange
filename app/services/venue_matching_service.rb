@@ -30,8 +30,6 @@ class VenueMatchingService
     venue
   end
 
-  private
-
   def find_existing_venue(venue_name, location_string)
     # Parse location
     city, state = parse_location(location_string)
@@ -51,6 +49,8 @@ class VenueMatchingService
     # Try fuzzy matching with similar names
     find_by_fuzzy_match(venue_name, city, state)
   end
+
+  private
 
   def find_by_exact_match(venue_name, city, state)
     query = Venue.where("name ILIKE ?", venue_name)

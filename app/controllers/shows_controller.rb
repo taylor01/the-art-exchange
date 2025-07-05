@@ -22,11 +22,16 @@ class ShowsController < ApplicationController
     @setlist_songs = @show.setlist_songs.includes(:song).order(:set_type, :position)
     @venue = @show.venue
     @band = @show.band
-    # Find related posters - both directly linked and from same venue/band/timeframe
-    @posters = Poster.joins(:band, :venue)
-                    .where(bands: { id: @show.band_id }, venues: { id: @show.venue_id })
-                    .where('EXTRACT(year FROM release_date) = ? OR release_date IS NULL', @show.show_date.year)
-                    .includes(:artists)
+    # Find related posters - prioritize directly linked, then same venue/band/timeframe
+    @posters = Poster.where(show_id: @show.id).includes(:artists)
+    
+    # If no directly linked posters, find by venue/band/year
+    if @posters.empty?
+      @posters = Poster.joins(:band, :venue)
+                      .where(bands: { id: @show.band_id }, venues: { id: @show.venue_id })
+                      .where('EXTRACT(year FROM release_date) = ? OR release_date IS NULL', @show.show_date.year)
+                      .includes(:artists)
+    end
     
     # Group songs by set type
     @sets = @setlist_songs.group_by(&:set_type)
