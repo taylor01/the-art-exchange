@@ -12,6 +12,7 @@ require 'json'
 require 'date'
 require 'optparse'
 require 'fileutils'
+require 'set'
 
 class DMBSetlistScraper
   BASE_URL = 'https://davematthewsband.com/setlists/'
@@ -50,7 +51,7 @@ class DMBSetlistScraper
         puts "Error fetching #{url}: HTTP #{response.code}"
         nil
       end
-    rescue Net::TimeoutError, Net::OpenTimeout, Net::ReadTimeout => e
+    rescue Net::OpenTimeout, Net::ReadTimeout => e
       if retries > 0
         puts "Timeout fetching #{url}, retrying in 3 seconds... (#{retries} retries left)" if @options[:verbose]
         sleep(3)
@@ -196,11 +197,8 @@ class DMBSetlistScraper
       concert[:venue] = title_element.text.strip
     end
 
-    # Parse setlist from .setlist-text ol li elements
+    # Parse setlist from .setlist-text ol li elements (this will also extract show notes)
     parse_songs_from_list(section, concert)
-
-    # Extract show notes and legend
-    extract_show_notes(section, concert)
 
     # Validate essential data
     return nil unless concert[:date] && concert[:venue]
@@ -212,20 +210,42 @@ class DMBSetlistScraper
   end
 
   def parse_songs_from_list(section, concert)
-    # Parse main set from .setlist-text
+    puts "  Parsing songs..." if @options[:verbose]
+    
+    # Extract show notes first to get legend for song parsing
+    extract_show_notes(section, concert)
+    legend = concert[:show_notes][:legend]
+    puts "  Available legend: #{legend}" if @options[:verbose] && legend.any?
+    
+    # Track which standard symbols we encounter to add to legend
+    standard_symbols_found = Set.new
+    
+    # Parse main set - get only the first <ol> items, not those in .encore-text
     setlist_text = section.css('.setlist-text').first
     if setlist_text
-      song_items = setlist_text.css('li')
+      # Get li elements from the main setlist ol (not from .encore-text ol)
+      main_set_items = setlist_text.css('> ol > li')
+      puts "    Found #{main_set_items.length} main set items" if @options[:verbose]
       position = 1
 
-      song_items.each do |item|
+      main_set_items.each_with_index do |item, i|
         song_text = item.text.strip
-        next if song_text.empty?
-        next if song_text.length < 3
-        next if song_text.downcase.start_with?('show notes')
-        next if song_text.match?(/^[*+→\s]+$/) # Just symbols
+        puts "    Main #{i+1}: '#{song_text}'" if @options[:verbose]
+        
+        next if should_skip_song_line(song_text)
 
-        song_info = parse_song_line(song_text)
+        song_info = parse_song_line(song_text, legend)
+        if song_info[:title].empty?
+          puts "      ⚠️  EMPTY TITLE DETECTED for: '#{song_text}'" if @options[:verbose]
+        end
+        
+        # Track standard symbols found
+        song_info[:legend_items].each do |symbol|
+          if is_standard_symbol?(symbol)
+            standard_symbols_found.add(symbol)
+          end
+        end
+        
         song_info[:position] = position
         concert[:setlist][:main_set] << song_info
         position += 1
@@ -236,76 +256,210 @@ class DMBSetlistScraper
     encore_text = section.css('.encore-text').first
     if encore_text
       encore_items = encore_text.css('li')
+      puts "    Found #{encore_items.length} encore items" if @options[:verbose]
       encore_position = 1
 
-      encore_items.each do |item|
+      encore_items.each_with_index do |item, i|
         song_text = item.text.strip
-        next if song_text.empty?
-        next if song_text.length < 3
-        next if song_text.downcase.start_with?('show notes')
-        next if song_text.match?(/^[*+→\s]+$/) # Just symbols
+        puts "    Encore #{i+1}: '#{song_text}'" if @options[:verbose]
+        
+        next if should_skip_song_line(song_text)
 
-        song_info = parse_song_line(song_text)
+        song_info = parse_song_line(song_text, legend)
+        if song_info[:title].empty?
+          puts "      ⚠️  EMPTY TITLE DETECTED for: '#{song_text}'" if @options[:verbose]
+        end
+        
+        # Track standard symbols found
+        song_info[:legend_items].each do |symbol|
+          if is_standard_symbol?(symbol)
+            standard_symbols_found.add(symbol)
+          end
+        end
+        
         song_info[:position] = encore_position
         concert[:setlist][:encore] << song_info
         encore_position += 1
       end
     end
+    
+    # Add standard symbols to legend if they were found
+    add_standard_symbols_to_legend(concert, standard_symbols_found)
   end
 
-  def parse_song_line(line)
+  def parse_song_line(line, legend = {})
+    puts "      Parsing song line: '#{line}'" if @options[:verbose]
+    
+    # Clean non-breaking spaces and other whitespace artifacts
+    clean_line = line.gsub(/\u00A0/, ' ').strip
+    
     song = {
-      title: line.strip,
+      title: clean_line,
       guests: [],
-      notes: []
+      notes: [],
+      legend_items: []
     }
 
-    # Extract and clean special characters while preserving meaning
-    original_line = line.dup
-
-    # Look for guest indicators (*)
-    if line.include?('*')
-      guest_matches = line.scan(/\*([^*]+)\*/)
-      guest_matches.each do |match|
-        song[:guests] << match[0].strip
+    original_line = clean_line.dup
+    
+    # Look for legend symbols at end of line and record them
+    if clean_line.match(/([*+→~]+)\s*$/)
+      symbols = $1
+      symbols.each_char do |symbol|
+        song[:legend_items] << symbol
+        puts "        Found legend symbol: #{symbol}" if @options[:verbose]
       end
-      # Clean the asterisks from title but note them
-      song[:notes] << "guest performance" if line.include?('*')
     end
 
-    # Look for segue indicators (→)
-    if line.include?('→')
+    # Look for inline guest indicators (*text*)
+    guest_matches = clean_line.scan(/\*([^*]+)\*/)
+    guest_matches.each do |match|
+      song[:guests] << match[0].strip
+      puts "        Found inline guest: #{match[0].strip}" if @options[:verbose]
+    end
+
+    # Look for segue indicators in middle of line (→)
+    if clean_line.include?('→') && !clean_line.match(/→\s*$/)
       song[:notes] << "segue"
+      puts "        Found inline segue indicator" if @options[:verbose]
     end
 
     # Look for partial song indicators (parentheses)
-    if line.match?(/\([^)]+\)/)
-      paren_content = line.scan(/\(([^)]+)\)/)
-      paren_content.each do |match|
+    paren_content = []
+    if clean_line.match?(/\([^)]+\)/)
+      paren_matches = clean_line.scan(/\(([^)]+)\)/)
+      paren_matches.each do |match|
+        paren_content << match[0]
         song[:notes] << "partial: #{match[0]}"
+        puts "        Found partial: #{match[0]}" if @options[:verbose]
       end
     end
 
-    # Clean the title
-    clean_title = line.gsub(/\*[^*]*\*/, '').gsub(/→/, '').gsub(/\([^)]*\)/, '').strip
+    # Clean the title by removing all special indicators
+    clean_title = clean_line.gsub(/\*[^*]*\*/, '')        # Remove *inline guests*
+                            .gsub(/→/, '')                  # Remove segue arrows
+                            .gsub(/\([^)]*\)/, '')          # Remove (partial)
+                            .gsub(/[*+→~]+\s*$/, '')        # Remove trailing symbols
+                            .strip
+
     clean_title = clean_title.gsub(/^\d+[\.\s]*/, '').strip # Remove numbering
+
+    # FIX: If title is empty but we found partial content, use the partial as title
+    if clean_title.empty? && paren_content.any?
+      clean_title = paren_content.first
+      puts "        🔧 FIXED: Using partial content as title: '#{clean_title}'" if @options[:verbose]
+    end
+
     song[:title] = clean_title
+    puts "        Final clean title: '#{song[:title]}'" if @options[:verbose]
+    puts "        Guests: #{song[:guests]}" if @options[:verbose] && song[:guests].any?
+    puts "        Notes: #{song[:notes]}" if @options[:verbose] && song[:notes].any?
+    puts "        Legend items: #{song[:legend_items]}" if @options[:verbose] && song[:legend_items].any?
 
     song
   end
 
   def extract_show_notes(section, concert)
-    # Look for legend or show notes sections
     notes_elements = section.css('.show-notes, .notes, .legend')
 
     if notes_elements.any?
-      notes_text = notes_elements.text.strip
-      concert[:show_notes][:additional] = notes_text unless notes_text.empty?
+      notes_text = notes_elements.text.gsub(/\u00A0/, ' ').strip
+      puts "  Raw show notes: '#{notes_text}'" if @options[:verbose]
+      
+      # Parse legend with improved patterns
+      parse_legend(notes_text, concert)
+      
+      # Only add to additional if there's content that wasn't parsed as legend
+      remaining_text = remove_legend_items(notes_text)
+      if remaining_text && !remaining_text.strip.empty?
+        concert[:show_notes][:additional] = remaining_text.strip
+        puts "  Remaining notes: '#{remaining_text.strip}'" if @options[:verbose]
+      end
+    end
+  end
 
-      # Parse legend (e.g., "* = Neil Young")
-      legend_matches = notes_text.scan(/([*+→]+)\s*[=:]\s*([^,\n]+)/)
-      legend_matches.each do |symbol, meaning|
-        concert[:show_notes][:legend][symbol.strip] = meaning.strip
+  def parse_legend(notes_text, concert)
+    puts "    Parsing legend from: '#{notes_text}'" if @options[:verbose]
+    
+    # Handle multiple formats:
+    # Format 1: "* = Neil Young"  
+    # Format 2: "* Neil Young+ Carter, Dave"
+    # Format 3: "* Preservation Hall Jazz Band\n+ Carter, Dave, Stefan and Tim"
+    
+    # Try format with = or :
+    legend_matches = notes_text.scan(/([*+→~]+)\s*[=:]\s*([^,\n]+)/)
+    legend_matches.each do |symbol, meaning|
+      clean_symbol = symbol.strip
+      clean_meaning = meaning.gsub(/\u00A0/, ' ').strip
+      concert[:show_notes][:legend][clean_symbol] = clean_meaning
+      puts "    Found legend (format 1): #{clean_symbol} = #{clean_meaning}" if @options[:verbose]
+    end
+    
+    # Try format without separators - split on symbol boundaries
+    if legend_matches.empty?
+      # Look for patterns like "* Text+ Other Text" or "* Text\n+ Other Text"
+      segments = notes_text.split(/(?=[*+→~])/).reject(&:empty?)
+      segments.each do |segment|
+        segment = segment.strip
+        next if segment.empty?
+        
+        if segment.match(/^([*+→~]+)\s*(.+)/)
+          symbol = $1.strip
+          meaning = $2.strip
+          
+          # Clean up the meaning - remove trailing symbols that belong to next segment
+          meaning = meaning.gsub(/[*+→~]+\s*$/, '').gsub(/\u00A0/, ' ').strip
+          
+          if !meaning.empty?
+            concert[:show_notes][:legend][symbol] = meaning
+            puts "    Found legend (format 2): #{symbol} = #{meaning}" if @options[:verbose]
+          end
+        end
+      end
+    end
+  end
+
+  def remove_legend_items(notes_text)
+    # Remove legend items from the text to get remaining notes
+    cleaned = notes_text.dup
+    
+    # Remove format 1 patterns (with = or :)
+    cleaned = cleaned.gsub(/[*+→~]+\s*[=:]\s*[^,\n]+/, '')
+    
+    # Remove format 2 patterns (symbol + text)
+    cleaned = cleaned.gsub(/[*+→~]+\s*[^*+→~\n]+/, '')
+    
+    # Clean up extra whitespace and common note patterns
+    cleaned = cleaned.gsub(/\n+/, '\n')
+                    .gsub(/\s+/, ' ')
+                    .gsub(/\(\s*song name\s*\)\s*indicates\s*a\s*partial\s*song/i, '')
+                    .strip
+    
+    cleaned.empty? ? nil : cleaned
+  end
+
+  def is_standard_symbol?(symbol)
+    # Only → (segue) is truly universal - other symbols are show-specific
+    symbol == '→'
+  end
+
+  def should_skip_song_line(song_text)
+    return true if song_text.empty?
+    return true if song_text.length < 3
+    return true if song_text.downcase.start_with?('show notes')
+    return true if song_text.match?(/^[*+→\s]+$/) # Just symbols
+    false
+  end
+
+  def add_standard_symbols_to_legend(concert, symbols_found)
+    standard_meanings = {
+      '→' => 'segue'
+    }
+    
+    symbols_found.each do |symbol|
+      if standard_meanings[symbol]
+        concert[:show_notes][:legend][symbol] = standard_meanings[symbol]
+        puts "  Added standard symbol to legend: #{symbol} = #{standard_meanings[symbol]}" if @options[:verbose]
       end
     end
   end
