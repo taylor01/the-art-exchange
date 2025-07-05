@@ -93,15 +93,15 @@ class SongDeduplicationService
     song = Song.find_by("LOWER(title) = ?", title.downcase)
     return song if song
 
-    # Try fuzzy matching for slight variations (disabled for now due to Rails SQL safety)
-    # find_by_fuzzy_match(title)
-    nil
+    # Try fuzzy matching for slight variations
+    find_by_fuzzy_match(title)
   end
 
   def find_by_fuzzy_match(title)
     # Use PostgreSQL trigram similarity for fuzzy matching
+    escaped_title = ActiveRecord::Base.connection.quote(title)
     candidates = Song.where("similarity(title, ?) > 0.8", title)
-                    .order(Arel.sql("similarity(title, ?) DESC"), title)
+                    .order(Arel.sql("similarity(title, #{escaped_title}) DESC"))
                     .limit(3)
 
     best_match = candidates.first
@@ -213,9 +213,10 @@ class SongDeduplicationService
     duplicates = []
     
     Song.find_each do |song|
+      escaped_title = ActiveRecord::Base.connection.quote(song.title)
       similar = Song.where.not(id: song.id)
                    .where("similarity(title, ?) > 0.8 AND similarity(title, ?) < 1.0", song.title, song.title)
-                   .order(Arel.sql("similarity(title, ?) DESC"), song.title)
+                   .order(Arel.sql("similarity(title, #{escaped_title}) DESC"))
       
       if similar.any?
         duplicates << {

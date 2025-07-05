@@ -259,11 +259,13 @@ namespace :setlists do
     
     ActiveRecord::Base.transaction do
       deleted_setlist_songs = SetlistSong.delete_all
+      deleted_album_songs = AlbumSong.delete_all
       deleted_songs = Song.delete_all
       deleted_shows = Show.delete_all
       
       puts "Deleted:"
       puts "  - #{deleted_setlist_songs} setlist song entries"
+      puts "  - #{deleted_album_songs} album song entries"
       puts "  - #{deleted_songs} songs"
       puts "  - #{deleted_shows} shows"
       puts "  (Venues and bands preserved)"

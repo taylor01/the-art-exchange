@@ -21,6 +21,7 @@ class Venue < ApplicationRecord
     club: "club",
     arena: "arena",
     stadium: "stadium",
+    amphitheatre: "amphitheatre",
     outdoor: "outdoor",
     gallery: "gallery",
     museum: "museum",

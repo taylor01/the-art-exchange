@@ -48,9 +48,8 @@ class VenueMatchingService
     venue = find_by_alias_match(venue_name, city, state)
     return venue if venue
 
-    # Try fuzzy matching with similar names (disabled for now due to Rails SQL safety)
-    # find_by_fuzzy_match(venue_name, city, state)
-    nil
+    # Try fuzzy matching with similar names
+    find_by_fuzzy_match(venue_name, city, state)
   end
 
   def find_by_exact_match(venue_name, city, state)
@@ -78,8 +77,9 @@ class VenueMatchingService
 
   def find_by_fuzzy_match(venue_name, city, state)
     # Use PostgreSQL trigram similarity for fuzzy matching
+    escaped_name = ActiveRecord::Base.connection.quote(venue_name)
     base_query = Venue.where("similarity(name, ?) > 0.6", venue_name)
-                     .order(Arel.sql("similarity(name, ?) DESC"), venue_name)
+                     .order(Arel.sql("similarity(name, #{escaped_name}) DESC"))
     
     # Add location constraints if available
     base_query = base_query.where("city ILIKE ?", city) if city.present?
@@ -162,7 +162,7 @@ class VenueMatchingService
     when /festival/
       "festival"
     else
-      "venue" # Default fallback
+      "other" # Default fallback
     end
   end
 
