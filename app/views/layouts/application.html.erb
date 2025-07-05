@@ -64,6 +64,7 @@
               <!-- Authenticated User Menu -->
               <div class="flex items-center space-x-6">
                 <%= link_to "Artwork", posters_path, class: "text-stone-600 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" %>
+                <%= link_to "Shows", shows_path, class: "text-stone-600 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" %>
                 <% if current_user.admin? %>
                   <%= link_to "Admin", admin_dashboard_path, class: "text-stone-600 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" %>
                 <% end %>
@@ -89,6 +90,8 @@
             <% else %>
               <!-- Guest User Menu -->
               <div class="flex items-center space-x-4">
+                <%= link_to "Artwork", posters_path, class: "text-stone-600 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" %>
+                <%= link_to "Shows", shows_path, class: "text-stone-600 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" %>
                 <%= link_to "Sign In", new_session_path, class: "text-stone-600 hover:text-stone-900 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200" %>
                 <%= link_to "Sign Up", new_registration_path, class: "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 shadow-sm hover:shadow-md inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2" %>
               </div>
