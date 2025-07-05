@@ -110,7 +110,7 @@
   <!-- Pagination -->
   <% if @shows.respond_to?(:total_pages) && @shows.total_pages > 1 %>
     <div class="mt-8 flex justify-center">
-      <%= paginate @shows, theme: 'twitter-bootstrap-4' %>
+      <%= paginate @shows %>
     </div>
   <% end %>
 </div>

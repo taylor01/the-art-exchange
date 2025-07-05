@@ -109,6 +109,14 @@
                       <div class="flex items-center space-x-2">
                         <h5 class="text-base font-medium text-stone-900">
                           <%= setlist_song.song.title %>
+                          <% # Check for segue information in notes
+                             segue_note = nil
+                             if setlist_song.notes.is_a?(Array)
+                               segue_note = setlist_song.notes.find { |note| note.is_a?(Hash) && note['type'] == 'segue' }
+                             end
+                             if segue_note %>
+                            <span class="text-stone-500 font-normal">→</span>
+                          <% end %>
                         </h5>
                         
                         <% if setlist_song.song.is_cover_song %>
@@ -120,33 +128,6 @@
                           </span>
                         <% end %>
                       </div>
-                      
-                      <% if setlist_song.notes.present? %>
-                        <div class="text-sm text-stone-600 mt-1">
-                          <% if setlist_song.notes.is_a?(Array)
-                               setlist_song.notes.each do |note|
-                                 if note.is_a?(Hash) %>
-                                   <% if note['type'] == 'special_performance' && note['description'] == 'guest performance'
-                                        # Parse guest information from show notes
-                                        guest_info = @show.show_notes&.match(/\*\s*(.+?)(?:\n|$)/)&.captures&.first&.strip
-                                        badge_text = guest_info ? "Guest: #{guest_info}" : "Guest performance" %>
-                                     <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 mr-1 mb-1">
-                                       <%= badge_text %>
-                                     </span>
-                                   <% else %>
-                                     <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 mr-1 mb-1">
-                                       <%= note['description'] || note['note'] || note['type'] %>
-                                     </span>
-                                   <% end %>
-                                 <% else %>
-                                   <span class="text-stone-600"><%= note %></span>
-                                 <% end
-                               end
-                             else %>
-                               <span class="text-stone-600"><%= setlist_song.notes %></span>
-                             <% end %>
-                        </div>
-                      <% end %>
                     </div>
                   </div>
                 <% end %>
