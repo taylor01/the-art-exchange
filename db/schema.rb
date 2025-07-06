@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_06_005540) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_06_215622) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -501,6 +501,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_06_005540) do
     t.json "research_sources", default: []
     t.datetime "researched_at"
     t.string "research_status", default: "pending"
+    t.json "historical_significance"
+    t.json "unique_features"
+    t.boolean "name_needs_review"
+    t.string "suggested_current_name"
     t.index ["city", "administrative_area"], name: "index_venues_on_city_and_administrative_area"
     t.index ["claude_confidence"], name: "index_venues_on_claude_confidence"
     t.index ["claude_matched"], name: "index_venues_on_claude_matched"

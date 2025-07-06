@@ -80,6 +80,10 @@ Rails.application.routes.draw do
     resources :posters
   end
 
+  # SolidQueue web UI - commented out until gem is installed
+  # require "solid_queue/web"
+  # mount SolidQueue::Web => "/admin/solid_queue"
+
   # Legal pages
   get "terms-of-service", to: "legal#terms_of_service", as: :terms_of_service
   get "privacy-policy", to: "legal#privacy_policy", as: :privacy_policy
