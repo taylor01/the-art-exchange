@@ -89,10 +89,12 @@ class SetlistVenueAnalyzer
       location = combo[:location]
       city, state = parse_location(location)
       
-      # Try exact match against venue_names table
-      exact_match = find_exact_venue_match(venue_name, city, state)
+      # Try exact match against venue_names table with date validation
+      setlist_dates = combo[:show_dates].map { |date_str| Date.parse(date_str) rescue nil }.compact
+      exact_match = find_exact_venue_match(venue_name, city, state, setlist_dates)
       
-      if exact_match
+      if exact_match && !exact_match[:ambiguous]
+        # Single exact match found
         results[:exact_matches] << {
           **combo,
           matched_venue: exact_match[:venue],
@@ -100,6 +102,26 @@ class SetlistVenueAnalyzer
           confidence: 100,
           match_type: "exact_historical_name"
         }
+      elsif exact_match && exact_match[:ambiguous]
+        if exact_match[:date_validation_failed]
+          # Exact name match but dates don't align - Claude should decide
+          results[:ambiguous_cases] << {
+            **combo,
+            invalid_date_venues: exact_match[:invalid_date_venues],
+            confidence: 0,
+            match_type: "exact_name_invalid_dates",
+            reason: "Exact name match found but venue name was not active during setlist dates (#{combo[:show_dates].join(', ')})"
+          }
+        else
+          # Multiple venues with same name in same city - ambiguous!
+          results[:ambiguous_cases] << {
+            **combo,
+            conflicting_venues: exact_match[:conflicting_venues],
+            confidence: 0,
+            match_type: "multiple_venues_same_name",
+            reason: "Multiple venues found with name '#{venue_name}' in #{city}, #{state}"
+          }
+        end
       else
         # Try fuzzy match
         fuzzy_match = find_fuzzy_venue_match(venue_name, city, state)
@@ -145,21 +167,69 @@ class SetlistVenueAnalyzer
     results
   end
 
-  def find_exact_venue_match(venue_name, city, state)
+  def find_exact_venue_match(venue_name, city, state, setlist_dates = [])
     return nil unless city.present? && state.present?
 
-    # Query venue_names for exact match
-    venue_name_record = VenueName.joins(:venue)
+    # Query venue_names for ALL exact matches in this city (before date filtering)
+    all_venue_name_records = VenueName.joins(:venue)
       .where("LOWER(venue_names.name) = ?", venue_name.downcase.strip)
       .where("LOWER(venues.city) = ? AND LOWER(venues.administrative_area) = ?", 
              city.downcase, state.downcase)
-      .first
+      .includes(:venue)
 
-    if venue_name_record
+    return nil if all_venue_name_records.empty?
+
+    # Filter by date ranges if setlist dates are provided
+    if setlist_dates.any?
+      valid_date_matches = all_venue_name_records.select do |vnr|
+        setlist_dates.any? { |date| venue_name_active_on_date?(vnr, date) }
+      end
+      
+      # If we have exact name matches but none are valid for the dates,
+      # this is ambiguous - Claude should decide if it's the same venue or a new one
+      if valid_date_matches.empty?
+        return {
+          ambiguous: true,
+          date_validation_failed: true,
+          invalid_date_venues: all_venue_name_records.map { |vnr|
+            {
+              venue_id: vnr.venue.id,
+              venue_name: vnr.venue.name,
+              historical_name: vnr.name,
+              date_range: "#{vnr.start_date&.year || 'unknown'} - #{vnr.end_date&.year || 'present'}"
+            }
+          }
+        }
+      end
+      
+      venue_name_records = valid_date_matches
+    else
+      venue_name_records = all_venue_name_records
+    end
+
+    case venue_name_records.count
+    when 0
+      nil
+    when 1
+      # Single match - safe to return
+      venue_name_record = venue_name_records.first
       {
         venue: venue_name_record.venue,
         historical_name: venue_name_record.name,
         venue_name_record: venue_name_record
+      }
+    else
+      # Multiple venues with same name in same city - ambiguous!
+      {
+        ambiguous: true,
+        conflicting_venues: venue_name_records.map { |vnr|
+          {
+            venue_id: vnr.venue.id,
+            venue_name: vnr.venue.name,
+            historical_name: vnr.name,
+            date_range: "#{vnr.start_date&.year || 'unknown'} - #{vnr.end_date&.year || 'present'}"
+          }
+        }
       }
     end
   end
@@ -205,6 +275,22 @@ class SetlistVenueAnalyzer
     ).first
     
     result["similarity"].to_f
+  end
+
+  def venue_name_active_on_date?(venue_name_record, setlist_date)
+    return true unless setlist_date # If no date, assume it could match
+    
+    start_date = venue_name_record.start_date
+    end_date = venue_name_record.end_date
+    
+    # If no date constraints, assume it was always active
+    return true if start_date.nil? && end_date.nil?
+    
+    # Check if setlist date falls within the venue name's active period
+    after_start = start_date.nil? || setlist_date >= start_date
+    before_end = end_date.nil? || setlist_date <= end_date
+    
+    after_start && before_end
   end
 
   def parse_location(location_string)
@@ -291,17 +377,38 @@ class SetlistVenueAnalyzer
   end
 
   def format_ambiguous_case(match)
-    {
+    base_data = {
       setlist_venue_name: match[:venue_name],
       setlist_location: match[:location],
-      potential_matches: match[:potential_matches],
       confidence: 0,
-      reason: "Multiple potential matches below confidence threshold",
       setlist_files_affected: match[:setlist_files],
       show_dates: match[:show_dates],
       import_strategy: "sequential_stage_4",
       claude_consultation_required: true
     }
+
+    if match[:invalid_date_venues]
+      # Exact name match but invalid dates - needs Claude to decide same venue vs new venue
+      base_data.merge({
+        invalid_date_venues: match[:invalid_date_venues],
+        reason: match[:reason],
+        match_type: match[:match_type]
+      })
+    elsif match[:conflicting_venues]
+      # Multiple venues with same name case
+      base_data.merge({
+        conflicting_venues: match[:conflicting_venues],
+        reason: match[:reason],
+        match_type: match[:match_type]
+      })
+    else
+      # Original fuzzy match case
+      base_data.merge({
+        potential_matches: match[:potential_matches],
+        reason: "Multiple potential matches below confidence threshold",
+        match_type: "requires_claude_consultation"
+      })
+    end
   end
 
   def generate_import_plan(categorized_matches)
