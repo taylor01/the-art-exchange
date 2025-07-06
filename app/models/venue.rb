@@ -2,6 +2,8 @@ class Venue < ApplicationRecord
   # Associations
   has_many :posters, dependent: :nullify
   has_many :shows, dependent: :destroy
+  has_many :venue_names, dependent: :destroy
+  has_many :claude_venue_consultations, dependent: :destroy
 
   # Include geocoding functionality
   geocoded_by :full_address
@@ -11,8 +13,12 @@ class Venue < ApplicationRecord
   include PgSearch::Model
   pg_search_scope :search_by_name_and_location,
     against: [ :name, :city, :administrative_area, :country ],
+    associated_against: {
+      venue_names: [:name]
+    },
     using: {
-      tsearch: { prefix: true }
+      tsearch: { prefix: true },
+      trigram: { threshold: 0.3 }
     }
 
   # Enums
@@ -152,6 +158,64 @@ class Venue < ApplicationRecord
 
   def contact_info_present?
     website.present? || email.present? || telephone_number.present?
+  end
+
+  # Historical venue name management
+  def current_venue_name
+    venue_names.current.first
+  end
+
+  def historical_venue_names
+    venue_names.historical.order(:start_date)
+  end
+
+  def add_historical_name(name, start_date, end_date = nil)
+    venue_names.create!(
+      name: name,
+      start_date: start_date,
+      end_date: end_date,
+      current: false
+    )
+  end
+
+  def set_current_name(name, start_date = Date.current)
+    # Mark any existing current name as historical
+    venue_names.current.update_all(current: false)
+    
+    # Create new current name
+    venue_names.create!(
+      name: name,
+      start_date: start_date,
+      current: true
+    )
+    
+    # Update venue's name field to match
+    update!(name: name)
+  end
+
+  def name_on_date(date)
+    venue_name = venue_names.active_on(date).first
+    venue_name&.name || name
+  end
+
+  def claude_matched?
+    claude_matched == true
+  end
+
+  # Claude consultation methods
+  def latest_claude_consultation
+    claude_venue_consultations.order(created_at: :desc).first
+  end
+
+  def successful_claude_consultations
+    claude_venue_consultations.successful_matches
+  end
+
+  def claude_consultation_summary
+    consultations = claude_venue_consultations.order(created_at: :desc).limit(3)
+    return "No Claude consultations" if consultations.empty?
+    
+    consultations.map(&:consultation_summary).join("\n")
   end
 
   private

@@ -141,6 +141,21 @@
               <dt class="text-sm font-medium text-stone-500">Venue Name:</dt>
               <dd class="text-sm text-stone-900">
                 <%= link_to @poster.venue.name, "#", class: "text-blue-600 hover:text-blue-800" %>
+                <% former_names = @poster.venue.venue_names.where.not(current: true).order(:start_date).pluck(:name) %>
+                <% previous_names = @poster.venue.previous_names %>
+                <% previous_names = previous_names.is_a?(Array) ? previous_names : [] %>
+                <% former_names += previous_names %>
+                <% former_names = former_names.uniq.compact %>
+                <% if former_names.any? %>
+                  <div class="mt-1">
+                    <span class="text-xs font-medium text-stone-400">Formerly:</span>
+                    <div class="text-xs text-stone-500 mt-0.5">
+                      <% former_names.each_with_index do |name, index| %>
+                        <%= name %><%= ", " unless index == former_names.length - 1 %>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
               </dd>
             </div>
           <% end %>

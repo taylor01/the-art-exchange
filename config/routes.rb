@@ -54,6 +54,9 @@ Rails.application.routes.draw do
   # Show routes
   resources :shows, only: [ :index, :show ]
 
+  # Venue routes
+  resources :venues, only: [ :index, :show ]
+
   # Legacy URL redirects - redirect old /artworks URLs to new /posters URLs
   get "artworks", to: redirect("/posters")
   get "artworks/:id", to: redirect { |params, req|

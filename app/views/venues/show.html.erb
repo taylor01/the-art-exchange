@@ -1,0 +1,307 @@
+<% content_for :title, "#{@venue.name} - #{[@venue.city, @venue.administrative_area].compact.join(', ')}" %>
+<% content_for :meta_description, "Details for #{@venue.name} venue in #{[@venue.city, @venue.administrative_area].compact.join(', ')}, including shows, posters, and Claude venue matching information." %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Breadcrumb -->
+  <nav class="flex mb-6" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+      <li class="inline-flex items-center">
+        <%= link_to root_path, class: "text-stone-500 hover:text-stone-900 transition-colors duration-200" do %>
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-3a1 1 0 011-1h2a1 1 0 011 1v3a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+          </svg>
+          Home
+        <% end %>
+      </li>
+      <li>
+        <div class="flex items-center">
+          <svg class="w-4 h-4 text-stone-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+          </svg>
+          <%= link_to venues_path, class: "ml-1 text-stone-500 hover:text-stone-900 transition-colors duration-200" do %>
+            Venues
+          <% end %>
+        </div>
+      </li>
+      <li>
+        <div class="flex items-center">
+          <svg class="w-4 h-4 text-stone-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="ml-1 text-stone-900 font-medium"><%= @venue.name %></span>
+        </div>
+      </li>
+    </ol>
+  </nav>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Venue Details -->
+    <div class="lg:col-span-2">
+      <!-- Header -->
+      <div class="bg-white rounded-lg shadow-sm border border-stone-200 p-6 mb-6">
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex-1">
+            <h1 class="text-3xl font-bold text-stone-900 mb-2">
+              <%= @venue.name %>
+            </h1>
+            <h2 class="text-xl text-stone-700 mb-4">
+              <%= [@venue.city, @venue.administrative_area, @venue.country].compact.join(', ') %>
+            </h2>
+            
+            <!-- Status Badges -->
+            <div class="flex flex-wrap gap-2 mb-4">
+              <% if @venue.claude_matched? %>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                  🤖 Claude Matched
+                </span>
+              <% elsif @consultations.any? %>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                  🤖 Claude Consulted
+                </span>
+              <% else %>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                  📍 Unique Venue
+                </span>
+              <% end %>
+              
+              <% if @venue.venue_type.present? && @venue.venue_type != 'other' %>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800">
+                  🏛️ <%= @venue.venue_type.humanize %>
+                </span>
+              <% end %>
+              
+              <% if @venue.capacity.present? %>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
+                  👥 <%= number_with_delimiter(@venue.capacity) %>
+                </span>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Venue Details Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h3 class="text-sm font-medium text-stone-900 mb-2">Location Details</h3>
+            <div class="space-y-1 text-sm text-stone-600">
+              <% if @venue.address.present? %>
+                <div>📍 <%= @venue.address %></div>
+              <% end %>
+              <div>🌍 <%= [@venue.city, @venue.administrative_area, @venue.country].compact.join(', ') %></div>
+              <% if @venue.postal_code.present? %>
+                <div>📮 <%= @venue.postal_code %></div>
+              <% end %>
+              <% if @venue.latitude.present? && @venue.longitude.present? %>
+                <div>🗺️ <%= @venue.latitude %>, <%= @venue.longitude %></div>
+              <% end %>
+            </div>
+          </div>
+          
+          <div>
+            <h3 class="text-sm font-medium text-stone-900 mb-2">Contact & Info</h3>
+            <div class="space-y-1 text-sm text-stone-600">
+              <% if @venue.website.present? %>
+                <div>🌐 <%= link_to @venue.website, @venue.website, target: '_blank', class: 'text-red-600 hover:text-red-800' %></div>
+              <% end %>
+              <% if @venue.email.present? %>
+                <div>📧 <%= mail_to @venue.email, @venue.email, class: 'text-red-600 hover:text-red-800' %></div>
+              <% end %>
+              <% if @venue.telephone_number.present? %>
+                <div>📞 <%= @venue.telephone_number %></div>
+              <% end %>
+              <% if @venue.status.present? %>
+                <div>🏗️ Status: <%= @venue.status.humanize %></div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Historical Names -->
+        <% if @venue_names.where.not(current: true).any? %>
+          <div class="mt-6 pt-4 border-t border-stone-200">
+            <h3 class="text-sm font-medium text-stone-900 mb-2">Historical Names</h3>
+            <div class="space-y-1">
+              <% @venue_names.where.not(current: true).each do |venue_name| %>
+                <div class="text-sm text-stone-600">
+                  <%= venue_name.name %>
+                  <% if venue_name.start_date.present? || venue_name.end_date.present? %>
+                    <span class="text-stone-400">
+                      (<%= [venue_name.start_date&.year, venue_name.end_date&.year].compact.join(' - ') %>)
+                    </span>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <!-- Description -->
+        <% if @venue.description.present? %>
+          <div class="mt-6 pt-4 border-t border-stone-200">
+            <h3 class="text-sm font-medium text-stone-900 mb-2">Description</h3>
+            <p class="text-sm text-stone-600"><%= simple_format(@venue.description) %></p>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Claude Consultations -->
+      <% if @consultations.any? %>
+        <div class="bg-white rounded-lg shadow-sm border border-stone-200 p-6 mb-6">
+          <h2 class="text-xl font-semibold text-stone-900 mb-4">🤖 Claude Consultations</h2>
+          
+          <div class="space-y-6">
+            <% @consultations.each_with_index do |consultation, index| %>
+              <div class="<%= 'border-t border-stone-200 pt-6' if index > 0 %>">
+                <div class="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 class="text-lg font-medium text-stone-900">
+                      <%= consultation.original_venue_name %>
+                    </h3>
+                    <div class="text-sm text-stone-600">
+                      <%= consultation.location %> • <%= consultation.show_date.strftime('%B %d, %Y') %>
+                    </div>
+                  </div>
+                  
+                  <div class="flex flex-col items-end gap-2">
+                    <% if consultation.match_found? %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        ✅ Match Found
+                      </span>
+                    <% else %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                        ❌ No Match
+                      </span>
+                    <% end %>
+                    
+                    <% if consultation.confidence.present? %>
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        <%= consultation.confidence %>% confidence
+                      </span>
+                    <% end %>
+                  </div>
+                </div>
+                
+                <% if consultation.reasoning.present? %>
+                  <div class="bg-stone-50 rounded-lg p-4 mb-3">
+                    <h4 class="text-sm font-medium text-stone-900 mb-2">Claude's Reasoning:</h4>
+                    <p class="text-sm text-stone-700"><%= simple_format(consultation.reasoning) %></p>
+                  </div>
+                <% end %>
+                
+                <div class="text-xs text-stone-500">
+                  Model: <%= consultation.model_version %> • 
+                  Consulted: <%= consultation.created_at.strftime('%B %d, %Y at %I:%M %p') %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <!-- Shows -->
+      <% if @shows.any? %>
+        <div class="bg-white rounded-lg shadow-sm border border-stone-200 p-6 mb-6">
+          <h2 class="text-xl font-semibold text-stone-900 mb-4">🎵 Shows (<%= @shows.count %>)</h2>
+          
+          <div class="space-y-3">
+            <% @shows.each do |show| %>
+              <%= link_to show_path(show), class: "block p-4 rounded-lg border border-stone-200 hover:border-stone-300 hover:bg-stone-50 transition-colors duration-200" do %>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="font-medium text-stone-900"><%= show.band.name %></div>
+                    <div class="text-sm text-stone-600"><%= show.show_date.strftime('%B %d, %Y') %></div>
+                    <% if show.setlist_songs.any? %>
+                      <div class="text-xs text-stone-500 mt-1">
+                        <%= pluralize(show.setlist_songs.count, 'song') %>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class="text-stone-400">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="lg:col-span-1">
+      <!-- Statistics -->
+      <div class="bg-white rounded-lg shadow-sm border border-stone-200 p-6 mb-6">
+        <h3 class="text-lg font-semibold text-stone-900 mb-4">📊 Statistics</h3>
+        
+        <div class="space-y-3">
+          <div class="flex justify-between">
+            <span class="text-stone-600">Total Shows</span>
+            <span class="font-medium text-stone-900"><%= @shows.count %></span>
+          </div>
+          
+          <div class="flex justify-between">
+            <span class="text-stone-600">Total Posters</span>
+            <span class="font-medium text-stone-900"><%= @posters.count %></span>
+          </div>
+          
+          <% if @shows.any? %>
+            <div class="flex justify-between">
+              <span class="text-stone-600">First Show</span>
+              <span class="font-medium text-stone-900"><%= @shows.first.show_date.strftime('%b %Y') %></span>
+            </div>
+            
+            <div class="flex justify-between">
+              <span class="text-stone-600">Latest Show</span>
+              <span class="font-medium text-stone-900"><%= @shows.last.show_date.strftime('%b %Y') %></span>
+            </div>
+          <% end %>
+          
+          <% if @consultations.any? %>
+            <div class="flex justify-between">
+              <span class="text-stone-600">Claude Consultations</span>
+              <span class="font-medium text-stone-900"><%= @consultations.count %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Posters -->
+      <% if @posters.any? %>
+        <div class="bg-white rounded-lg shadow-sm border border-stone-200 p-6">
+          <h3 class="text-lg font-semibold text-stone-900 mb-4">🎨 Posters (<%= @posters.count %>)</h3>
+          
+          <div class="grid grid-cols-2 gap-3">
+            <% @posters.limit(8).each do |poster| %>
+              <%= link_to poster_path(poster), class: "block" do %>
+                <div class="aspect-w-3 aspect-h-4 rounded-lg overflow-hidden border border-stone-200 hover:border-stone-300 transition-colors duration-200">
+                  <% if poster.image.attached? %>
+                    <%= image_tag poster.image, class: "w-full h-full object-cover" %>
+                  <% else %>
+                    <div class="w-full h-full bg-stone-100 flex items-center justify-center">
+                      <svg class="w-8 h-8 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                      </svg>
+                    </div>
+                  <% end %>
+                </div>
+                <div class="mt-1 text-xs text-stone-600 truncate">
+                  <%= poster.name %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          
+          <% if @posters.count > 8 %>
+            <div class="mt-4 text-center">
+              <%= link_to posters_path(venue: @venue.name), class: "text-red-600 hover:text-red-800 text-sm font-medium" do %>
+                View all <%= @posters.count %> posters →
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_04_234842) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_06_005540) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -98,6 +98,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_234842) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_bands_on_name", unique: true
+  end
+
+  create_table "claude_venue_consultations", force: :cascade do |t|
+    t.bigint "venue_id", null: false
+    t.string "original_venue_name", null: false
+    t.string "location", null: false
+    t.date "show_date", null: false
+    t.text "prompt_sent"
+    t.json "response_json"
+    t.string "model_version", default: "claude-3-haiku-20240307"
+    t.integer "confidence"
+    t.boolean "match_found"
+    t.text "reasoning"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["confidence"], name: "index_claude_venue_consultations_on_confidence"
+    t.index ["created_at"], name: "index_claude_venue_consultations_on_created_at"
+    t.index ["location", "show_date"], name: "index_claude_venue_consultations_on_location_and_show_date"
+    t.index ["match_found"], name: "index_claude_venue_consultations_on_match_found"
+    t.index ["original_venue_name"], name: "index_claude_venue_consultations_on_original_venue_name"
+    t.index ["venue_id"], name: "index_claude_venue_consultations_on_venue_id"
   end
 
   create_table "poster_slug_redirects", force: :cascade do |t|
@@ -437,6 +458,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_234842) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "venue_names", force: :cascade do |t|
+    t.bigint "venue_id", null: false
+    t.string "name", null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.boolean "current", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["current"], name: "index_venue_names_on_current"
+    t.index ["name", "current"], name: "index_venue_names_on_name_and_current"
+    t.index ["name"], name: "index_venue_names_on_name"
+    t.index ["name"], name: "index_venue_names_on_name_gin", opclass: :gin_trgm_ops, using: :gin
+    t.index ["venue_id", "current"], name: "index_venue_names_on_venue_id_and_current"
+    t.index ["venue_id"], name: "index_venue_names_on_venue_id"
+  end
+
   create_table "venues", force: :cascade do |t|
     t.string "name", null: false
     t.text "address"
@@ -456,10 +493,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_234842) do
     t.json "previous_names", default: []
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "claude_matched", default: false
+    t.integer "claude_confidence"
+    t.text "claude_reasoning"
+    t.text "research_summary"
+    t.integer "research_confidence"
+    t.json "research_sources", default: []
+    t.datetime "researched_at"
+    t.string "research_status", default: "pending"
     t.index ["city", "administrative_area"], name: "index_venues_on_city_and_administrative_area"
+    t.index ["claude_confidence"], name: "index_venues_on_claude_confidence"
+    t.index ["claude_matched"], name: "index_venues_on_claude_matched"
     t.index ["country"], name: "index_venues_on_country"
     t.index ["latitude", "longitude"], name: "index_venues_on_latitude_and_longitude"
     t.index ["name"], name: "index_venues_on_name"
+    t.index ["research_confidence"], name: "index_venues_on_research_confidence"
+    t.index ["research_status"], name: "index_venues_on_research_status"
+    t.index ["researched_at"], name: "index_venues_on_researched_at"
     t.index ["status"], name: "index_venues_on_status"
     t.index ["venue_type"], name: "index_venues_on_venue_type"
   end
@@ -471,6 +521,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_234842) do
   add_foreign_key "albums", "bands"
   add_foreign_key "artists_posters", "artists"
   add_foreign_key "artists_posters", "posters"
+  add_foreign_key "claude_venue_consultations", "venues"
   add_foreign_key "poster_slug_redirects", "posters"
   add_foreign_key "posters", "bands"
   add_foreign_key "posters", "shows"
@@ -490,4 +541,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_04_234842) do
   add_foreign_key "solid_queue_scheduled_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade
   add_foreign_key "user_posters", "posters"
   add_foreign_key "user_posters", "users"
+  add_foreign_key "venue_names", "venues"
 end

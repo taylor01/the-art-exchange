@@ -4436,6 +4436,18 @@ poster.series << series unless poster.series.include?(series)
 puts "Created poster-series associations"
 
 
+# Reset all database sequences to prevent ID conflicts
+puts '🔧 Resetting database sequences...'
+ActiveRecord::Base.connection.reset_pk_sequence!('venues')
+ActiveRecord::Base.connection.reset_pk_sequence!('shows') 
+ActiveRecord::Base.connection.reset_pk_sequence!('songs')
+ActiveRecord::Base.connection.reset_pk_sequence!('bands')
+ActiveRecord::Base.connection.reset_pk_sequence!('artists')
+ActiveRecord::Base.connection.reset_pk_sequence!('posters')
+ActiveRecord::Base.connection.reset_pk_sequence!('users')
+ActiveRecord::Base.connection.reset_pk_sequence!('claude_venue_consultations')
+ActiveRecord::Base.connection.reset_pk_sequence!('venue_names')
+
 # Re-enable email delivery
 ActionMailer::Base.perform_deliveries = original_mail_delivery
 puts '✅ Production data seeding completed!'
