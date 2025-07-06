@@ -6,6 +6,12 @@ class ClaudeVenueMatchingJob < ApplicationJob
   def perform(venue_id)
     venue = Venue.find(venue_id)
     
+    # TEMPORARILY DISABLED: Legacy venue matching system removed
+    # This job will be updated to use the new intelligent venue matching system
+    Rails.logger.info "🚧 Claude venue matching job temporarily disabled for venue: #{venue.name} (ID: #{venue.id})"
+    Rails.logger.info "   Job will be updated to use new intelligent venue matching system"
+    return
+    
     # Skip if already processed by Claude
     return if venue.claude_matched?
     
@@ -25,14 +31,9 @@ class ClaudeVenueMatchingJob < ApplicationJob
       puts "🎯 Comparing against #{comparison_venues.count} other venues"
       comparison_venues.each { |v| puts "   - #{v.name}" }
       
-      # Use Claude to research venue matching
-      claude_service = ClaudeVenueMatchingService.new
-      match_result = claude_service.research_venue_with_claude(
-        venue.name,
-        "#{venue.city}, #{venue.administrative_area}",
-        representative_show.show_date,
-        comparison_venues
-      )
+      # REMOVED: ClaudeVenueMatchingService usage
+      # Will be replaced with new intelligent venue matching
+      match_result = { match_found: false, confidence: 0, reasoning: "Legacy service removed" }
       
       if match_result[:match_found] && match_result[:matched_venue]
         Rails.logger.info "✅ Claude found match: #{match_result[:matched_venue].name} (#{match_result[:confidence]}% confidence)"

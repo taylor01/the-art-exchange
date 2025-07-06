@@ -301,9 +301,6 @@ class SetlistImportService
   end
 
   def clear_caches
-    # Clear venue matching cache
-    @venue_matcher = VenueMatchingService.new
-    
     # Clear song deduplication cache
     @song_deduplicator = SongDeduplicationService.new
   end
