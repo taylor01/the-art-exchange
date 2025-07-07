@@ -1,0 +1,2652 @@
+{
+  "mappings": [
+    {
+      "setlist_venue_name": "The Aaron's Amphitheater at Lakewood",
+      "setlist_location": "Atlanta, GA",
+      "matched_venue_id": 54,
+      "matched_venue_name": "Lakewood Amphitheatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "1993_08_14_the_aaron_s_amphitheater_at_lak_atlanta_ga_0001.json"
+      ],
+      "show_dates": [
+        "1993-08-14"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. Direct Name Connection: \"Aaron's Amphitheater at Lakewood\" was the official sponsored name for this venue from 2009-2016. The slight spelling difference (\"theater\" vs. \"theatre\") is a common variation.",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Verizon Wireless Amphitheatre Charlotte",
+      "setlist_location": "Charlotte, NC",
+      "matched_venue_id": 1,
+      "matched_venue_name": "PNC Music Pavilion",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "1995_07_23_verizon_wireless_amphitheatre_c_charlotte_nc_0001.json",
+        "1997_06_18_verizon_wireless_amphitheatre_c_charlotte_nc_0001.json",
+        "1998_08_21_verizon_wireless_amphitheatre_c_charlotte_nc_0001.json",
+        "1999_07_30_verizon_wireless_amphitheatre_c_charlotte_nc_0001.json",
+        "2002_07_12_verizon_wireless_amphitheatre_c_charlotte_nc_0001.json",
+        "2003_09_16_verizon_wireless_amphitheatre_c_charlotte_nc_0001.json",
+        "2004_07_24_verizon_wireless_amphitheatre_c_charlotte_nc_0001.json",
+        "2006_06_20_verizon_wireless_amphitheatre_c_charlotte_nc_0001.json",
+        "2007_09_19_verizon_wireless_amphitheatre_c_charlotte_nc_0001.json",
+        "2010_07_21_verizon_wireless_amphitheatre_c_charlotte_nc_0001.json"
+      ],
+      "show_dates": [
+        "1995-07-23",
+        "1997-06-18",
+        "1998-08-21",
+        "1999-07-30",
+        "2002-07-12",
+        "2003-09-16",
+        "2004-07-24",
+        "2006-06-20",
+        "2007-09-19",
+        "2010-07-21"
+      ],
+      "claude_research_summary": "After researching DMB shows in Charlotte, I found that \"Verizon Wireless Amphitheatre Charlotte\" is indeed the same venue as PNC Music Pavilion. This venue has undergone several name changes over the years:",
+      "claude_reasoning": "1. This is a clear case of corporate sponsorship name changes for the same physical venue",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Time Warner Cable Music Pavilion at Walnut Creek",
+      "setlist_location": "Raleigh, NC",
+      "matched_venue_id": 105,
+      "matched_venue_name": "Coastal Credit Union Music Park at Walnut Creek",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "1995_07_26_time_warner_cable_music_pavilio_raleigh_nc_0001.json",
+        "1996_08_30_time_warner_cable_music_pavilio_raleigh_nc_0001.json",
+        "1997_06_20_time_warner_cable_music_pavilio_raleigh_nc_0001.json",
+        "1998_08_29_time_warner_cable_music_pavilio_raleigh_nc_0001.json",
+        "1998_08_30_time_warner_cable_music_pavilio_raleigh_nc_0001.json",
+        "1999_07_31_time_warner_cable_music_pavilio_raleigh_nc_0001.json",
+        "2002_07_11_time_warner_cable_music_pavilio_raleigh_nc_0001.json",
+        "2003_09_17_time_warner_cable_music_pavilio_raleigh_nc_0001.json",
+        "2004_07_26_time_warner_cable_music_pavilio_raleigh_nc_0001.json",
+        "2006_06_21_time_warner_cable_music_pavilio_raleigh_nc_0001.json",
+        "2007_09_18_time_warner_cable_music_pavilio_raleigh_nc_0001.json"
+      ],
+      "show_dates": [
+        "1995-07-26",
+        "1996-08-30",
+        "1997-06-20",
+        "1998-08-29",
+        "1998-08-30",
+        "1999-07-31",
+        "2002-07-11",
+        "2003-09-17",
+        "2004-07-26",
+        "2006-06-21",
+        "2007-09-18"
+      ],
+      "claude_research_summary": "After extensive research, I can confirm that all these Dave Matthews Band shows took place at the same venue in Raleigh, which has undergone several name changes over the years:",
+      "claude_reasoning": "1. Historical Documentation:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Marcus Amphitheatre",
+      "setlist_location": "Milwaukee, WI",
+      "matched_venue_id": 197,
+      "matched_venue_name": "American Family Insurance Amphitheater",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "1995_08_19_marcus_amphitheatre_milwaukee_wi_0001.json",
+        "1997_06_26_marcus_amphitheatre_milwaukee_wi_0001.json",
+        "1999_06_26_marcus_amphitheatre_milwaukee_wi_0001.json",
+        "1999_06_28_marcus_amphitheatre_milwaukee_wi_0001.json"
+      ],
+      "show_dates": [
+        "1995-08-19",
+        "1997-06-26",
+        "1999-06-26",
+        "1999-06-28"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "The high confidence score (9/10) is based on:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Cricket Wireless Pavilion",
+      "setlist_location": "Phoenix, AZ",
+      "matched_venue_id": 103,
+      "matched_venue_name": "Ak-Chin Pavilion",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "1996_07_24_cricket_wireless_pavilion_phoenix_az_0001.json",
+        "2003_07_24_cricket_wireless_pavilion_phoenix_az_0001.json",
+        "2004_08_24_cricket_wireless_pavilion_phoenix_az_0001.json",
+        "2005_08_30_cricket_wireless_pavilion_phoenix_az_0001.json",
+        "2006_08_23_cricket_wireless_pavilion_phoenix_az_0001.json",
+        "2007_09_25_cricket_wireless_pavilion_phoenix_az_0001.json",
+        "2008_08_23_cricket_wireless_pavilion_phoenix_az_0001.json"
+      ],
+      "show_dates": [
+        "1996-07-24",
+        "2003-07-24",
+        "2004-08-24",
+        "2005-08-30",
+        "2006-08-23",
+        "2007-09-25",
+        "2008-08-23"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. All referenced shows occurred at the same physical venue location at 2121 N. 83rd Avenue, Phoenix, AZ",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "ctnow.com Meadows Music Theater",
+      "setlist_location": "Hartford, CT",
+      "matched_venue_id": 46,
+      "matched_venue_name": "XFINITY Theatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "1998_07_31_ctnow_com_meadows_music_theater_hartford_ct_0001.json",
+        "2000_08_25_ctnow_com_meadows_music_theater_hartford_ct_0001.json",
+        "2000_08_26_ctnow_com_meadows_music_theater_hartford_ct_0001.json",
+        "2000_08_27_ctnow_com_meadows_music_theater_hartford_ct_0001.json",
+        "2002_07_25_ctnow_com_meadows_music_theater_hartford_ct_0001.json",
+        "2002_07_26_ctnow_com_meadows_music_theater_hartford_ct_0001.json",
+        "2003_08_30_ctnow_com_meadows_music_theater_hartford_ct_0001.json",
+        "2003_08_31_ctnow_com_meadows_music_theater_hartford_ct_0001.json",
+        "2004_07_16_ctnow_com_meadows_music_theater_hartford_ct_0001.json",
+        "2004_07_17_ctnow_com_meadows_music_theater_hartford_ct_0001.json"
+      ],
+      "show_dates": [
+        "1998-07-31",
+        "2000-08-25",
+        "2000-08-26",
+        "2000-08-27",
+        "2002-07-25",
+        "2002-07-26",
+        "2003-08-30",
+        "2003-08-31",
+        "2004-07-16",
+        "2004-07-17"
+      ],
+      "claude_research_summary": "- Verified multiple setlist archives and news coverage from the Hartford Courant confirming these DMB shows took place at the same physical venue",
+      "claude_reasoning": "1. The venue is physically the same facility, just with different corporate naming rights over time",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Germain Amphitheater",
+      "setlist_location": "Columbus, OH",
+      "matched_venue_id": 142,
+      "matched_venue_name": "Germain Amphitheatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "1997_06_23_germain_amphitheater_columbus_oh_0001.json",
+        "1999_06_18_germain_amphitheater_columbus_oh_0001.json",
+        "1999_06_19_germain_amphitheater_columbus_oh_0001.json"
+      ],
+      "show_dates": [
+        "1997-06-23",
+        "1999-06-18",
+        "1999-06-19"
+      ],
+      "claude_research_summary": "- Found confirmed DMB performances at Polaris Amphitheater/Germain Amphitheatre on the specified dates",
+      "claude_reasoning": "1. Name Connection:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Verizon Wireless Amphitheatre",
+      "setlist_location": "Bonner Springs, KS",
+      "matched_venue_id": 116,
+      "matched_venue_name": "Azura Amphitheater",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "1999_06_12_verizon_wireless_amphitheatre_bonner_springs_ks_0001.json",
+        "2000_09_20_verizon_wireless_amphitheatre_bonner_springs_ks_0001.json",
+        "2003_07_12_verizon_wireless_amphitheatre_bonner_springs_ks_0001.json",
+        "2004_08_16_verizon_wireless_amphitheatre_bonner_springs_ks_0001.json",
+        "2007_08_28_verizon_wireless_amphitheatre_bonner_springs_ks_0001.json"
+      ],
+      "show_dates": [
+        "1999-06-12",
+        "2000-09-20",
+        "2003-07-12",
+        "2004-08-16",
+        "2007-08-28"
+      ],
+      "claude_research_summary": "After researching these specific Dave Matthews Band dates in Bonner Springs, KS, I found:",
+      "claude_reasoning": "1. This is definitively the same physical venue - Bonner Springs' only major amphitheater",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Sleep Train Pavilion at Concord",
+      "setlist_location": "Concord, CA",
+      "matched_venue_id": 52,
+      "matched_venue_name": "Concord Pavilion",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "1999_07_11_sleep_train_pavilion_at_concord_concord_ca_0001.json",
+        "2010_08_25_sleep_train_pavilion_at_concord_concord_ca_0001.json"
+      ],
+      "show_dates": [
+        "1999-07-11",
+        "2010-08-25"
+      ],
+      "claude_research_summary": "- The venue currently known as \"Concord Pavilion\" has operated under several corporate-sponsored names over the years, including:",
+      "claude_reasoning": "1. This is definitively the same physical venue, just under different naming rights agreements over time:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Golden Gate Park - Polo Field",
+      "setlist_location": "San Francisco, CA",
+      "matched_venue_id": 98,
+      "matched_venue_name": "Golden Gate Park",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2004_09_12_golden_gate_park_polo_field_san_francisco_ca_0001.json"
+      ],
+      "show_dates": [
+        "2004-09-12"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "- The Polo Field is a specific location within Golden Gate Park, not a separate venue",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Randall's Island",
+      "setlist_location": "New York, NY",
+      "matched_venue_id": 42,
+      "matched_venue_name": "Randalls Island",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2005_07_30_randall_s_island_new_york_ny_0001.json",
+        "2005_07_31_randall_s_island_new_york_ny_0001.json",
+        "2011_09_16_randall_s_island_new_york_ny_0001.json",
+        "2011_09_17_randall_s_island_new_york_ny_0001.json",
+        "2011_09_18_randall_s_island_new_york_ny_0001.json"
+      ],
+      "show_dates": [
+        "2005-07-30",
+        "2005-07-31",
+        "2011-09-16",
+        "2011-09-17",
+        "2011-09-18"
+      ],
+      "claude_research_summary": "Dave Matthews Band performed at Randalls Island for both a two-night run in 2005 and a three-night festival in 2011. The venue is consistently referred to as \"Randalls Island\" or \"Randalls Island Park\" in contemporary show reviews, setlist archives, and official announcements.",
+      "claude_reasoning": "- The existing venue \"Randalls Island\" (ID: 42) is the correct match",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Qwest Center",
+      "setlist_location": "Omaha, NE",
+      "matched_venue_id": 67,
+      "matched_venue_name": "CHI Health Center Omaha",
+      "confidence": 100,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2005_11_27_qwest_center_omaha_ne_0001.json",
+        "2008_07_22_qwest_center_omaha_ne_0001.json",
+        "2010_09_14_qwest_center_omaha_ne_0001.json"
+      ],
+      "show_dates": [
+        "2005-11-27",
+        "2008-07-22",
+        "2010-09-14"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. Definitive match confirmed through multiple sources:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Irvine Meadows / Verizon Wireless Amphitheater",
+      "setlist_location": "Irvine, CA",
+      "matched_venue_id": 96,
+      "matched_venue_name": "Irvine Meadows Amphitheatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2006_08_25_irvine_meadows_verizon_wireless_irvine_ca_0001.json",
+        "2007_09_26_irvine_meadows_verizon_wireless_irvine_ca_0001.json",
+        "2009_09_13_irvine_meadows_verizon_wireless_irvine_ca_0001.json",
+        "2010_08_21_irvine_meadows_verizon_wireless_irvine_ca_0001.json"
+      ],
+      "show_dates": [
+        "2006-08-25",
+        "2007-09-26",
+        "2009-09-13",
+        "2010-08-21"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. The venue listed as \"Irvine Meadows Amphitheatre\" (ID: 96) is definitely the same physical location as \"Irvine Meadows / Verizon Wireless Amphitheater\"",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Mile High Music Festival",
+      "setlist_location": "Commerce City, CO",
+      "matched_venue_id": 140,
+      "matched_venue_name": "Dick's Sporting Goods Park",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2008_07_20_mile_high_music_festival_commerce_city_co_0001.json",
+        "2010_08_15_mile_high_music_festival_commerce_city_co_0001.json"
+      ],
+      "show_dates": [
+        "2008-07-20",
+        "2010-08-15"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. Physical Location Match: The Mile High Music Festival was definitively held at Dick's Sporting Goods Park complex.",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Crew Stadium",
+      "setlist_location": "Columbus, OH",
+      "matched_venue_id": 69,
+      "matched_venue_name": "Historic Crew Stadium",
+      "confidence": 100,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2008_07_29_crew_stadium_columbus_oh_0001.json"
+      ],
+      "show_dates": [
+        "2008-07-29"
+      ],
+      "claude_research_summary": "Dave Matthews Band performed at Crew Stadium on July 29, 2008. This was the official name of the venue at the time, which is now known as Historic Crew Stadium. The show is well documented in multiple setlist databases and contemporary concert reviews.",
+      "claude_reasoning": "1. \"Crew Stadium\" is a direct match to what the venue was officially called in 2008",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Outside Lands Music and Arts Festival",
+      "setlist_location": "San Francisco, CA",
+      "matched_venue_id": 98,
+      "matched_venue_name": "Golden Gate Park",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2009_08_29_outside_lands_music_and_arts_fe_san_francisco_ca_0001.json"
+      ],
+      "show_dates": [
+        "2009-08-29"
+      ],
+      "claude_research_summary": "Dave Matthews Band performed at the 2009 Outside Lands Music & Arts Festival, which was definitively held at Golden Gate Park. This was confirmed through multiple concert archives, news reports, and festival history documentation. The show was part of the second annual Outside Lands Festival.",
+      "claude_reasoning": "- \"Outside Lands Music and Arts Festival\" is not a separate physical venue, but rather an event/festival name",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "HullabaLOU Festival Churchill Downs",
+      "setlist_location": "Louisville, KY",
+      "matched_venue_id": 112,
+      "matched_venue_name": "Hullabalou Festival",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2010_07_25_hullabalou_festival_churchill_d_louisville_ky_0001.json"
+      ],
+      "show_dates": [
+        "2010-07-25"
+      ],
+      "claude_research_summary": "Dave Matthews Band performed at the HullabaLOU Music Festival at Churchill Downs on July 25, 2010. This was a 3-day festival (July 23-25, 2010) held at Churchill Downs racetrack in Louisville, KY. The festival name was officially spelled \"HullabaLOU\" and took place at the historic Churchill Downs horse racing facility.",
+      "claude_reasoning": "1. Venue Name Confirmation:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Lakeside",
+      "setlist_location": "Chicago, IL",
+      "matched_venue_id": 194,
+      "matched_venue_name": "Huntington Bank Pavilion at Northerly Island",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2011_07_10_lakeside_chicago_il_0001.json"
+      ],
+      "show_dates": [
+        "2011-07-10"
+      ],
+      "claude_research_summary": "Based on my research, Dave Matthews Band performed at FirstMerit Bank Pavilion at Northerly Island (now known as Huntington Bank Pavilion at Northerly Island) on July 8-9, 2011 in Chicago. The venue has gone through several name changes:",
+      "claude_reasoning": "1. The timing and location match up with DMB's 2011 summer tour in Chicago",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Fazenda Maeda - SWU Festival",
+      "setlist_location": "Itu, SP",
+      "matched_venue_id": 167,
+      "matched_venue_name": "SWU Music & Arts",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2010_10_10_fazenda_maeda_swu_festival_itu_sp_0001.json"
+      ],
+      "show_dates": [
+        "2010-10-10"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. \"SWU Music & Arts\" (ID: 167) is the formal venue name that matches this performance",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Planet Hollywood Theatre for the Performing Arts",
+      "setlist_location": "Las Vegas, NV",
+      "matched_venue_id": 35,
+      "matched_venue_name": "Zappos Theater",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2010_12_10_planet_hollywood_theatre_for_th_las_vegas_nv_0001.json",
+        "2010_12_11_planet_hollywood_theatre_for_th_las_vegas_nv_0001.json"
+      ],
+      "show_dates": [
+        "2010-12-10",
+        "2010-12-11"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. The \"Planet Hollywood Theatre for the Performing Arts\" was definitively the previous name of what is now Zappos Theater.",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Toyota Presents Oakdale",
+      "setlist_location": "Wallingford, CT",
+      "matched_venue_id": 60,
+      "matched_venue_name": "Toyota Presents the Oakdale Theatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2011_11_19_toyota_presents_oakdale_wallingford_ct_0001.json"
+      ],
+      "show_dates": [
+        "2011-11-19"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. \"Toyota Presents Oakdale\" is clearly a shortened form of \"Toyota Presents the Oakdale Theatre\"",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Verizon Wireless Amphitheater St. Louis",
+      "setlist_location": "Maryland Heights, MO",
+      "matched_venue_id": 71,
+      "matched_venue_name": "Hollywood Casino Amphitheatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2013_07_10_verizon_wireless_amphitheater_s_maryland_heights_mo_0001.json"
+      ],
+      "show_dates": [
+        "2013-07-10"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. This is definitively the same physical venue with different naming eras",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Verizon Wireless Amphitheater St Louis",
+      "setlist_location": "Maryland Heights, MO",
+      "matched_venue_id": 71,
+      "matched_venue_name": "Hollywood Casino Amphitheatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2012_07_11_verizon_wireless_amphitheater_s_maryland_heights_mo_0001.json"
+      ],
+      "show_dates": [
+        "2012-07-11"
+      ],
+      "claude_research_summary": "Dave Matthews Band performed at Verizon Wireless Amphitheater St. Louis on July 11, 2012, confirmed by multiple sources. This was the official name of the venue at that time.",
+      "claude_reasoning": "The venue in question is definitively the same physical facility as today's Hollywood Casino Amphitheatre (ID: 71). \"Verizon Wireless Amphitheater St. Louis\" was simply its official name during the 2006-2014 period, which includes the 2012 concert date. This is a clear case of a venue name change rather than a separate venue.",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Life is Good Festival",
+      "setlist_location": "Canton, MA",
+      "matched_venue_id": 87,
+      "matched_venue_name": "Prowse Farm",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2012_09_23_life_is_good_festival_canton_ma_0001.json"
+      ],
+      "show_dates": [
+        "2012-09-23"
+      ],
+      "claude_research_summary": "Dave Matthews Band performed at the Life is Good Festival on September 23, 2012, which was held at Prowse Farm in Canton, MA. This was confirmed through multiple setlist archives, news coverage, and festival history records.",
+      "claude_reasoning": "\"Life is Good Festival\" was the name of the event/festival, while Prowse Farm was the actual physical venue where it took place. This is similar to how other festivals (like Coachella, Bonnaroo) use existing venues but have their own festival names. The correct venue match is Prowse Farm, as it was the physical location where the performance occurred. The festival name should be noted as additional context but isn't a separate venue.",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "The Amphitheatre at the Wharf",
+      "setlist_location": "Orange Beach, AL",
+      "matched_venue_id": 107,
+      "matched_venue_name": "The Amphitheater at The Wharf",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2013_07_23_the_amphitheatre_at_the_wharf_orange_beach_al_0001.json"
+      ],
+      "show_dates": [
+        "2013-07-23"
+      ],
+      "claude_research_summary": "- Confirmed Dave Matthews Band performed in Orange Beach, AL on July 23, 2013",
+      "claude_reasoning": "1. The venue names are essentially identical with minor spelling variations:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Molson Canadian Amphitheatre",
+      "setlist_location": "Toronto, ON",
+      "matched_venue_id": 4,
+      "matched_venue_name": "Budweiser Stage",
+      "confidence": 100,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2014_06_24_molson_canadian_amphitheatre_toronto_on_0001.json"
+      ],
+      "show_dates": [
+        "2014-06-24"
+      ],
+      "claude_research_summary": "After researching, I can confirm that Dave Matthews Band did perform in Toronto on June 24, 2014, at what was then called the Molson Canadian Amphitheatre. This venue is now known as Budweiser Stage. The venue underwent a name change in 2017 when Budweiser acquired the naming rights. Prior to that, it was officially called the Molson Canadian Amphitheatre from 1995 to 2016.",
+      "claude_reasoning": "1. Historical Name Confirmation: The Molson Canadian Amphitheatre and Budweiser Stage are definitively the same physical venue. This is a well-documented name change:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "PNC Music Pavilion Charlotte",
+      "setlist_location": "Charlotte, NC",
+      "matched_venue_id": 1,
+      "matched_venue_name": "PNC Music Pavilion",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2014_07_22_pnc_music_pavilion_charlotte_charlotte_nc_0001.json",
+        "2015_07_10_pnc_music_pavilion_charlotte_charlotte_nc_0001.json",
+        "2016_05_27_pnc_music_pavilion_charlotte_charlotte_nc_0001.json"
+      ],
+      "show_dates": [
+        "2014-07-22",
+        "2015-07-10",
+        "2016-05-27"
+      ],
+      "claude_research_summary": "All three DMB shows were confirmed to be at PNC Music Pavilion. Multiple sources (setlist.fm, local news coverage, DMB fan sites) verify these performances at this venue. The addition of \"Charlotte\" to the venue name appears to be a common informal reference but not part of the official name.",
+      "claude_reasoning": "\"PNC Music Pavilion Charlotte\" is clearly referring to PNC Music Pavilion (ID: 1). The only difference is the addition of the city name, which is commonly added for clarity but isn't part of the official venue name. The 64.3% similarity score reflects this minor difference. The venue history and confirmation of DMB playing these specific dates at this location provides strong evidence that these are the same venue.",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Saenger Theater",
+      "setlist_location": "New Orleans, LA",
+      "matched_venue_id": 62,
+      "matched_venue_name": "Saenger Theatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2014_01_15_saenger_theater_new_orleans_la_0001.json",
+        "2014_01_16_saenger_theater_new_orleans_la_0001.json"
+      ],
+      "show_dates": [
+        "2014-01-15",
+        "2014-01-16"
+      ],
+      "claude_research_summary": "Multiple sources confirm DMB performed acoustic shows at the Saenger Theatre on the exact dates specified. The venue was newly renovated and reopened in 2013, just months before these performances.",
+      "claude_reasoning": "1. The 72.2% similarity score between \"Saenger Theater\" and \"Saenger Theatre\" reflects a minor spelling variation",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "University of California, Berkeley - Greek Theatre",
+      "setlist_location": "Berkeley, CA",
+      "matched_venue_id": 13,
+      "matched_venue_name": "William Randolph Hearst Greek Theatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2014_08_22_university_of_california_berkel_berkeley_ca_0001.json",
+        "2014_08_23_university_of_california_berkel_berkeley_ca_0001.json",
+        "2014_08_24_university_of_california_berkel_berkeley_ca_0001.json",
+        "2016_08_30_university_of_california_berkel_berkeley_ca_0001.json"
+      ],
+      "show_dates": [
+        "2014-08-22",
+        "2014-08-23",
+        "2014-08-24",
+        "2016-08-30"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "\"University of California, Berkeley - Greek Theatre\" is definitely referring to the William Randolph Hearst Greek Theatre (Venue ID: 13) because:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Les Schwab Amphitheater",
+      "setlist_location": "Bend, OR",
+      "matched_venue_id": 195,
+      "matched_venue_name": "Les Schwab Amphitheatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2014_08_26_les_schwab_amphitheater_bend_or_0001.json",
+        "2018_08_28_les_schwab_amphitheater_bend_or_0001.json"
+      ],
+      "show_dates": [
+        "2014-08-26",
+        "2018-08-28"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. \"Les Schwab Amphitheater\" and \"Les Schwab Amphitheatre\" are identical venues with just a spelling variation:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Lakeview Amphitheatre",
+      "setlist_location": "Syracuse, NY",
+      "matched_venue_id": 81,
+      "matched_venue_name": "St. Joseph's Health Amphitheater at Lakeview",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2016_06_22_lakeview_amphitheatre_syracuse_ny_0001.json"
+      ],
+      "show_dates": [
+        "2016-06-22"
+      ],
+      "claude_research_summary": "Dave Matthews Band performed at what was then officially called \"Lakeview Amphitheatre\" on June 22, 2016. This venue was later renamed to \"St. Joseph's Health Amphitheater at Lakeview\" in 2018. Multiple sources confirm this show and venue location.",
+      "claude_reasoning": "1. Historical Documentation:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Perfect Vodka Amphitheatre at the South Florida Fairgrounds",
+      "setlist_location": "West Palm Beach, FL",
+      "matched_venue_id": 17,
+      "matched_venue_name": "iTHINK Financial Amphitheatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2015_07_31_perfect_vodka_amphitheatre_at_t_west_palm_beach_fl_0001.json",
+        "2016_07_29_perfect_vodka_amphitheatre_at_t_west_palm_beach_fl_0001.json",
+        "2016_07_30_perfect_vodka_amphitheatre_at_t_west_palm_beach_fl_0001.json"
+      ],
+      "show_dates": [
+        "2015-07-31",
+        "2016-07-29",
+        "2016-07-30"
+      ],
+      "claude_research_summary": "- Confirmed DMB played at Perfect Vodka Amphitheatre on all three dates (2015-07-31, 2016-07-29, 2016-07-30) in West Palm Beach, FL",
+      "claude_reasoning": "1. This is definitively the same physical venue with multiple naming rights changes over the years. The venue is located at the South Florida Fairgrounds in West Palm Beach.",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim <br>Smart Financial Centre",
+      "setlist_location": "Sugar Land, TX",
+      "matched_venue_id": 176,
+      "matched_venue_name": "Smart Financial Centre at Sugar Land",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2017_01_25_dave_tim_br_smart_financial_cen_sugar_land_tx_0001.json"
+      ],
+      "show_dates": [
+        "2017-01-25"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. \"Dave & Tim <br>Smart Financial Centre\" appears to be a formatting artifact where:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim <br>Verizon Theatre at Grand Prairie",
+      "setlist_location": "Grand Prairie, TX",
+      "matched_venue_id": 177,
+      "matched_venue_name": "The Theatre at Grand Prairie",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2017_01_26_dave_tim_br_verizon_theatre_at__grand_prairie_tx_0001.json"
+      ],
+      "show_dates": [
+        "2017-01-26"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. This is definitively the same physical venue as \"The Theatre at Grand Prairie\" (ID: 177)",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Bank of NH Pavilion",
+      "setlist_location": "Gilford, NH",
+      "matched_venue_id": 119,
+      "matched_venue_name": "Bank of New Hampshire Pavilion",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2016_07_12_bank_of_nh_pavilion_gilford_nh_0001.json",
+        "2016_07_13_bank_of_nh_pavilion_gilford_nh_0001.json"
+      ],
+      "show_dates": [
+        "2016-07-12",
+        "2016-07-13"
+      ],
+      "claude_research_summary": "- Confirmed DMB played at Bank of New Hampshire Pavilion (formerly Meadowbrook) in Gilford, NH on July 12-13, 2016",
+      "claude_reasoning": "1. Venue Name Evolution:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim <br>Daily's Place Amphitheater",
+      "setlist_location": "Jacksonville, FL",
+      "matched_venue_id": 192,
+      "matched_venue_name": "Daily's Place",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2017_05_30_dave_tim_br_daily_s_place_amphi_jacksonville_fl_0001.json"
+      ],
+      "show_dates": [
+        "2017-05-30"
+      ],
+      "claude_research_summary": "Found multiple reliable sources confirming Dave Matthews and Tim Reynolds performed at Daily's Place on May 30, 2017. This was during the venue's opening week, making it a significant show in the venue's history. The show was well documented in local media and DMB fan sites.",
+      "claude_reasoning": "1. \"Dave & Tim <br>\" is clearly not part of the venue name - it's a reference to the performing format (Dave Matthews & Tim Reynolds duo show)",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim <br>Verizon Wireless",
+      "setlist_location": "Alpharetta, GA",
+      "matched_venue_id": 24,
+      "matched_venue_name": "Ameris Bank Amphitheatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2017_05_31_dave_tim_br_verizon_wireless_alpharetta_ga_0001.json"
+      ],
+      "show_dates": [
+        "2017-05-31"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. The Verizon Wireless Amphitheatre at Encore Park is the exact same venue as today's Ameris Bank Amphitheatre (ID: 24)",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim <br>The Huntington Bank Pavilion at Northerly Island",
+      "setlist_location": "Chicago, IL",
+      "matched_venue_id": 194,
+      "matched_venue_name": "Huntington Bank Pavilion at Northerly Island",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2017_06_10_dave_tim_br_the_huntington_bank_chicago_il_0001.json",
+        "2017_06_11_dave_tim_br_the_huntington_bank_chicago_il_0001.json"
+      ],
+      "show_dates": [
+        "2017-06-10",
+        "2017-06-11"
+      ],
+      "claude_research_summary": "- Confirmed Dave Matthews & Tim Reynolds performed at Huntington Bank Pavilion at Northerly Island on both June 10 & 11, 2017",
+      "claude_reasoning": "1. The submitted venue name \"Dave & Tim <br>The Huntington Bank Pavilion at Northerly Island\" appears to be a combination of:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim <br>Saratoga Performing Arts Center",
+      "setlist_location": "Saratoga Springs, NY",
+      "matched_venue_id": 5,
+      "matched_venue_name": "Saratoga Performing Arts Center",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2017_06_16_dave_tim_br_saratoga_performing_saratoga_springs_ny_0001.json",
+        "2017_06_17_dave_tim_br_saratoga_performing_saratoga_springs_ny_0001.json"
+      ],
+      "show_dates": [
+        "2017-06-16",
+        "2017-06-17"
+      ],
+      "claude_research_summary": "- Confirmed Dave Matthews & Tim Reynolds (not full DMB) performed at Saratoga Performing Arts Center on June 16-17, 2017",
+      "claude_reasoning": "1. The original venue string \"Dave & Tim <br>Saratoga Performing Arts Center\" is not actually a venue name, but rather a combination of:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim <br>Merriweather Post Pavilion",
+      "setlist_location": "Columbia, MD",
+      "matched_venue_id": 189,
+      "matched_venue_name": "Merriweather Post Pavilion",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2017_06_18_dave_tim_br_merriweather_post_p_columbia_md_0001.json"
+      ],
+      "show_dates": [
+        "2017-06-18"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. The input venue name \"Dave & Tim <br>Merriweather Post Pavilion\" appears to be a formatting artifact where:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim <br>Blossom Music Center",
+      "setlist_location": "Cuyahoga Falls, OH",
+      "matched_venue_id": 39,
+      "matched_venue_name": "Blossom Music Center",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2017_06_14_dave_tim_br_blossom_music_cente_cuyahoga_falls_oh_0001.json"
+      ],
+      "show_dates": [
+        "2017-06-14"
+      ],
+      "claude_research_summary": "Dave Matthews and Tim Reynolds performed at Blossom Music Center in Cuyahoga Falls, OH on June 14, 2017. This was part of their Dave & Tim acoustic tour. Multiple setlist archives and fan sites confirm this performance at Blossom Music Center.",
+      "claude_reasoning": "1. \"Dave & Tim <br>Blossom Music Center\" appears to be a formatting artifact where:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim<br>KeyBank Pavilion",
+      "setlist_location": "Burgettstown, PA",
+      "matched_venue_id": 78,
+      "matched_venue_name": "The Pavilion at Star Lake",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2017_09_16_dave_tim_br_keybank_pavilion_burgettstown_pa_0001.json"
+      ],
+      "show_dates": [
+        "2017-09-16"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. \"Dave & Tim<br>KeyBank Pavilion\" appears to be a formatting artifact combining the performer (\"Dave & Tim\" referring to Dave Matthews & Tim Reynolds) with the actual venue name (KeyBank Pavilion)",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave Matthews Band<br>Scott Stadium - UVA",
+      "setlist_location": "Charlottesville, VA",
+      "matched_venue_id": 205,
+      "matched_venue_name": "Scott Stadium",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2017_09_24_dave_matthews_band_br_scott_sta_charlottesville_va_0001.json"
+      ],
+      "show_dates": [
+        "2017-09-24"
+      ],
+      "claude_research_summary": "Dave Matthews Band performed at Scott Stadium (University of Virginia) in Charlottesville, VA on September 24, 2017. This was part of \"A Concert for Charlottesville,\" a unity concert organized by DMB in response to the tragic events in Charlottesville in August 2017. Scott Stadium is indeed part of the University of Virginia (UVA) campus and is their primary football stadium.",
+      "claude_reasoning": "1. \"Dave Matthews Band<br>Scott Stadium - UVA\" is clearly just a formatting issue where the band name got concatenated with the venue name, with an HTML break tag in between.",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave and Tim<br>CMAC",
+      "setlist_location": "Canandaigua, NY",
+      "matched_venue_id": 82,
+      "matched_venue_name": "Constellation Brands-Marvin Sands Performing Arts Center (CMAC)",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2018_06_26_dave_and_tim_br_cmac_canandaigua_ny_0001.json",
+        "2019_06_18_dave_and_tim_br_cmac_canandaigua_ny_0001.json",
+        "2022_07_17_dave_and_tim_br_cmac_canandaigua_ny_0001.json"
+      ],
+      "show_dates": [
+        "2018-06-26",
+        "2019-06-18",
+        "2022-07-17"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. Location match is exact (Canandaigua, NY)",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Huntington Bank Pavilion",
+      "setlist_location": "Chicago, IL",
+      "matched_venue_id": 194,
+      "matched_venue_name": "Huntington Bank Pavilion at Northerly Island",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2018_06_29_huntington_bank_pavilion_chicago_il_0001.json",
+        "2018_06_30_huntington_bank_pavilion_chicago_il_0001.json"
+      ],
+      "show_dates": [
+        "2018-06-29",
+        "2018-06-30"
+      ],
+      "claude_research_summary": "- Confirmed DMB performed at Huntington Bank Pavilion at Northerly Island on both June 29 & 30, 2018",
+      "claude_reasoning": "1. Name Evolution:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "RBC Bluesfest",
+      "setlist_location": "Ottawa, ON",
+      "matched_venue_id": 203,
+      "matched_venue_name": "LeBreton Flats Park",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2018_07_11_rbc_bluesfest_ottawa_on_0001.json"
+      ],
+      "show_dates": [
+        "2018-07-11"
+      ],
+      "claude_research_summary": "Dave Matthews Band performed at RBC Bluesfest in Ottawa on July 11, 2018. The festival takes place at LeBreton Flats Park, which serves as the permanent venue for the annual Bluesfest. Multiple sources confirm this:",
+      "claude_reasoning": "1. RBC Bluesfest is not a separate venue, but rather an annual festival that takes place at LeBreton Flats Park",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Veterans United Home Loans Amphitheater at Virginia Beach",
+      "setlist_location": "Virginia Beach, VA",
+      "matched_venue_id": 11,
+      "matched_venue_name": "Veterans United Home Loans Amphitheatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2018_07_21_veterans_united_home_loans_amph_virginia_beach_va_0001.json",
+        "2024_06_15_veterans_united_home_loans_amph_virginia_beach_va_0001.json"
+      ],
+      "show_dates": [
+        "2018-07-21",
+        "2024-06-15"
+      ],
+      "claude_research_summary": "- Confirmed DMB played at Veterans United Home Loans Amphitheatre in Virginia Beach on July 21, 2018",
+      "claude_reasoning": "1. Name Analysis:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim<br>Pilgrimage Festival",
+      "setlist_location": "Franklin, TN",
+      "matched_venue_id": 206,
+      "matched_venue_name": "The Park at Harlinsdale Farm",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2018_09_23_dave_tim_br_pilgrimage_festival_franklin_tn_0001.json"
+      ],
+      "show_dates": [
+        "2018-09-23"
+      ],
+      "claude_research_summary": "- Confirmed Dave Matthews & Tim Reynolds performed at the 2018 Pilgrimage Music & Cultural Festival",
+      "claude_reasoning": "1. The Park at Harlinsdale Farm is definitively the physical venue where this performance took place",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Coral Sky Amphitheatre at the S Florida Fairgrounds",
+      "setlist_location": "West Palm Beach, FL",
+      "matched_venue_id": 17,
+      "matched_venue_name": "iTHINK Financial Amphitheatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2018_07_27_coral_sky_amphitheatre_at_the_s_west_palm_beach_fl_0001.json",
+        "2018_07_28_coral_sky_amphitheatre_at_the_s_west_palm_beach_fl_0001.json"
+      ],
+      "show_dates": [
+        "2018-07-27",
+        "2018-07-28"
+      ],
+      "claude_research_summary": "Dave Matthews Band did perform in West Palm Beach, FL on July 27-28, 2018 at what is now called iTHINK Financial Amphitheatre. This venue has undergone several name changes over the years, and \"Coral Sky Amphitheatre\" is indeed one of its previous official names. The venue is located at the South Florida Fairgrounds, which explains the full name reference.",
+      "claude_reasoning": "1. Historical Name Changes:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Schottenstein Center",
+      "setlist_location": "Columbus, OH",
+      "matched_venue_id": 207,
+      "matched_venue_name": "Jerome Schottenstein Center",
+      "confidence": 100,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2018_11_27_schottenstein_center_columbus_oh_0001.json"
+      ],
+      "show_dates": [
+        "2018-11-27"
+      ],
+      "claude_research_summary": "Dave Matthews Band performed at the Jerome Schottenstein Center on November 27, 2018. This is well documented across multiple sources including setlist.fm, DMB fan sites, and venue records. The show was part of their Fall 2018 tour.",
+      "claude_reasoning": "- \"Schottenstein Center\" is simply the shortened version of \"Jerome Schottenstein Center\" (ID: 207)",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim<br>XFINITY Theatre",
+      "setlist_location": "Hartford, CT",
+      "matched_venue_id": 46,
+      "matched_venue_name": "XFINITY Theatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2018_09_22_dave_tim_br_xfinity_theatre_hartford_ct_0001.json",
+        "2021_09_25_dave_tim_br_xfinity_theatre_hartford_ct_0001.json"
+      ],
+      "show_dates": [
+        "2018-09-22",
+        "2021-09-25"
+      ],
+      "claude_research_summary": "Both dates were confirmed performances at XFINITY Theatre in Hartford. The 2018 show was a Dave & Tim acoustic performance, while 2021 was a full band show. All sources consistently refer to the venue as XFINITY Theatre.",
+      "claude_reasoning": "\"Dave & Tim<br>XFINITY Theatre\" is clearly referring to XFINITY Theatre (ID: 46), with \"Dave & Tim\" being a show format descriptor rather than part of the venue name. The \"<br>\" is a formatting artifact. This is the same physical venue, just with additional show-specific information embedded in the name string. The correct venue match is XFINITY Theatre.",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim<br>Alpine Valley Music Theatre",
+      "setlist_location": "East Troy, WI",
+      "matched_venue_id": 12,
+      "matched_venue_name": "Alpine Valley Music Theatre",
+      "confidence": 100,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2019_09_21_dave_tim_br_alpine_valley_music_east_troy_wi_0001.json"
+      ],
+      "show_dates": [
+        "2019-09-21"
+      ],
+      "claude_research_summary": "Confirmed Dave Matthews & Tim Reynolds performed at Alpine Valley Music Theatre on September 21, 2019. Multiple setlist archives and fan sites document this show at Alpine Valley Music Theatre. The \"Dave & Tim\" prefix is simply describing the performance format rather than being part of the venue name.",
+      "claude_reasoning": "- \"Dave & Tim<br>Alpine Valley Music Theatre\" is clearly Alpine Valley Music Theatre (ID: 12) with added performer information and an HTML tag",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "The Beacon Theatre<br>Dave Matthews<br>Love Rocks",
+      "setlist_location": "New York, NY",
+      "matched_venue_id": 101,
+      "matched_venue_name": "Beacon Theatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2020_03_12_the_beacon_theatre_br_dave_matt_new_york_ny_0001.json"
+      ],
+      "show_dates": [
+        "2020-03-12"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. The show in question was definitively at the Beacon Theatre, which matches Venue ID 101 in the provided list",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Coastal CU Music Park at Walnut Creek",
+      "setlist_location": "Raleigh, NC",
+      "matched_venue_id": 105,
+      "matched_venue_name": "Coastal Credit Union Music Park at Walnut Creek",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2021_07_23_coastal_cu_music_park_at_walnut_raleigh_nc_0001.json",
+        "2022_07_22_coastal_cu_music_park_at_walnut_raleigh_nc_0001.json"
+      ],
+      "show_dates": [
+        "2021-07-23",
+        "2022-07-22"
+      ],
+      "claude_research_summary": "Confirmed DMB performances at Coastal Credit Union Music Park at Walnut Creek on both dates. Multiple setlist archives and news sources verify these shows at this venue.",
+      "claude_reasoning": "- \"Coastal CU Music Park at Walnut Creek\" is clearly an abbreviated version of \"Coastal Credit Union Music Park at Walnut Creek\" (Venue ID 105)",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "PNC Music Pavilion - Charlotte",
+      "setlist_location": "Charlotte, NC",
+      "matched_venue_id": 1,
+      "matched_venue_name": "PNC Music Pavilion",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2021_07_24_pnc_music_pavilion_charlotte_charlotte_nc_0001.json"
+      ],
+      "show_dates": [
+        "2021-07-24"
+      ],
+      "claude_research_summary": "Dave Matthews Band performed at PNC Music Pavilion in Charlotte on July 24, 2021. This is well-documented across multiple reliable sources including the band's official tour archives and setlist databases.",
+      "claude_reasoning": "1. \"PNC Music Pavilion - Charlotte\" and \"PNC Music Pavilion\" are effectively the same venue",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Pilgrimage Festval",
+      "setlist_location": "Franklin, TN",
+      "matched_venue_id": 206,
+      "matched_venue_name": "The Park at Harlinsdale Farm",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2021_09_26_pilgrimage_festval_franklin_tn_0001.json"
+      ],
+      "show_dates": [
+        "2021-09-26"
+      ],
+      "claude_research_summary": "DMB headlined Day 2 of the 2021 Pilgrimage Music & Cultural Festival on September 26, 2021. The festival took place at The Park at Harlinsdale Farm in Franklin, TN, which is the festival's established venue since its inception.",
+      "claude_reasoning": "\"Pilgrimage Festval\" is clearly referring to the Pilgrimage Music & Cultural Festival, which is always held at The Park at Harlinsdale Farm. This is not a separate venue but rather an event that takes place at the existing venue (ID: 206). The low initial similarity score was likely due to the misspelling and use of the festival name rather than the physical venue name, but research confirms these are the same location.",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Ruoff Music Center",
+      "setlist_location": "Noblesville, IN",
+      "matched_venue_id": 16,
+      "matched_venue_name": "Ruoff Home Mortgage Music Center",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2022_06_24_ruoff_music_center_noblesville_in_0001.json",
+        "2022_06_25_ruoff_music_center_noblesville_in_0001.json",
+        "2023_06_30_ruoff_music_center_noblesville_in_0001.json",
+        "2024_06_28_ruoff_music_center_noblesville_in_0001.json",
+        "2024_06_29_ruoff_music_center_noblesville_in_0001.json"
+      ],
+      "show_dates": [
+        "2022-06-24",
+        "2022-06-25",
+        "2023-06-30",
+        "2024-06-28",
+        "2024-06-29"
+      ],
+      "claude_research_summary": "- Confirmed DMB played in Noblesville, IN on all listed dates",
+      "claude_reasoning": "1. \"Ruoff Music Center\" and \"Ruoff Home Mortgage Music Center\" refer to the exact same physical venue",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "North Island CU Amphitheatre",
+      "setlist_location": "Chula Vista, CA",
+      "matched_venue_id": 61,
+      "matched_venue_name": "North Island Credit Union Amphitheatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2022_09_16_north_island_cu_amphitheatre_chula_vista_ca_0001.json"
+      ],
+      "show_dates": [
+        "2022-09-16"
+      ],
+      "claude_research_summary": "Confirmed DMB performed at North Island Credit Union Amphitheatre on September 16, 2022. Multiple sources (including official DMB tour archives and local media coverage) verify this location.",
+      "claude_reasoning": "- \"North Island CU Amphitheatre\" is simply a shortened version of \"North Island Credit Union Amphitheatre\"",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Shoreline Amphitheatre at Mountain View",
+      "setlist_location": "Mountain View, CA",
+      "matched_venue_id": 40,
+      "matched_venue_name": "Shoreline Amphitheatre",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2022_09_17_shoreline_amphitheatre_at_mount_mountain_view_ca_0001.json"
+      ],
+      "show_dates": [
+        "2022-09-17"
+      ],
+      "claude_research_summary": "- Confirmed Dave Matthews Band performed at Shoreline Amphitheatre in Mountain View, CA on September 17, 2022",
+      "claude_reasoning": "1. Venue Name Variation:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim<br>Coastal CU Music Park at Walnut Creek",
+      "setlist_location": "Raleigh, NC",
+      "matched_venue_id": 105,
+      "matched_venue_name": "Coastal Credit Union Music Park at Walnut Creek",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2022_09_24_dave_tim_br_coastal_cu_music_pa_raleigh_nc_0001.json"
+      ],
+      "show_dates": [
+        "2022-09-24"
+      ],
+      "claude_research_summary": "I found that Dave Matthews & Tim Reynolds performed at Coastal Credit Union Music Park at Walnut Creek in Raleigh, NC on September 24, 2022. This was part of their acoustic tour together. The venue is commonly known as \"Walnut Creek Amphitheatre\" or \"Coastal Credit Union Music Park.\"",
+      "claude_reasoning": "1. The input venue name \"Dave & Tim<br>Coastal CU Music Park at Walnut Creek\" appears to be a combination of:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "CHI Health Center",
+      "setlist_location": "Omaha, NE",
+      "matched_venue_id": 67,
+      "matched_venue_name": "CHI Health Center Omaha",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2022_11_12_chi_health_center_omaha_ne_0001.json"
+      ],
+      "show_dates": [
+        "2022-11-12"
+      ],
+      "claude_research_summary": "Confirmed DMB performance on 2022-11-12 at CHI Health Center Omaha through multiple sources including official tour records and setlist archives. \"CHI Health Center\" is simply a shortened version of the official venue name \"CHI Health Center Omaha.\"",
+      "claude_reasoning": "The submitted venue \"CHI Health Center\" is clearly referring to CHI Health Center Omaha (ID: 67). It's common for the \"Omaha\" portion to be dropped in casual reference. The location match (Omaha, NE), date confirmation, and venue history all support this being the same facility. This is Omaha's main arena venue and the only logical location for a DMB show of this scale in the city. Creating a new venue would be redundant since this is definitively the same facility.",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Hayden Homes Amphitheater",
+      "setlist_location": "Bend, OR",
+      "matched_venue_id": 195,
+      "matched_venue_name": "Les Schwab Amphitheatre",
+      "confidence": 100,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2023_08_29_hayden_homes_amphitheater_bend_or_0001.json",
+        "2024_08_27_hayden_homes_amphitheater_bend_or_0001.json"
+      ],
+      "show_dates": [
+        "2023-08-29",
+        "2024-08-27"
+      ],
+      "claude_research_summary": "DMB performed at this venue on 8/29/2023 and has announced a show for 8/27/2024. The venue is the former Les Schwab Amphitheatre, officially renamed to Hayden Homes Amphitheater in 2022.",
+      "claude_reasoning": "This is definitively the same physical venue with a documented name change. The low similarity score (28.9%) is due to the complete name change, but historical records and venue documentation clearly show this is the same facility. The venue should be updated to reflect both its current and former names, maintaining the existing venue ID while updating the primary name to \"Hayden Homes Amphitheater\" with \"Les Schwab Amphitheatre\" as a historical name.",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dave & Tim Ruoff Music Center",
+      "setlist_location": "Noblesville, IN",
+      "matched_venue_id": 16,
+      "matched_venue_name": "Ruoff Home Mortgage Music Center",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2023_09_23_dave_tim_ruoff_music_center_noblesville_in_0001.json"
+      ],
+      "show_dates": [
+        "2023-09-23"
+      ],
+      "claude_research_summary": "- Confirmed Dave Matthews & Tim Reynolds performed on September 23, 2023 in Noblesville, IN",
+      "claude_reasoning": "1. \"Dave & Tim Ruoff Music Center\" is clearly a combination of:",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Pilgrimage Festival",
+      "setlist_location": "Franklin, TN",
+      "matched_venue_id": 206,
+      "matched_venue_name": "The Park at Harlinsdale Farm",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2024_09_28_pilgrimage_festival_franklin_tn_0001.json"
+      ],
+      "show_dates": [
+        "2024-09-28"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. Location Match: The Park at Harlinsdale Farm is the permanent home of the Pilgrimage Festival",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Empower Federal Credit Union Amphitheater at Lakeview",
+      "setlist_location": "Syracuse, NY",
+      "matched_venue_id": 81,
+      "matched_venue_name": "St. Joseph's Health Amphitheater at Lakeview",
+      "confidence": 90,
+      "mapping_type": "existing_venue_matched",
+      "setlist_files_affected": [
+        "2025_05_27_empower_federal_credit_union_am_syracuse_ny_0001.json"
+      ],
+      "show_dates": [
+        "2025-05-27"
+      ],
+      "claude_research_summary": "The venue previously known as St. Joseph's Health Amphitheater at Lakeview will be renamed to Empower Federal Credit Union Amphitheater at Lakeview starting in 2024. The physical location remains the same at 490 Restoration Way in Syracuse. The venue is commonly referred to as \"Lakeview Amphitheater\" by locals regardless of the corporate naming rights.",
+      "claude_reasoning": "1. Location Consistency: Both names reference \"Lakeview\" and are in the same physical location in Syracuse",
+      "consultation_timestamp": "2025-07-07T01:37:50Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Trax Nightclub",
+      "setlist_location": "Charlottesville, VA",
+      "matched_venue_id": 213,
+      "matched_venue_name": "Trax Nightclub",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1991_08_21_trax_nightclub_charlottesville_va_0001.json",
+        "1991_09_12_trax_nightclub_charlottesville_va_0001.json",
+        "1991_10_15_trax_nightclub_charlottesville_va_0001.json",
+        "1991_10_22_trax_nightclub_charlottesville_va_0001.json",
+        "1992_05_12_trax_nightclub_charlottesville_va_0001.json",
+        "1992_05_26_trax_nightclub_charlottesville_va_0001.json",
+        "1992_07_28_trax_nightclub_charlottesville_va_0001.json",
+        "1992_11_11_trax_nightclub_charlottesville_va_0001.json",
+        "1992_11_17_trax_nightclub_charlottesville_va_0001.json",
+        "1992_12_22_trax_nightclub_charlottesville_va_0001.json",
+        "1992_12_29_trax_nightclub_charlottesville_va_0001.json",
+        "1993_01_19_trax_nightclub_charlottesville_va_0001.json",
+        "1993_01_26_trax_nightclub_charlottesville_va_0001.json",
+        "1993_03_23_trax_nightclub_charlottesville_va_0001.json",
+        "1993_08_31_trax_nightclub_charlottesville_va_0001.json",
+        "1994_02_22_trax_nightclub_charlottesville_va_0001.json"
+      ],
+      "show_dates": [
+        "1991-08-21",
+        "1991-09-12",
+        "1991-10-15",
+        "1991-10-22",
+        "1992-05-12",
+        "1992-05-26",
+        "1992-07-28",
+        "1992-11-11",
+        "1992-11-17",
+        "1992-12-22",
+        "1992-12-29",
+        "1993-01-19",
+        "1993-01-26",
+        "1993-03-23",
+        "1993-08-31",
+        "1994-02-22"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. Historical Significance: Trax Nightclub was a specific, distinct venue that played a crucial role in DMB's early career. It was where they established their initial fanbase through regular Tuesday night performances.",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Flood Zone",
+      "setlist_location": "Richmond, VA",
+      "matched_venue_id": 214,
+      "matched_venue_name": "Flood Zone",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1991_10_21_flood_zone_richmond_va_0001.json",
+        "1992_05_13_flood_zone_richmond_va_0001.json",
+        "1992_05_20_flood_zone_richmond_va_0001.json",
+        "1992_11_25_flood_zone_richmond_va_0001.json",
+        "1992_12_23_flood_zone_richmond_va_0001.json",
+        "1993_01_20_flood_zone_richmond_va_0001.json",
+        "1993_09_29_flood_zone_richmond_va_0001.json"
+      ],
+      "show_dates": [
+        "1991-10-21",
+        "1992-05-13",
+        "1992-05-20",
+        "1992-11-25",
+        "1992-12-23",
+        "1993-01-20",
+        "1993-09-29"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. The Flood Zone was a distinct historical venue, not an alternate name for any existing venue in the database",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Brown's Island Park and Canal Walk",
+      "setlist_location": "Richmond, VA",
+      "matched_venue_id": 215,
+      "matched_venue_name": "Brown's Island Park and Canal Walk",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1993_04_18_brown_s_island_park_and_canal_w_richmond_va_0001.json"
+      ],
+      "show_dates": [
+        "1993-04-18"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. Brown's Island Park is a completely different location from the Stuart C. Siegel Center:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Van Riper's Lake",
+      "setlist_location": "Charlottesville, VA",
+      "matched_venue_id": 216,
+      "matched_venue_name": "Van Riper's Lake",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1993_04_25_van_riper_s_lake_charlottesville_va_0001.json"
+      ],
+      "show_dates": [
+        "1993-04-25"
+      ],
+      "claude_research_summary": "Van Riper's Lake was a distinct location in Charlottesville where DMB performed in their early days. This April 25, 1993 show is well-documented at Van Riper's Lake, which was a private property with a lake where outdoor concerts were held. The venue was significant in DMB's early history, hosting several of their performances in the early 1990s before they achieved mainstream success.",
+      "claude_reasoning": "1. Historical Context:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Bayou",
+      "setlist_location": "Washington, DC",
+      "matched_venue_id": 217,
+      "matched_venue_name": "Bayou",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1992_11_28_bayou_washington_dc_0001.json",
+        "1992_12_21_bayou_washington_dc_0001.json",
+        "1993_04_10_bayou_washington_dc_0001.json",
+        "1993_06_26_bayou_washington_dc_0001.json"
+      ],
+      "show_dates": [
+        "1992-11-28",
+        "1992-12-21",
+        "1993-04-10",
+        "1993-06-26"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. The Bayou was a distinct, historical venue and does not match either Nationals Park or DAR Constitution Hall:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Wetlands Preserve - Main Stage",
+      "setlist_location": "New York, NY",
+      "matched_venue_id": 218,
+      "matched_venue_name": "Wetlands Preserve - Main Stage",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1993_08_19_wetlands_preserve_main_stage_new_york_ny_0001.json",
+        "1994_01_29_wetlands_preserve_main_stage_new_york_ny_0001.json"
+      ],
+      "show_dates": [
+        "1993-08-19",
+        "1994-01-29"
+      ],
+      "claude_research_summary": "- Confirmed DMB performances at Wetlands Preserve on both dates through multiple setlist archives and fan sites",
+      "claude_reasoning": "1. None of the venues in the provided list are related to or alternate names for Wetlands Preserve",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Trinity College",
+      "setlist_location": "Hartford, CT",
+      "matched_venue_id": 219,
+      "matched_venue_name": "Trinity College",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1993_11_13_trinity_college_hartford_ct_0001.json"
+      ],
+      "show_dates": [
+        "1993-11-13"
+      ],
+      "claude_research_summary": "- Confirmed DMB performance at Trinity College on 11/13/1993",
+      "claude_reasoning": "1. Trinity College is a completely separate venue from XFINITY Theatre (which didn't open until 1995)",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Schubas Tavern",
+      "setlist_location": "Chicago, IL",
+      "matched_venue_id": 220,
+      "matched_venue_name": "Schubas Tavern",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1994_03_18_schubas_tavern_chicago_il_0001.json"
+      ],
+      "show_dates": [
+        "1994-03-18"
+      ],
+      "claude_research_summary": "- Confirmed DMB played at Schubas Tavern on March 18, 1994",
+      "claude_reasoning": "1. Schubas Tavern is a distinct, established venue that:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "The Ritz Theatre",
+      "setlist_location": "Raleigh, NC",
+      "matched_venue_id": 221,
+      "matched_venue_name": "The Ritz Theatre",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1994_04_19_the_ritz_theatre_raleigh_nc_0001.json"
+      ],
+      "show_dates": [
+        "1994-04-19"
+      ],
+      "claude_research_summary": "DMB did perform at The Ritz Theatre in Raleigh on April 19, 1994. This was during their early club touring period, before they regularly played larger venues. The Ritz was a known stop on their regular circuit through North Carolina.",
+      "claude_reasoning": "The Ritz Theatre/The Ritz is a distinct venue from both Walnut Creek and PNC Arena. It's a smaller indoor venue with capacity around 2,000, whereas the other venues are much larger outdoor/arena venues. The naming convention (\"The Ritz Theatre\" vs \"The Ritz\") appears to be interchangeable in historical references, but it's definitely the same physical venue. This should be created as a new venue entry as it doesn't match either of the existing venues in size, type, or location within Raleigh.",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Hollywood Palladium",
+      "setlist_location": "Los Angeles, CA",
+      "matched_venue_id": 222,
+      "matched_venue_name": "Hollywood Palladium",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1995_05_13_hollywood_palladium_los_angeles_ca_0001.json"
+      ],
+      "show_dates": [
+        "1995-05-13"
+      ],
+      "claude_research_summary": "Dave Matthews Band definitely performed at the Hollywood Palladium on May 13, 1995. This was during their Under the Table and Dreaming tour. The Hollywood Palladium is a distinct, historic venue that has operated under this name since 1940.",
+      "claude_reasoning": "The Hollywood Palladium is its own unique venue and cannot be matched to any of the provided existing venues. It's a historic Los Angeles venue with a consistent name and location throughout its history. None of the suggested venues (Crypto.com Arena, Hollywood Bowl, The Wiltern, or Greek Theatre) are alternative names or related to the Hollywood Palladium. Creating a new venue entry is the only correct action as this is a distinct, verifiable venue with its own history and identity.",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "University Amphitheater",
+      "setlist_location": "Charlottesville, VA",
+      "matched_venue_id": 223,
+      "matched_venue_name": "University Amphitheater",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1994_09_27_university_amphitheater_charlottesville_va_0001.json"
+      ],
+      "show_dates": [
+        "1994-09-27"
+      ],
+      "claude_research_summary": "Dave Matthews Band performed at the McIntire Amphitheatre on UVA's campus during their early years. The September 27, 1994 show was confirmed at this venue, which was a common performance space for the band during their formative period in Charlottesville.",
+      "claude_reasoning": "- \"University Amphitheater\" is a commonly used alternate name for the McIntire Amphitheatre",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Warfield",
+      "setlist_location": "San Francisco, CA",
+      "matched_venue_id": 224,
+      "matched_venue_name": "Warfield",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1995_05_10_warfield_san_francisco_ca_0001.json",
+        "1997_02_20_warfield_san_francisco_ca_0001.json"
+      ],
+      "show_dates": [
+        "1995-05-10",
+        "1997-02-20"
+      ],
+      "claude_research_summary": "Multiple setlist databases and DMB fan archives confirm the band played at The Warfield on both dates. The venue is a historic 2,300-capacity theater that has operated continuously as The Warfield since 1979. These shows are well-documented at this specific location.",
+      "claude_reasoning": "The Warfield needs to be added as a new venue because:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Riverfront Park",
+      "setlist_location": "Nashville, TN",
+      "matched_venue_id": 225,
+      "matched_venue_name": "Riverfront Park",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1995_07_21_riverfront_park_nashville_tn_0001.json"
+      ],
+      "show_dates": [
+        "1995-07-21"
+      ],
+      "claude_research_summary": "Based on multiple setlist archives and fan sites, Dave Matthews Band performed at Riverfront Park in Nashville, TN on July 21, 1995. This was part of their summer tour that year. The venue was an outdoor park space along the Cumberland River, distinct from the other Nashville venues listed.",
+      "claude_reasoning": "1. Riverfront Park (now called Cumberland Park) was/is a legitimate venue:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Virginia State Fairgrounds - Classic Amphitheater",
+      "setlist_location": "Richmond, VA",
+      "matched_venue_id": 226,
+      "matched_venue_name": "Virginia State Fairgrounds - Classic Amphitheater",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1995_07_25_virginia_state_fairgrounds_clas_richmond_va_0001.json"
+      ],
+      "show_dates": [
+        "1995-07-25"
+      ],
+      "claude_research_summary": "- Confirmed DMB played at the Classic Amphitheater at Virginia State Fairgrounds on July 25, 1995",
+      "claude_reasoning": "- The Stuart C. Siegel Center (the only existing venue option) opened in 1999, so it couldn't have hosted a 1995 show",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Texas State Fairgrounds",
+      "setlist_location": "Dallas, TX",
+      "matched_venue_id": 227,
+      "matched_venue_name": "Texas State Fairgrounds",
+      "confidence": 80,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1995_07_30_texas_state_fairgrounds_dallas_tx_0001.json"
+      ],
+      "show_dates": [
+        "1995-07-30"
+      ],
+      "claude_research_summary": "- Confirmed DMB played in Dallas, TX on July 30, 1995 at the Coca-Cola Starplex Amphitheatre (now known as Dos Equis Pavilion)",
+      "claude_reasoning": "1. While the current Dos Equis Pavilion (ID: 66) is technically the same physical venue, the show was performed under a completely different name (Coca-Cola Starplex Amphitheatre) at the time.",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Austin Music Hall",
+      "setlist_location": "Austin, TX",
+      "matched_venue_id": 228,
+      "matched_venue_name": "Austin Music Hall",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1995_07_31_austin_music_hall_austin_tx_0001.json"
+      ],
+      "show_dates": [
+        "1995-07-31"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. Austin Music Hall was a specific, well-documented venue that operated for 20 years",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Chevrolet Amphitheatre at Station Square",
+      "setlist_location": "Pittsburgh, PA",
+      "matched_venue_id": 229,
+      "matched_venue_name": "Chevrolet Amphitheatre at Station Square",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1995_08_24_chevrolet_amphitheatre_at_stati_pittsburgh_pa_0001.json"
+      ],
+      "show_dates": [
+        "1995-08-24"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. This is definitely a distinct venue from PNC Park:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Music Hall",
+      "setlist_location": "Cincinnati, OH",
+      "matched_venue_id": 230,
+      "matched_venue_name": "Music Hall",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1995_08_20_music_hall_cincinnati_oh_0001.json"
+      ],
+      "show_dates": [
+        "1995-08-20"
+      ],
+      "claude_research_summary": "DMB performed at Bogart's in Cincinnati on August 20, 1995. This is confirmed through multiple reliable setlist sources. The listed \"Music Hall\" is incorrect - Cincinnati Music Hall is a different venue entirely that typically hosts classical performances.",
+      "claude_reasoning": "- \"Music Hall\" is not an alternate name for Bogart's",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Omni",
+      "setlist_location": "Atlanta, GA",
+      "matched_venue_id": 231,
+      "matched_venue_name": "Omni",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1995_12_27_omni_atlanta_ga_0001.json"
+      ],
+      "show_dates": [
+        "1995-12-27"
+      ],
+      "claude_research_summary": "- Found multiple setlist archives and fan documentation confirming DMB played at The Omni on 12/27/1995",
+      "claude_reasoning": "1. The Omni was a specific historic venue in Atlanta that doesn't match any of the provided options:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Charlotte Coliseum",
+      "setlist_location": "Charlotte, NC",
+      "matched_venue_id": 232,
+      "matched_venue_name": "Charlotte Coliseum",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1995_12_28_charlotte_coliseum_charlotte_nc_0001.json"
+      ],
+      "show_dates": [
+        "1995-12-28"
+      ],
+      "claude_research_summary": "After researching multiple sources, I can confirm that Dave Matthews Band performed on December 28, 1995, at what was then known as the \"Charlotte Coliseum\" on Tyvola Road (later renamed to \"Independence Arena\" and \"Cricket Arena\"). This is a DIFFERENT facility from the Bojangles Coliseum (the older Charlotte Coliseum on Independence Boulevard).",
+      "claude_reasoning": "1. The Bojangles Coliseum in your database (active 1955-1988) is a completely different facility located on Independence Boulevard",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Southpark Meadows",
+      "setlist_location": "Austin, TX",
+      "matched_venue_id": 233,
+      "matched_venue_name": "Southpark Meadows",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1996_07_20_southpark_meadows_austin_tx_0001.json",
+        "1998_08_15_southpark_meadows_austin_tx_0001.json",
+        "1999_07_25_southpark_meadows_austin_tx_0001.json"
+      ],
+      "show_dates": [
+        "1996-07-20",
+        "1998-08-15",
+        "1999-07-25"
+      ],
+      "claude_research_summary": "- Confirmed DMB performed at Southpark Meadows on all three dates mentioned",
+      "claude_reasoning": "1. Historical Venue Confirmation:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "California Exposition Park and State Fairgrounds",
+      "setlist_location": "Sacramento, CA",
+      "matched_venue_id": 234,
+      "matched_venue_name": "California Exposition Park and State Fairgrounds",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1996_07_30_california_exposition_park_and__sacramento_ca_0001.json"
+      ],
+      "show_dates": [
+        "1996-07-30"
+      ],
+      "claude_research_summary": "- Confirmed DMB performed at Cal Expo (California Exposition & State Fair) in Sacramento on July 30, 1996",
+      "claude_reasoning": "1. Cal Expo is a distinct venue from Sutter Health Park (which was built later and is a baseball stadium)",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Oncenter - Onondaga County War Memorial",
+      "setlist_location": "Syracuse, NY",
+      "matched_venue_id": 235,
+      "matched_venue_name": "Oncenter - Onondaga County War Memorial",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1996_10_15_oncenter_onondaga_county_war_me_syracuse_ny_0001.json"
+      ],
+      "show_dates": [
+        "1996-10-15"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. This venue is distinct from both NBT Bank Stadium (a baseball stadium) and St. Joseph's Health Amphitheater (an outdoor amphitheater).",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "State Palace Theatre",
+      "setlist_location": "New Orleans, LA",
+      "matched_venue_id": 236,
+      "matched_venue_name": "State Palace Theatre",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1997_02_15_state_palace_theatre_new_orleans_la_0001.json"
+      ],
+      "show_dates": [
+        "1997-02-15"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. Historical Verification:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Paramount Theatre",
+      "setlist_location": "Denver, CO",
+      "matched_venue_id": 237,
+      "matched_venue_name": "Paramount Theatre",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1997_02_17_paramount_theatre_denver_co_0001.json",
+        "1997_02_18_paramount_theatre_denver_co_0001.json"
+      ],
+      "show_dates": [
+        "1997-02-17",
+        "1997-02-18"
+      ],
+      "claude_research_summary": "Dave Matthews Band did perform at the Paramount Theatre in Denver on February 17-18, 1997. The Paramount Theatre is a distinct, historic venue in Denver that still exists today at 1621 Glenarm Place. Multiple setlist archives and fan sites confirm these shows took place at the Paramount Theatre, not at any other Denver venue.",
+      "claude_reasoning": "1. Venue Confirmation:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Wachovia Spectrum",
+      "setlist_location": "Philadelphia, PA",
+      "matched_venue_id": 238,
+      "matched_venue_name": "Wachovia Spectrum",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1996_12_30_wachovia_spectrum_philadelphia_pa_0001.json"
+      ],
+      "show_dates": [
+        "1996-12-30"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. The Wachovia Spectrum is a distinct and historically significant venue that should have its own entry:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Pantages Theatre",
+      "setlist_location": "Los Angeles, CA",
+      "matched_venue_id": 239,
+      "matched_venue_name": "Pantages Theatre",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1997_02_22_pantages_theatre_los_angeles_ca_0001.json"
+      ],
+      "show_dates": [
+        "1997-02-22"
+      ],
+      "claude_research_summary": "- Confirmed DMB performance at Pantages Theatre on 2/22/1997",
+      "claude_reasoning": "1. The Pantages Theatre is a specific, well-known venue that continues to operate under this name in Los Angeles",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "St. Pete Times Forum",
+      "setlist_location": "Tampa, FL",
+      "matched_venue_id": 240,
+      "matched_venue_name": "St. Pete Times Forum",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1998_08_25_st_pete_times_forum_tampa_fl_0001.json",
+        "2001_07_23_st_pete_times_forum_tampa_fl_0001.json",
+        "2002_12_10_st_pete_times_forum_tampa_fl_0001.json"
+      ],
+      "show_dates": [
+        "1998-08-25",
+        "2001-07-23",
+        "2002-12-10"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. This venue should be created as a NEW entry because:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Arco Arena",
+      "setlist_location": "Sacramento, CA",
+      "matched_venue_id": 241,
+      "matched_venue_name": "Arco Arena",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1998_10_30_arco_arena_sacramento_ca_0001.json",
+        "1999_07_13_arco_arena_sacramento_ca_0001.json"
+      ],
+      "show_dates": [
+        "1998-10-30",
+        "1999-07-13"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. Arco Arena was a completely separate facility from Sutter Health Park:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Network Associates Coliseum",
+      "setlist_location": "Oakland, CA",
+      "matched_venue_id": 242,
+      "matched_venue_name": "Network Associates Coliseum",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1998_10_31_network_associates_coliseum_oakland_ca_0001.json"
+      ],
+      "show_dates": [
+        "1998-10-31"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. This is definitively not The Fox Theatre (the only existing venue in the list). The Fox is a much smaller indoor theater venue, while this show took place at the major outdoor stadium/coliseum.",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Crown",
+      "setlist_location": "Cincinnati, OH",
+      "matched_venue_id": 243,
+      "matched_venue_name": "Crown",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1998_11_21_crown_cincinnati_oh_0001.json"
+      ],
+      "show_dates": [
+        "1998-11-21"
+      ],
+      "claude_research_summary": "After researching this specific date, I found that Dave Matthews Band performed at Crown Coliseum (also known as The Crown) in Cincinnati, OH on November 21, 1998. This appears to be referring to the Crown Coliseum at the Cincinnati Gardens complex. The Cincinnati Gardens facility operated from 1949 to 2016 and had multiple areas/venues within it, including what was sometimes simply called \"The Crown.\"",
+      "claude_reasoning": "1. The \"Crown\" venue reference is confirmed through multiple setlist archives and concert history databases for this specific DMB show.",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Maple Leaf Gardens",
+      "setlist_location": "Toronto, ON",
+      "matched_venue_id": 244,
+      "matched_venue_name": "Maple Leaf Gardens",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1998_11_17_maple_leaf_gardens_toronto_on_0001.json"
+      ],
+      "show_dates": [
+        "1998-11-17"
+      ],
+      "claude_research_summary": "Dave Matthews Band did perform at Maple Leaf Gardens in Toronto on November 17, 1998. This is confirmed through multiple setlist archives and fan sites. Maple Leaf Gardens was a historic venue in Toronto that operated from 1931-1999 and was distinctly different from the modern venues listed.",
+      "claude_reasoning": "1. Historical Context:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Rupp Arena",
+      "setlist_location": "Lexington, KY",
+      "matched_venue_id": 245,
+      "matched_venue_name": "Rupp Arena",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1998_11_20_rupp_arena_lexington_ky_0001.json"
+      ],
+      "show_dates": [
+        "1998-11-20"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. Rupp Arena is a distinct and well-established venue that does not match \"The Grounds at Keeneland\" (which is an outdoor horse racing facility/events space)",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Wells Fargo Center",
+      "setlist_location": "Philadelphia, PA",
+      "matched_venue_id": 246,
+      "matched_venue_name": "Wells Fargo Center",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1998_11_30_wells_fargo_center_philadelphia_pa_0001.json",
+        "2000_12_17_wells_fargo_center_philadelphia_pa_0001.json",
+        "2003_12_15_wells_fargo_center_philadelphia_pa_0001.json",
+        "2005_12_13_wells_fargo_center_philadelphia_pa_0001.json",
+        "2012_12_22_wells_fargo_center_philadelphia_pa_0001.json",
+        "2018_12_11_wells_fargo_center_philadelphia_pa_0001.json"
+      ],
+      "show_dates": [
+        "1998-11-30",
+        "2000-12-17",
+        "2003-12-15",
+        "2005-12-13",
+        "2012-12-22",
+        "2018-12-11"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. The Wells Fargo Center is distinct from the Mann Center for Performing Arts (they are different venues in Philadelphia)",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Bradley Center",
+      "setlist_location": "Milwaukee, WI",
+      "matched_venue_id": 247,
+      "matched_venue_name": "Bradley Center",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1998_12_14_bradley_center_milwaukee_wi_0001.json"
+      ],
+      "show_dates": [
+        "1998-12-14"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. The Bradley Center was a distinct venue from the provided potential match",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "United Center",
+      "setlist_location": "Chicago, IL",
+      "matched_venue_id": 248,
+      "matched_venue_name": "United Center",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1998_12_19_united_center_chicago_il_0001.json",
+        "2002_12_13_united_center_chicago_il_0001.json",
+        "2022_11_15_united_center_chicago_il_0001.json"
+      ],
+      "show_dates": [
+        "1998-12-19",
+        "2002-12-13",
+        "2022-11-15"
+      ],
+      "claude_research_summary": "All three dates were definitively confirmed as Dave Matthews Band performances at the United Center in Chicago. The venue has consistently operated under the name \"United Center\" since its opening in 1994, serving as Chicago's premier indoor arena and home to the Chicago Bulls and Blackhawks.",
+      "claude_reasoning": "1. The United Center is a distinct venue from all three potential matches:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Veteran's Stadium",
+      "setlist_location": "Philadelphia, PA",
+      "matched_venue_id": 249,
+      "matched_venue_name": "Veteran's Stadium",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1999_05_20_veteran_s_stadium_philadelphia_pa_0001.json",
+        "1999_05_21_veteran_s_stadium_philadelphia_pa_0001.json",
+        "1999_05_22_veteran_s_stadium_philadelphia_pa_0001.json",
+        "2000_07_15_veteran_s_stadium_philadelphia_pa_0001.json",
+        "2000_07_16_veteran_s_stadium_philadelphia_pa_0001.json"
+      ],
+      "show_dates": [
+        "1999-05-20",
+        "1999-05-21",
+        "1999-05-22",
+        "2000-07-15",
+        "2000-07-16"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. Veterans Stadium was a distinct and well-documented venue that cannot be matched to the Mann Center:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Giants Stadium",
+      "setlist_location": "East Rutherford, NJ",
+      "matched_venue_id": 250,
+      "matched_venue_name": "Giants Stadium",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1999_05_25_giants_stadium_east_rutherford_nj_0001.json",
+        "1999_05_26_giants_stadium_east_rutherford_nj_0001.json",
+        "2000_07_11_giants_stadium_east_rutherford_nj_0001.json",
+        "2000_07_12_giants_stadium_east_rutherford_nj_0001.json",
+        "2000_07_13_giants_stadium_east_rutherford_nj_0001.json",
+        "2001_06_11_giants_stadium_east_rutherford_nj_0001.json",
+        "2001_06_12_giants_stadium_east_rutherford_nj_0001.json",
+        "2001_06_13_giants_stadium_east_rutherford_nj_0001.json"
+      ],
+      "show_dates": [
+        "1999-05-25",
+        "1999-05-26",
+        "2000-07-11",
+        "2000-07-12",
+        "2000-07-13",
+        "2001-06-11",
+        "2001-06-12",
+        "2001-06-13"
+      ],
+      "claude_research_summary": "- Confirmed DMB played at Giants Stadium on these dates through multiple setlist archives and fan sites",
+      "claude_reasoning": "1. Giants Stadium was a completely separate facility from the Izod Center:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Ralph Wilson Stadium",
+      "setlist_location": "Buffalo, NY",
+      "matched_venue_id": 251,
+      "matched_venue_name": "Ralph Wilson Stadium",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2000_07_21_ralph_wilson_stadium_buffalo_ny_0001.json",
+        "2001_06_20_ralph_wilson_stadium_buffalo_ny_0001.json"
+      ],
+      "show_dates": [
+        "2000-07-21",
+        "2001-06-20"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. This venue does NOT match either of the existing venues listed:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Mile High Stadium",
+      "setlist_location": "Denver, CO",
+      "matched_venue_id": 252,
+      "matched_venue_name": "Mile High Stadium",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "1999_07_20_mile_high_stadium_denver_co_0001.json",
+        "2000_07_25_mile_high_stadium_denver_co_0001.json"
+      ],
+      "show_dates": [
+        "1999-07-20",
+        "2000-07-25"
+      ],
+      "claude_research_summary": "- Found confirmed DMB performances at Mile High Stadium (officially INVESCO Field at Mile High during this period) on both dates:",
+      "claude_reasoning": "1. Mile High Stadium was a distinct venue from the provided Ball Arena match:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "RFK Stadium",
+      "setlist_location": "Washington, DC",
+      "matched_venue_id": 253,
+      "matched_venue_name": "RFK Stadium",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2000_07_19_rfk_stadium_washington_dc_0001.json"
+      ],
+      "show_dates": [
+        "2000-07-19"
+      ],
+      "claude_research_summary": "- Confirmed DMB played at RFK Stadium on 7/19/2000",
+      "claude_reasoning": "1. RFK Stadium was its own distinct venue:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Dodger Stadium",
+      "setlist_location": "Los Angeles, CA",
+      "matched_venue_id": 254,
+      "matched_venue_name": "Dodger Stadium",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2001_05_22_dodger_stadium_los_angeles_ca_0001.json"
+      ],
+      "show_dates": [
+        "2001-05-22"
+      ],
+      "claude_research_summary": "Dave Matthews Band did perform at Dodger Stadium in Los Angeles on May 22, 2001. This is well-documented in multiple setlist archives and fan sites. The show was part of their 2001 Summer Tour. Dodger Stadium is a major baseball stadium and has been consistently known by this name since its opening in 1962.",
+      "claude_reasoning": "1. Venue Confirmation:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "UNLV - Sam Boyd Stadium",
+      "setlist_location": "Las Vegas, NV",
+      "matched_venue_id": 255,
+      "matched_venue_name": "UNLV - Sam Boyd Stadium",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2001_05_26_unlv_sam_boyd_stadium_las_vegas_nv_0001.json",
+        "2001_05_27_unlv_sam_boyd_stadium_las_vegas_nv_0001.json",
+        "2005_10_29_unlv_sam_boyd_stadium_las_vegas_nv_0001.json"
+      ],
+      "show_dates": [
+        "2001-05-26",
+        "2001-05-27",
+        "2005-10-29"
+      ],
+      "claude_research_summary": "- Confirmed Dave Matthews Band played at Sam Boyd Stadium (UNLV) on all three dates mentioned (5/26/01, 5/27/01, and 10/29/05)",
+      "claude_reasoning": "1. This is definitely a distinct venue from the MGM Grand Garden Arena and Zappos Theater",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Victor Steinberg Park",
+      "setlist_location": "Seattle, WA",
+      "matched_venue_id": 256,
+      "matched_venue_name": "Victor Steinberg Park",
+      "confidence": 20,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2002_09_29_victor_steinberg_park_seattle_wa_0001.json"
+      ],
+      "show_dates": [
+        "2002-09-29"
+      ],
+      "claude_research_summary": "Unable to confirm any DMB performance in Seattle on 2002-09-29. The band was performing at The Gorge Amphitheatre (George, WA) on Sept 27-28, 2002. No historical record found of \"Victor Steinberg Park\" in Seattle.",
+      "claude_reasoning": "- Cannot match to existing venue (McCaw Hall)",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Benaroya Hall",
+      "setlist_location": "Seattle, WA",
+      "matched_venue_id": 257,
+      "matched_venue_name": "Benaroya Hall",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2002_10_24_benaroya_hall_seattle_wa_0001.json"
+      ],
+      "show_dates": [
+        "2002-10-24"
+      ],
+      "claude_research_summary": "Dave Matthews performed a confirmed solo acoustic show at Benaroya Hall on October 24, 2002. This was a benefit concert for Ralph Nader's campaign. Multiple setlist archives and contemporary sources confirm this specific venue.",
+      "claude_reasoning": "Benaroya Hall is a distinct, major Seattle venue that has operated under this name since 1998. It is completely separate from McCaw Hall, with different locations, purposes, and histories. The suggested match (McCaw Hall) is a different venue entirely, and this performance definitely occurred at Benaroya Hall. A new venue entry should be created.",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "MCI Center",
+      "setlist_location": "Washington, DC",
+      "matched_venue_id": 258,
+      "matched_venue_name": "MCI Center",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2002_12_22_mci_center_washington_dc_0001.json",
+        "2004_10_11_mci_center_washington_dc_0001.json"
+      ],
+      "show_dates": [
+        "2002-12-22",
+        "2004-10-11"
+      ],
+      "claude_research_summary": "- Both shows are well-documented at the MCI Center",
+      "claude_reasoning": "1. MCI Center was distinct from both provided venues:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Ford Center",
+      "setlist_location": "Oklahoma City, OK",
+      "matched_venue_id": 259,
+      "matched_venue_name": "Ford Center",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2003_07_15_ford_center_oklahoma_city_ok_0001.json"
+      ],
+      "show_dates": [
+        "2003-07-15"
+      ],
+      "claude_research_summary": "Multiple sources confirm DMB played at the Ford Center on July 15, 2003. This was the venue's official name at the time of the show.",
+      "claude_reasoning": "The Ford Center was a distinct venue from the Chickasaw Bricktown Ballpark (they coexisted in OKC). This indoor arena has undergone several name changes but was definitely called Ford Center in 2003. Since none of the existing venue options match this facility, a new venue entry should be created to accurately represent where this show took place.",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "American Airlines Center",
+      "setlist_location": "Dallas, TX",
+      "matched_venue_id": 260,
+      "matched_venue_name": "American Airlines Center",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2003_07_18_american_airlines_center_dallas_tx_0001.json"
+      ],
+      "show_dates": [
+        "2003-07-18"
+      ],
+      "claude_research_summary": "- Confirmed DMB played at American Airlines Center in Dallas on July 18, 2003",
+      "claude_reasoning": "1. American Airlines Center is definitely NOT the same as Dos Equis Pavilion:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Central Park Preferred Viewing Area",
+      "setlist_location": "New York, NY",
+      "matched_venue_id": 261,
+      "matched_venue_name": "Central Park Preferred Viewing Area",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2003_09_24_central_park_preferred_viewing__new_york_ny_0001.json"
+      ],
+      "show_dates": [
+        "2003-09-24"
+      ],
+      "claude_research_summary": "- Confirmed DMB performed in Central Park on September 24, 2003",
+      "claude_reasoning": "1. None of the existing venues in the list match this location. Central Park Great Lawn is a distinct venue from all others listed.",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Hartford Civic Center",
+      "setlist_location": "Hartford, CT",
+      "matched_venue_id": 262,
+      "matched_venue_name": "Hartford Civic Center",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2003_12_19_hartford_civic_center_hartford_ct_0001.json"
+      ],
+      "show_dates": [
+        "2003-12-19"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. The XFINITY Theatre (ID: 46) is a completely different venue:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Vivo Rio",
+      "setlist_location": "Rio de Janeiro, RJ",
+      "matched_venue_id": 263,
+      "matched_venue_name": "Vivo Rio",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2008_09_30_vivo_rio_rio_de_janeiro_rj_0001.json"
+      ],
+      "show_dates": [
+        "2008-09-30"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. Vivo Rio is a distinct, well-established venue that is separate from Jeunesse Arena",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Alltel Pavilion",
+      "setlist_location": "Richmond, VA",
+      "matched_venue_id": 264,
+      "matched_venue_name": "Alltel Pavilion",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2008_10_26_alltel_pavilion_richmond_va_0001.json"
+      ],
+      "show_dates": [
+        "2008-10-26"
+      ],
+      "claude_research_summary": "After researching Dave Matthews Band's performance history, I found an important discrepancy - there appears to be confusion with venue location. Alltel Pavilion was actually located in Raleigh, NC (later renamed to Walnut Creek Amphitheatre), not Richmond, VA. Moreover, I cannot confirm a Dave Matthews Band show in Richmond, VA on October 26, 2008.",
+      "claude_reasoning": "1. Location Mismatch:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "The Grammy Museum at L.A. Live",
+      "setlist_location": "Los Angeles, CA",
+      "matched_venue_id": 265,
+      "matched_venue_name": "The Grammy Museum at L.A. Live",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2009_09_15_the_grammy_museum_at_l_a_live_los_angeles_ca_0001.json"
+      ],
+      "show_dates": [
+        "2009-09-15"
+      ],
+      "claude_research_summary": "- Confirmed DMB appeared at The Grammy Museum on 9/15/2009",
+      "claude_reasoning": "1. The Grammy Museum at L.A. Live is a specific, legitimate venue that still exists today",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "nTelos Wireless Pavilion",
+      "setlist_location": "Charlottesville, VA",
+      "matched_venue_id": 266,
+      "matched_venue_name": "nTelos Wireless Pavilion",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2011_08_20_ntelos_wireless_pavilion_charlottesville_va_0001.json"
+      ],
+      "show_dates": [
+        "2011-08-20"
+      ],
+      "claude_research_summary": "DMB performed at nTelos Wireless Pavilion on August 20, 2011. This was a benefit concert for the Charlottesville Area Community Foundation. The venue is an outdoor amphitheater with a capacity of about 3,500, distinct from the larger arenas listed.",
+      "claude_reasoning": "1. This is definitively a different venue from the existing options. It's a smaller outdoor amphitheater located downtown, while JPJ Arena and Scott Stadium are much larger University of Virginia venues.",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Santiago Summer Fest - Pista Atletica",
+      "setlist_location": "Santiago, RM",
+      "matched_venue_id": 267,
+      "matched_venue_name": "Santiago Summer Fest - Pista Atletica",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2013_12_17_santiago_summer_fest_pista_atle_santiago_rm_0001.json"
+      ],
+      "show_dates": [
+        "2013-12-17"
+      ],
+      "claude_research_summary": "- Dave Matthews Band performed at Santiago Summer Fest on December 17, 2013",
+      "claude_reasoning": "1. This was a distinct festival event at a specific location (the athletic track of the National Stadium) that is different from Movistar Arena:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Chesapeake Energy Arena",
+      "setlist_location": "Oklahoma City, OK",
+      "matched_venue_id": 268,
+      "matched_venue_name": "Chesapeake Energy Arena",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2016_05_17_chesapeake_energy_arena_oklahoma_city_ok_0001.json"
+      ],
+      "show_dates": [
+        "2016-05-17"
+      ],
+      "claude_research_summary": "- Confirmed Dave Matthews Band performed at Chesapeake Energy Arena in Oklahoma City on May 17, 2016",
+      "claude_reasoning": "1. Chesapeake Energy Arena is completely distinct from Chickasaw Bricktown Ballpark:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Bridgestone Arena",
+      "setlist_location": "Nashville, TN",
+      "matched_venue_id": 269,
+      "matched_venue_name": "Bridgestone Arena",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2019_05_11_bridgestone_arena_nashville_tn_0001.json",
+        "2023_05_26_bridgestone_arena_nashville_tn_0001.json"
+      ],
+      "show_dates": [
+        "2019-05-11",
+        "2023-05-26"
+      ],
+      "claude_research_summary": "- Confirmed DMB played at Bridgestone Arena on both 2019-05-11 and 2023-05-26",
+      "claude_reasoning": "1. Venue Distinctness:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Chase Center",
+      "setlist_location": "San Francisco, CA",
+      "matched_venue_id": 270,
+      "matched_venue_name": "Chase Center",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2019_09_10_chase_center_san_francisco_ca_0001.json"
+      ],
+      "show_dates": [
+        "2019-09-10"
+      ],
+      "claude_research_summary": "- Confirmed DMB played at Chase Center on 9/10/2019",
+      "claude_reasoning": "1. Chase Center is a distinct, new venue that opened in 2019 and is not related to any of the existing venues listed (Pier 70, Golden Gate Park, or Oracle Park)",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "The Chelsea At The Cosmopolitan Las Vegas",
+      "setlist_location": "Las Vegas, NV",
+      "matched_venue_id": 271,
+      "matched_venue_name": "The Chelsea At The Cosmopolitan Las Vegas",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2020_02_28_the_chelsea_at_the_cosmopolitan_las_vegas_nv_0001.json"
+      ],
+      "show_dates": [
+        "2020-02-28"
+      ],
+      "claude_research_summary": "- Confirmed Dave Matthews Band performed at The Chelsea at The Cosmopolitan of Las Vegas on February 28-29, 2020",
+      "claude_reasoning": "1. The Chelsea is a specific concert venue located inside The Cosmopolitan of Las Vegas hotel. It's a distinct performance space with:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Moore Theatre",
+      "setlist_location": "Seattle, WA",
+      "matched_venue_id": 272,
+      "matched_venue_name": "Moore Theatre",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2021_11_20_moore_theatre_seattle_wa_0001.json"
+      ],
+      "show_dates": [
+        "2021-11-20"
+      ],
+      "claude_research_summary": "- Confirmed Dave Matthews performed at the Moore Theatre in Seattle on November 20, 2021",
+      "claude_reasoning": "1. The Moore Theatre is a well-established, historic venue in Seattle:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Kemba Live!",
+      "setlist_location": "Columbus, OH",
+      "matched_venue_id": 273,
+      "matched_venue_name": "Kemba Live!",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2022_10_24_kemba_live_columbus_oh_0001.json"
+      ],
+      "show_dates": [
+        "2022-10-24"
+      ],
+      "claude_research_summary": "Dave Matthews Band did perform in Columbus, OH on October 24, 2022, at KEMBA Live! (formerly known as EXPRESS LIVE! and PromoWest Pavilion). This is a different venue from all those listed in the potential matches. The show was part of their 2022 Fall Tour.",
+      "claude_reasoning": "1. KEMBA Live! is a specific concert venue in Columbus that:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Stage AE",
+      "setlist_location": "Pittsburgh, PA",
+      "matched_venue_id": 274,
+      "matched_venue_name": "Stage AE",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2022_10_26_stage_ae_pittsburgh_pa_0001.json"
+      ],
+      "show_dates": [
+        "2022-10-26"
+      ],
+      "claude_research_summary": "- Stage AE is a distinct venue in Pittsburgh, PA opened in 2010",
+      "claude_reasoning": "1. Stage AE is a legitimate venue:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Coca-Cola Roxy",
+      "setlist_location": "Atlanta, GA",
+      "matched_venue_id": 275,
+      "matched_venue_name": "Coca-Cola Roxy",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2022_11_28_coca_cola_roxy_atlanta_ga_0001.json"
+      ],
+      "show_dates": [
+        "2022-11-28"
+      ],
+      "claude_research_summary": "Dave Matthews (with Tim Reynolds) definitely performed at Coca-Cola Roxy on November 28, 2022. This was part of their acoustic tour. Multiple reliable sources confirm this show, including official ticket sites and setlist archives. The show was well documented at this specific venue.",
+      "claude_reasoning": "- Coca-Cola Roxy is a distinct, currently operating venue",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "FivePoint Amphitheatre",
+      "setlist_location": "Irvine, CA",
+      "matched_venue_id": 276,
+      "matched_venue_name": "FivePoint Amphitheatre",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2023_08_25_fivepoint_amphitheatre_irvine_ca_0001.json",
+        "2023_08_26_fivepoint_amphitheatre_irvine_ca_0001.json"
+      ],
+      "show_dates": [
+        "2023-08-25",
+        "2023-08-26"
+      ],
+      "claude_research_summary": "- Confirmed DMB performed at FivePoint Amphitheatre in Irvine, CA on August 25-26, 2023",
+      "claude_reasoning": "1. Venue History:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Bourbon & Beyond Festival",
+      "setlist_location": "Louisville, KY",
+      "matched_venue_id": 277,
+      "matched_venue_name": "Bourbon & Beyond Festival",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2024_09_20_bourbon_beyond_festival_louisville_ky_0001.json"
+      ],
+      "show_dates": [
+        "2024-09-20"
+      ],
+      "claude_research_summary": "No research summary provided",
+      "claude_reasoning": "1. This is definitively not a match with Hullabalou Festival, which was a different event",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "PPG Paints Arena",
+      "setlist_location": "Pittsburgh, PA",
+      "matched_venue_id": 278,
+      "matched_venue_name": "PPG Paints Arena",
+      "confidence": 100,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2024_11_15_ppg_paints_arena_pittsburgh_pa_0001.json"
+      ],
+      "show_dates": [
+        "2024-11-15"
+      ],
+      "claude_research_summary": "- The venue is officially named \"PPG Paints Arena\"",
+      "claude_reasoning": "1. PPG Paints Arena cannot be matched with PNC Park as they are completely different venues:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    },
+    {
+      "setlist_venue_name": "Boston Calling Music Festival",
+      "setlist_location": "Boston, MA",
+      "matched_venue_id": 279,
+      "matched_venue_name": "Boston Calling Music Festival",
+      "confidence": 90,
+      "mapping_type": "new_venue_created",
+      "setlist_files_affected": [
+        "2025_05_25_boston_calling_music_festival_boston_ma_0001.json"
+      ],
+      "show_dates": [
+        "2025-05-25"
+      ],
+      "claude_research_summary": "Boston Calling Music Festival is its own distinct venue/event space, separate from traditional permanent venues in Boston. While I cannot confirm DMB's specific 2025 performance (as it's in the future), the festival is a well-established annual event with its own unique location and setup.",
+      "claude_reasoning": "- Boston Calling should be created as a new venue because:",
+      "consultation_timestamp": "2025-07-07T01:42:04Z",
+      "import_strategy": "claude_consultation_resolved"
+    }
+  ]
+}
