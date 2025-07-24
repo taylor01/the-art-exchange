@@ -48,7 +48,7 @@ gem "aws-sdk-s3", require: false
 # Core application gems
 gem "geocoder"
 gem "pg_search"
-gem "mailgun-ruby", "~> 1.3.7"
+gem "mailgun-ruby", "~> 1.3.8"
 gem "kaminari"
 
 # AI/ML integration
